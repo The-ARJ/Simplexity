@@ -25,7 +25,7 @@ import {
   RocketLaunchIcon,
   Bars2Icon,
 } from "@heroicons/react/24/outline";
-import Auth from "./Auth";
+import Auth from "./Auth/Auth";
 
 // profile menu component
 const profileMenuItems = [
