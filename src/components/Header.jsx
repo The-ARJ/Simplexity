@@ -25,6 +25,7 @@ import {
   RocketLaunchIcon,
   Bars2Icon,
 } from "@heroicons/react/24/outline";
+import Auth from "./Auth";
 
 // profile menu component
 const profileMenuItems = [
@@ -209,6 +210,7 @@ const navListItems = [
   {
     label: "Docs",
     icon: CodeBracketSquareIcon,
+    link: "/signin",
   },
 ];
 
@@ -216,11 +218,11 @@ function NavList() {
   return (
     <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center">
       <NavListMenu />
-      {navListItems.map(({ label, icon }, key) => (
+      {navListItems.map(({ label, icon, link }, key) => (
         <Typography
           key={label}
           as="a"
-          href="#"
+          href={link}
           variant="small"
           color="blue-gray"
           className="font-normal"
@@ -250,13 +252,22 @@ export default function ComplexNavbar() {
     <>
       <Navbar className=" fixed z-50 mx-auto max-w-screen-3xl lg:rounded-full lg:pl-6 py-2 px-4 lg:px-8 lg:py-4">
         <div className="relative mx-auto flex items-center text-blue-gray-900">
-          <Typography
-            as="a"
-            href="#"
-            className="mr-4 ml-2 cursor-pointer py-1.5 font-medium"
-          >
-            Simplexity
-          </Typography>
+          <div className=" mr-4 ml-2 ">
+            <Typography
+              as="a"
+              href="#"
+              className="cursor-pointer  font-semibold text-xl uppercase text-gray-700  tracking-wider"
+            >
+              Simplexity
+            </Typography>
+            <Typography
+              as="a"
+              href="#"
+              className="cursor-pointer   text-xs uppercase text-amber-700 tracking-widest"
+            >
+              out door wears
+            </Typography>
+          </div>
           <div className="absolute top-2/4 left-2/4 hidden -translate-x-2/4 -translate-y-2/4 lg:block">
             <NavList />
           </div>
@@ -270,6 +281,7 @@ export default function ComplexNavbar() {
             <Bars2Icon className="h-6 w-6" />
           </IconButton>
           <ProfileMenu />
+          <Auth />
         </div>
         <MobileNav open={isNavOpen} className="overflow-scroll">
           <NavList />

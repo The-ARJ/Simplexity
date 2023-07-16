@@ -1,7 +1,8 @@
 "use client"
 import './globals.css'
 import { Inter } from 'next/font/google'
-
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 const inter = Inter({ subsets: ['latin'] })
 import { ThemeProvider } from "@material-tailwind/react";
 
@@ -16,6 +17,7 @@ export default function RootLayout({ children }) {
         <ThemeProvider>
           {children}
         </ThemeProvider>
+        <ToastContainer />
       </body>
     </html>
   )
