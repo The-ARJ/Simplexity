@@ -10,10 +10,10 @@ const ProtectedRoute = (WrappedComponent) => {
         const { user, loading } = useContext(UserContext);
         if (loading) {
             return <div className={styles.loader}></div>;
-        } else if (user && (pathname === "/" || pathname === "/signin" || pathname === "/signup")) {
-            router.push("/home");
+        } else if (user && (pathname === "/")) {
+            router.push("/dashboard");
             return <div className={styles.loader}></div>;
-        } else if (!user && (pathname === "/home" || pathname === "/droplet" || pathname === "/profile" || pathname === "/template" || pathname === "/settings")) {
+        } else if (!user && (pathname === "/dashboard" || pathname === "/products")) {
             router.push("/");
             return <div className={styles.loader}></div>;
         } else {

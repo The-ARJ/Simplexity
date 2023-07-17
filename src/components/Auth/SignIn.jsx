@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { UserContext } from "../../utils/Context/UserContext";
 import ProtectedRoute from "@/utils/Context/ProtectedRoute";
+import Link from "next/link";
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -82,12 +83,14 @@ const SignIn = () => {
             containerProps={{ className: "mt-4" }}
           />
         </div>
-        <Typography
-          variant="small"
-          className="mb-2 cursor-pointer font-semibold text-gray-700 text-end"
-        >
-          Forgot Password
-        </Typography>
+        <Link href="/forgot-password">
+          <Typography
+            variant="small"
+            className="mb-2 cursor-pointer font-semibold text-gray-700 text-end"
+          >
+            Forgot Password
+          </Typography>
+        </Link>
         <Typography color="deep-orange" className="font-medium text-xs">
           {validationMessage}
         </Typography>
