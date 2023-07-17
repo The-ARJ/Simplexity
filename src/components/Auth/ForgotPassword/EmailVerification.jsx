@@ -3,7 +3,7 @@ import { Button, Typography, Input } from "@material-tailwind/react";
 import { LockClosedIcon } from "@heroicons/react/24/solid";
 import { toast } from "react-toastify";
 import axios from "axios";
-const ForgotPassEmail = ({ onNext }) => {
+const EmailVerification = ({ onNext }) => {
   const [email, setEmail] = useState("");
   const [validationMessage, setValidationMessage] = useState("");
 
@@ -75,4 +75,4 @@ const ForgotPassEmail = ({ onNext }) => {
     </>
   );
 };
-export default ForgotPassEmail;
+export default EmailVerification;

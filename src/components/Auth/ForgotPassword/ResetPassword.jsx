@@ -4,7 +4,7 @@ import { LockClosedIcon } from "@heroicons/react/24/solid";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-const ForgotPassReset = ({ verificationCode, email, onNext }) => {
+const ResetPassword = ({ verificationCode, email, onNext }) => {
   const router = useRouter();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -230,4 +230,4 @@ const ForgotPassReset = ({ verificationCode, email, onNext }) => {
   );
 };
 
-export default ForgotPassReset;
+export default ResetPassword;

@@ -7,9 +7,10 @@ import {
   BuildingLibraryIcon,
 } from "@heroicons/react/24/outline";
 import ComplexNavbar from "@/components/Header";
-import ForgotPassEmail from "@/components/Auth/ForgotPassEmail";
-import ForgotPassCode from "@/components/Auth/ForgotPassCode";
-import ForgotPassReset from "@/components/Auth/ForgotPassReset";
+import EmailVerification from "@/components/Auth/ForgotPassword/EmailVerification";
+import CodeVerification from "@/components/Auth/ForgotPassword/CodeVerification";
+import ResetPassword from "@/components/Auth/ForgotPassword/ResetPassword";
+
 export default function ForgotPassword() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [isLastStep, setIsLastStep] = React.useState(false);
@@ -28,7 +29,7 @@ export default function ForgotPassword() {
       icon: <UserIcon className="h-5 w-5" />,
       renderInputs: () => (
         <>
-          <ForgotPassEmail onNext={handleNext} email={email} />
+          <EmailVerification onNext={handleNext} email={email} />
         </>
       ),
     },
@@ -37,7 +38,7 @@ export default function ForgotPassword() {
       icon: <CogIcon className="h-5 w-5" />,
       renderInputs: () => (
         <>
-          <ForgotPassCode onNext={handleNext} email={email} />
+          <CodeVerification onNext={handleNext} email={email} />
         </>
       ),
     },
@@ -46,7 +47,7 @@ export default function ForgotPassword() {
       icon: <BuildingLibraryIcon className="h-5 w-5" />,
       renderInputs: () => (
         <>
-          <ForgotPassReset
+          <ResetPassword
             onNext={handleNext}
             email={email}
             verificationCode={verificationCode}
@@ -72,7 +73,11 @@ export default function ForgotPassword() {
           {stepInputs.map((step, index) => (
             <Step
               key={index}
-              onClick={() => setActiveStep(index)}
+              onClick={() => {
+                if (index < activeStep) {
+                  setActiveStep(index);
+                }
+              }}
               completedClassName="!bg-amber-600 text-white"
             >
               <div

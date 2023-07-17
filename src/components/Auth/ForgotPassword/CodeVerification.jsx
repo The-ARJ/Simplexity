@@ -4,7 +4,7 @@ import { LockClosedIcon } from "@heroicons/react/24/solid";
 import { toast } from "react-toastify";
 import axios from "axios";
 
-const ForgotPassCode = ({ email, onNext }) => {
+const CodeVerification = ({ email, onNext }) => {
   const [verificationCode, setverificationCode] = useState("");
   const [validationMessage, setValidationMessage] = useState("");
   const [resendDisabled, setResendDisabled] = useState(false);
@@ -137,4 +137,4 @@ const ForgotPassCode = ({ email, onNext }) => {
   );
 };
 
-export default ForgotPassCode;
+export default CodeVerification;
