@@ -29,7 +29,7 @@ export default function Auth() {
     <React.Fragment>
       <Button
         onClick={handleOpen}
-        className="bg-amber-500 hover:bg-amber-600 text-white py-2 px-4 rounded-full shadow-lg transition-colors duration-300 ease-in-out"
+        className="bg-amber-500 lg:ml-auto hover:bg-amber-600 text-white py-2 px-4 rounded-full shadow-lg transition-colors duration-300 ease-in-out"
       >
         Sign In
       </Button>

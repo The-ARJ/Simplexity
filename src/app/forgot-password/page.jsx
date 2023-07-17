@@ -6,7 +6,7 @@ import {
   UserIcon,
   BuildingLibraryIcon,
 } from "@heroicons/react/24/outline";
-import ComplexNavbar from "@/components/Header";
+import ComplexNavbar from "@/components/Header/Header";
 import EmailVerification from "@/components/Auth/ForgotPassword/EmailVerification";
 import CodeVerification from "@/components/Auth/ForgotPassword/CodeVerification";
 import ResetPassword from "@/components/Auth/ForgotPassword/ResetPassword";

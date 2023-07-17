@@ -1,6 +1,6 @@
 "use client"
 import Footer from '@/components/Footer'
-import ComplexNavbar from '@/components/Header'
+import ComplexNavbar from '@/components/Header/Header'
 import Hero from '@/components/Hero'
 import TopSelling from '@/components/TopSellling'
 
