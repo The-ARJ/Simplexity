@@ -12,9 +12,11 @@ import {
   TabsBody,
   Tab,
   TabPanel,
+  MenuItem,
 } from "@material-tailwind/react";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
+import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline";
 
 export default function Auth() {
   const [open, setOpen] = useState(false);
@@ -27,12 +29,18 @@ export default function Auth() {
 
   return (
     <React.Fragment>
-      <Button
+      <Typography
+        as="a"
+        variant="small"
+        color="blue-gray"
+        className=" lg:ml-auto"
         onClick={handleOpen}
-        className="bg-amber-500 lg:ml-auto hover:bg-amber-600 text-white py-2 px-4 rounded-full shadow-lg transition-colors duration-300 ease-in-out"
       >
-        Sign In
-      </Button>
+        <MenuItem className="flex items-center gap-2  lg:rounded-full bg-amber-500 hover:bg-amber-800  text-white  hover:text-white py-2 px-4 rounded-full shadow-lg transition-colors duration-300 ease-in-out">
+          <ArrowRightOnRectangleIcon className="h-[18px] w-[18px]" />
+          <p className=" hidden md:block">Sign In</p>
+        </MenuItem>
+      </Typography>
       <Dialog
         size="xs"
         open={open}

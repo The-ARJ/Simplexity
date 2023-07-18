@@ -1,22 +1,16 @@
 import {
-  CubeTransparentIcon,
-  UserCircleIcon,
-  CodeBracketSquareIcon,
+  ShoppingBagIcon,
+  HomeIcon,
 } from "@heroicons/react/24/outline";
 // nav list component
 const navListItems = [
   {
-    label: "Account",
-    icon: UserCircleIcon,
+    label: "Home",
+    icon: HomeIcon,
   },
   {
-    label: "Blocks",
-    icon: CubeTransparentIcon,
-  },
-  {
-    label: "Docs",
-    icon: CodeBracketSquareIcon,
-    link: "/signin",
+    label: "Shop",
+    icon: ShoppingBagIcon,
   },
 ];
 import React from "react";
@@ -26,7 +20,6 @@ import { MenuItem, Typography } from "@material-tailwind/react";
 const NavList = () => {
   return (
     <ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center">
-      <NavListMenu />
       {navListItems.map(({ label, icon, link }, key) => (
         <Typography
           key={label}
@@ -42,6 +35,7 @@ const NavList = () => {
           </MenuItem>
         </Typography>
       ))}
+      <NavListMenu />
     </ul>
   );
 };

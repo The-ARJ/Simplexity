@@ -31,7 +31,7 @@ const SignIn = () => {
               progress: undefined,
               theme: "light",
             });
-            router.push("/home");
+            router.push("/dashboard");
           })
           .catch((err) => {
             setValidationMessage(err);
