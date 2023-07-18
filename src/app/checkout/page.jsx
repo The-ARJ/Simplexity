@@ -48,7 +48,7 @@ const DeliveryDetailsForm = () => {
             Home
           </Link>
           <Link href="/checkout" className="">
-            Order Summary
+            Checkout
           </Link>
         </Breadcrumbs>
         <div className=" md:flex justify-between lg:gap-20">
@@ -145,7 +145,7 @@ const DeliveryDetailsForm = () => {
                   containerProps={{ className: "-ml-2.5" }}
                 />
                 <Link
-                  href="/checkout"
+                  href="/checkout/payment"
                   className="flex items-center justify-center rounded-md border border-transparent bg-amber-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-amber-700"
                 >
                   Proceed to Payment
