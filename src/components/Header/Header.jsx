@@ -20,7 +20,6 @@ export default function ComplexNavbar() {
   const { user, loading } = useContext(UserContext);
   const [isNavOpen, setIsNavOpen] = React.useState(false);
   const toggleIsNavOpen = () => setIsNavOpen((cur) => !cur);
-
   React.useEffect(() => {
     window.addEventListener(
       "resize",
@@ -42,14 +41,18 @@ export default function ComplexNavbar() {
               </Typography>
             </div>
           </Link>
+          {user && user.role === "admin" ? (
+            <div className="absolute top-2/4 left-1/4 hidden -translate-x-2/4 -translate-y-2/4 lg:block">
+              <NavList />
+            </div>
+          ) : (
+            <Typography variant="h4" color="blue-gray"></Typography>
+          )}
 
-          <div className="absolute top-2/4 left-1/4 hidden -translate-x-2/4 -translate-y-2/4 lg:block">
-            <NavList />
-          </div>
           <div className="absolute top-2/4 left-2/4 hidden -translate-x-2/4 -translate-y-2/4 md:block">
             <SearchBar />
           </div>
-          {user && (
+          {user && user.role === "user" && (
             <div className="absolute top-2/4 right-24 lg:right-14 -translate-x-2/4 -translate-y-2/4">
               <Cart />
             </div>

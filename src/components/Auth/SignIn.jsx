@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { UserContext } from "../../utils/Context/UserContext";
 import ProtectedRoute from "@/utils/Context/ProtectedRoute";
 import Link from "next/link";
+import GoogleSignInButton from "./GoogleSignInButton";
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -97,6 +98,7 @@ const SignIn = () => {
         <Button type="submit" size="lg" color="amber" className="text-gray-700">
           Sign In
         </Button>
+        <GoogleSignInButton />
         <Typography
           variant="small"
           color="gray"

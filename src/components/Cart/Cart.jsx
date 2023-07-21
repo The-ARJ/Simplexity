@@ -4,7 +4,6 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Badge, MenuItem, Typography } from "@material-tailwind/react";
 import React from "react";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
-import Payment from "./Payment";
 import Link from "next/link";
 const products = [
   {
@@ -162,7 +161,7 @@ export default function Cart() {
                             href="/checkout"
                             className="flex items-center justify-center rounded-md border border-transparent bg-amber-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-amber-700"
                           >
-                            Checkout
+                            Proceed To Checkout
                           </Link>
                         </div>
                       </div>

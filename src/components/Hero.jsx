@@ -1,5 +1,5 @@
 import React from "react";
-import Slider from "./Caraousel";
+import Slider from "./Carousel";
 
 const Hero = () => {
   return (
