@@ -74,7 +74,7 @@ const TABLE_ROWS = [
 
 export function TransactionsTable() {
   return (
-    <Card className="h-full top-24 w-full">
+    <Card className="h-full w-full">
       <CardHeader floated={false} shadow={false} className="rounded-none">
         <div className="mb-4 flex flex-col justify-between gap-8 md:flex-row md:items-center">
           <div>
@@ -92,7 +92,7 @@ export function TransactionsTable() {
                 icon={<MagnifyingGlassIcon className="h-5 w-5" />}
               />
             </div>
-            <Button className="flex items-center gap-3" color="blue" size="sm">
+            <Button className="flex items-center gap-3" color="amber" size="sm">
               <ArrowDownTrayIcon strokeWidth={2} className="h-4 w-4" /> Download
             </Button>
           </div>

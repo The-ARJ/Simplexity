@@ -18,6 +18,7 @@ import {
   PowerIcon,
   Bars4Icon,
 } from "@heroicons/react/24/solid";
+import Link from "next/link";
 
 export default function Sidebar() {
   const [isMinimized, setMinimized] = useState(true);
@@ -46,45 +47,50 @@ export default function Sidebar() {
         <Bars4Icon className="h-6" />
       </div>
       <List>
-        <ListItem className="flex items-center">
-          <Tooltip content="Dashboard">
-            <ListItemPrefix>
-              <PresentationChartBarIcon className="h-5 w-5" />
-            </ListItemPrefix>
-          </Tooltip>
-          {!isMinimized && "Dashboard"}
-        </ListItem>
+        <Link href="/dashboard">
+          <ListItem className="flex items-center">
+            <Tooltip content="Dashboard">
+              <ListItemPrefix>
+                <PresentationChartBarIcon className="h-5 w-5" />
+              </ListItemPrefix>
+            </Tooltip>
+            {!isMinimized && "Dashboard"}
+          </ListItem>
+        </Link>
+        <Link href="/e-commerce">
+          <ListItem className="flex items-center">
+            <Tooltip content="E-Commerce">
+              <ListItemPrefix>
+                <ShoppingBagIcon className="h-5 w-5" />
+              </ListItemPrefix>
+            </Tooltip>
 
-        <ListItem className="flex items-center">
-          <Tooltip content="E-Commerce">
-            <ListItemPrefix>
-              <ShoppingBagIcon className="h-5 w-5" />
-            </ListItemPrefix>
-          </Tooltip>
-
-          {!isMinimized && "E-Commerce"}
-        </ListItem>
-        <ListItem className="flex items-center">
-          <Tooltip content="Users">
-            <ListItemPrefix>
-              <InboxIcon className="h-5 w-5" />
-            </ListItemPrefix>
-          </Tooltip>
-          {!isMinimized && (
-            <>
-              Users
-              <ListItemSuffix>
-                <Chip
-                  value="2.1k"
-                  size="sm"
-                  variant="ghost"
-                  color="blue-gray"
-                  className="rounded-full"
-                />
-              </ListItemSuffix>
-            </>
-          )}
-        </ListItem>
+            {!isMinimized && "E-Commerce"}
+          </ListItem>
+        </Link>
+        <Link href="/users">
+          <ListItem className="flex items-center">
+            <Tooltip content="Users">
+              <ListItemPrefix>
+                <InboxIcon className="h-5 w-5" />
+              </ListItemPrefix>
+            </Tooltip>
+            {!isMinimized && (
+              <>
+                Users
+                <ListItemSuffix>
+                  <Chip
+                    value="2.1k"
+                    size="sm"
+                    variant="ghost"
+                    color="blue-gray"
+                    className="rounded-full"
+                  />
+                </ListItemSuffix>
+              </>
+            )}
+          </ListItem>
+        </Link>
         <ListItem className="flex items-center">
           <ListItemPrefix>
             <UserCircleIcon className="h-5 w-5" />
