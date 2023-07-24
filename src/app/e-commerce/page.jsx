@@ -11,7 +11,9 @@ import { PlusCircleIcon, QueueListIcon } from "@heroicons/react/24/solid";
 import AddProductForm from "@/components/DashboardComponents/AddProduct";
 import DashboardLayout from "@/components/DashboardComponents/DashboardLayout";
 import { ProductTable } from "@/components/DashboardComponents/ProductTable";
-export default function ProductTabs() {
+import ProtectedRoute from "@/utils/Context/ProtectedRoute";
+
+const ProductTabs = () => {
   const data = [
     {
       label: "Add Product",
@@ -29,11 +31,8 @@ export default function ProductTabs() {
 
   return (
     <DashboardLayout>
-      <Tabs value="html"  className=" sm:px-4 lg:px-6 mt-2">
-        <TabsHeader
-  
-          className=" py-2 px-2 sm:py-2 sm:px-2 lg:py-2 lg:px-2"
-        >
+      <Tabs value="html" className=" sm:px-4 lg:px-6 mt-2">
+        <TabsHeader className=" py-2 px-2 sm:py-2 sm:px-2 lg:py-2 lg:px-2">
           {data.map(({ label, value, icon }) => (
             <Tab
               key={value}
@@ -68,4 +67,5 @@ export default function ProductTabs() {
       </Tabs>
     </DashboardLayout>
   );
-}
+};
+export default ProtectedRoute(ProductTabs);

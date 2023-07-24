@@ -17,9 +17,10 @@ import {
   Tooltip,
   Chip,
 } from "@material-tailwind/react";
-const Users = ({ userData }) => {
-  const TABLE_HEAD = ["Member", "Role", "Status", "Join Date", "Action"];
-  const userUsers = userData.filter((user) => user.role === "user");
+const Members = ({ userData }) => {
+  const TABLE_HEAD = ["Member", "Role", "Status", "Employed", "Action"];
+  const adminUsers = userData.filter((user) => user.role === "admin");
+
   return (
     <>
       <CardBody className="px-0">
@@ -46,9 +47,18 @@ const Users = ({ userData }) => {
             </tr>
           </thead>
           <tbody>
-            {userUsers.map(
+            {adminUsers.map(
               (
-                { image, firstName,lastName, email, role, org, isOnline, createdAt },
+                {
+                  image,
+                  firstName,
+                  lastName,
+                  email,
+                  role,
+                  org,
+                  isOnline,
+                  createdAt,
+                },
                 index
               ) => {
                 const isLast = index === userData.length - 1;
@@ -71,7 +81,7 @@ const Users = ({ userData }) => {
                             color="blue-gray"
                             className="font-normal"
                           >
-                            {firstName}{lastName}
+                            {firstName} {lastName}
                           </Typography>
                           <Typography
                             variant="small"
@@ -138,4 +148,4 @@ const Users = ({ userData }) => {
   );
 };
 
-export default Users;
+export default Members;

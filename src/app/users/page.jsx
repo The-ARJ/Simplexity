@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import DashboardLayout from "@/components/DashboardComponents/DashboardLayout";
-import Users from "@/components/DashboardComponents/Users";
 import UserService from "../../utils/Services/UserService";
 import swal from "sweetalert2";
 import { toast } from "react-toastify";
@@ -23,27 +22,25 @@ import {
   Tab,
   Avatar,
 } from "@material-tailwind/react";
+import Members from "@/components/DashboardComponents/Members";
+import Users from "@/components/DashboardComponents/Users";
+import ProtectedRoute from "@/utils/Context/ProtectedRoute";
 
 const TABS = [
   {
-    label: "All",
-    value: "all",
-    card: "....",
-  },
-  {
     label: "Users",
     value: "users",
-    card: "....",
+    card: <Users />,
   },
   {
     label: "Members",
     value: "members",
-    card: <Users />,
+    card: <Members />,
   },
 ];
 
-export default function UserTable() {
-  const [selectedTab, setSelectedTab] = useState("all");
+const UserTable = () => {
+  const [selectedTab, setSelectedTab] = useState("users");
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState(""); // New state variable for search
@@ -180,8 +177,8 @@ export default function UserTable() {
                 selectedTab === value ? "block" : "hidden"
               }`}
             >
-              {value === "members" && <Users userData={currentUsers} />}
-              {/* {card} */}
+              {value === "members" && <Members userData={currentUsers} />}
+              {value === "users" && <Users userData={currentUsers} />}
             </div>
           ))}
         </CardHeader>
@@ -213,4 +210,6 @@ export default function UserTable() {
       </Card>
     </DashboardLayout>
   );
-}
+};
+
+export default ProtectedRoute(UserTable);

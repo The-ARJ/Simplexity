@@ -41,7 +41,7 @@ export default function ComplexNavbar() {
               </Typography>
             </div>
           </Link>
-          {user && user.role === "user" ? (
+          {!user || user.role !== "admin" ? (
             <div className="absolute top-2/4 left-1/4 hidden -translate-x-2/4 -translate-y-2/4 lg:block">
               <NavList />
             </div>

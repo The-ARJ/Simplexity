@@ -138,7 +138,7 @@ export function ProductTable() {
         </div>
       </CardHeader>
       <CardBody className="px-0">
-        {currentProducts.length === 0 ? ( // Check if there are no products to display
+        {currentProducts.length === 0 ? ( 
           <Typography
             variant="body"
             color="blue-gray"

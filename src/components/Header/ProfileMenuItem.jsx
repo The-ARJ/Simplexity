@@ -84,6 +84,7 @@ const ProfileMenuItem = () => {
           color="blue-gray"
           className="flex items-center gap-1 rounded-full py-0.5 pr-2 pl-0.5 lg:ml-auto"
         >
+          <Typography className="mr-2 hidden lg:block">{user.firstName}</Typography>
           <Avatar
             variant="circular"
             size="sm"

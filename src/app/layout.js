@@ -7,8 +7,15 @@ const inter = Inter({ subsets: ['latin'] })
 import { ThemeProvider } from "@material-tailwind/react";
 import { CommonProvider } from '@/utils/Context/CommonProvider';
 import Provider from '../utils/Context/Provider'
+import ComplexNavbar from '@/components/Header/Header';
+import Footer from '@/components/Footer';
+
 export const metadata = {
   title: 'Simplexity',
+  description: 'Out Door Wears',
+  icons: {
+    icon: '/assets/hoodie.png',
+  },
 }
 
 export default function RootLayout({ children }) {
@@ -16,15 +23,14 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <Provider>
-
           <CommonProvider>
             <ThemeProvider>
+              <ComplexNavbar />
               {children}
+              <Footer />
             </ThemeProvider>
             <ToastContainer />
-
           </CommonProvider>
-
         </Provider>
       </body>
     </html>

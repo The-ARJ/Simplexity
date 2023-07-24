@@ -72,13 +72,10 @@ export const useUser = () => {
     try {
       dispatch({ type: 'LOGOUT' });
       const token = localStorage.getItem('token');
-      await Service.logout(token); // Pass the token to the logout service
+      await Service.logout(token);
       localStorage.removeItem('token');
-      // Any other cleanup or redirection logic can be added here
     } catch (error) {
-      // Handle any errors that might occur during the API call or local storage removal
       console.error('Error during logout:', error);
-      // You may also want to dispatch an action to handle the error state in your Redux store.
     }
   };
 

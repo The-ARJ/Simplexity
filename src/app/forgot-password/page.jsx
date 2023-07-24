@@ -10,8 +10,9 @@ import ComplexNavbar from "@/components/Header/Header";
 import EmailVerification from "@/components/Auth/ForgotPassword/EmailVerification";
 import CodeVerification from "@/components/Auth/ForgotPassword/CodeVerification";
 import ResetPassword from "@/components/Auth/ForgotPassword/ResetPassword";
+import ProtectedRoute from "@/utils/Context/ProtectedRoute";
 
-export default function ForgotPassword() {
+const ForgotPassword = ()=> {
   const [activeStep, setActiveStep] = React.useState(0);
   const [isLastStep, setIsLastStep] = React.useState(false);
   const [isFirstStep, setIsFirstStep] = React.useState(false);
@@ -104,3 +105,6 @@ export default function ForgotPassword() {
     </>
   );
 }
+
+
+export default ProtectedRoute(ForgotPassword); 

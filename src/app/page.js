@@ -1,16 +1,17 @@
 "use client"
-import Footer from '@/components/Footer'
-import ComplexNavbar from '@/components/Header/Header'
 import Hero from '@/components/Hero'
 import TopSelling from '@/components/TopSellling'
+import ProtectedRoute from '@/utils/Context/ProtectedRoute'
 
-export default function Home() {
+import React from 'react'
+
+const Home = () => {
   return (
     <>
-      <ComplexNavbar />
       <Hero />
       <TopSelling />
-      <Footer />
     </>
   )
 }
+
+export default ProtectedRoute(Home);
