@@ -1,18 +1,16 @@
-// commonProvider.js
-
 "use client"
-
-import { ThemeProvider } from 'next-themes'
 import { UserContext, useUser } from "./UserContext";
+import { Provider } from 'react-redux';
+import store from '../Redux/Store';
 
 export const CommonProvider = ({ children }) => {
     const userState = useUser();
 
     return (
         <UserContext.Provider value={userState}>
-            {/* <ThemeProvider attribute='class'> */}
+            <Provider store={store}>
                 {children}
-            {/* </ThemeProvider> */}
+            </Provider>
         </UserContext.Provider>
     );
 };

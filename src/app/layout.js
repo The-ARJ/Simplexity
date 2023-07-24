@@ -6,9 +6,9 @@ import { ToastContainer } from 'react-toastify';
 const inter = Inter({ subsets: ['latin'] })
 import { ThemeProvider } from "@material-tailwind/react";
 import { CommonProvider } from '@/utils/Context/CommonProvider';
-import Provider from '../utils/Context/Provider'
 import ComplexNavbar from '@/components/Header/Header';
 import Footer from '@/components/Footer';
+import ReduxProvider from '@/utils/Redux/Provider';
 
 export const metadata = {
   title: 'Simplexity',
@@ -22,16 +22,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Provider>
-          <CommonProvider>
-            <ThemeProvider>
-              <ComplexNavbar />
-              {children}
-              <Footer />
-            </ThemeProvider>
-            <ToastContainer />
-          </CommonProvider>
-        </Provider>
+        <CommonProvider>
+            <ComplexNavbar />
+            {children}
+            <Footer />
+          <ToastContainer />
+        </CommonProvider>
       </body>
     </html>
   )

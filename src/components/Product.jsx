@@ -10,16 +10,22 @@ import { imgURL } from "../utils/Services/UserService";
 import React, { useContext, useState } from "react";
 import { UserContext } from "../utils/Context/UserContext";
 import AuthDialog from "./Auth/AuthDialogue";
+import { useDispatch } from "react-redux";
+import { add } from "@/utils/Redux/CartSlice";
+
 export default function Product({ currentProducts }) {
   const { user, loading } = useContext(UserContext);
   const [open, setOpen] = useState(false);
-  const handleOpen = () => {
+  const dispatch = useDispatch();
+  const handleCart = (product) => {
     if (user) {
-      console.log("Product added to cart:", currentProducts);
+      dispatch(add(product));
+      console.log("Product added to cart:", product); // Log the selected product
     } else {
       setOpen(true);
     }
   };
+
   const handleClose = () => setOpen(false);
 
   if (currentProducts.length === 0) {
@@ -60,7 +66,7 @@ export default function Product({ currentProducts }) {
           </CardBody>
           <CardFooter className="pt-0">
             <Button
-              onClick={handleOpen}
+              onClick={() => handleCart(product)}
               ripple={false}
               fullWidth={true}
               className="bg-blue-gray-900/10 text-blue-gray-900 shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100"
