@@ -27,11 +27,28 @@ const getCurrentUser = (token) => {
     };
     return axios.get(`${baseURL}/current/user`, config);
 };
+const getAllUsers = () => {
+    return axios.get(`${baseURL}`, {
+        headers: {
+            Authorization: `bearer ${window.localStorage.getItem("token")}`,
+        },
+    });
+};
+const logout = (token) => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    return axios.post(`${baseURL}/current/user/logout`, {}, config);
+  };
 const auth = {
     login,
     register,
     getCurrentUser,
-    updateUser
+    updateUser,
+    logout,
+    getAllUsers
 };
 
 export default auth;

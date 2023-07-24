@@ -67,10 +67,26 @@ export const useUser = () => {
     }
   }, [fetched]);
 
-  const logout = () => {
-    dispatch({ type: 'LOGOUT' });
-    localStorage.removeItem('token');
+
+  const logout = async () => {
+    try {
+      dispatch({ type: 'LOGOUT' });
+      const token = localStorage.getItem('token');
+      await Service.logout(token); // Pass the token to the logout service
+      localStorage.removeItem('token');
+      // Any other cleanup or redirection logic can be added here
+    } catch (error) {
+      // Handle any errors that might occur during the API call or local storage removal
+      console.error('Error during logout:', error);
+      // You may also want to dispatch an action to handle the error state in your Redux store.
+    }
   };
+
+  // const logout = () => {
+  //   dispatch({ type: 'LOGOUT' });
+  //   Service.logout()
+  //   localStorage.removeItem('token');
+  // };
 
   return { ...state, dispatch, logout, fetchUser }; // add fetchUser here
 };

@@ -31,9 +31,7 @@ export default function ProductTabs() {
     <DashboardLayout>
       <Tabs value="html"  className=" sm:px-4 lg:px-6 mt-2">
         <TabsHeader
-          indicatorProps={{
-            className: "bg-amber-500/10 shadow-none text-blue-500",
-          }}
+  
           className=" py-2 px-2 sm:py-2 sm:px-2 lg:py-2 lg:px-2"
         >
           {data.map(({ label, value, icon }) => (
@@ -41,7 +39,7 @@ export default function ProductTabs() {
               key={value}
               value={value}
               className=" text-xs sm:text-sm md:text-base"
-              activeClassName=" bg-amber-600 rounded-xl"
+              activeClassName=" rounded-xl"
             >
               <div className="flex items-center gap-2 py-2">
                 {React.createElement(icon, { className: "w-5 h-5" })}

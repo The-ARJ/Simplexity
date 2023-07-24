@@ -1,81 +1,27 @@
 "use client";
+import React from "react";
+import UserService, { imgURL } from "../../utils/Services/UserService";
+import swal from "sweetalert2";
+import { toast } from "react-toastify";
 
-import DashboardLayout from "@/components/DashboardComponents/DashboardLayout";
 import {
   MagnifyingGlassIcon,
   ChevronUpDownIcon,
 } from "@heroicons/react/24/outline";
-import { PencilIcon, UserPlusIcon } from "@heroicons/react/24/solid";
+import { PencilIcon, UserPlusIcon, TrashIcon } from "@heroicons/react/24/solid";
 import {
-  Card,
-  CardHeader,
-  Input,
   Typography,
-  Button,
   CardBody,
-  Chip,
-  CardFooter,
-  Tabs,
-  TabsHeader,
-  Tab,
   Avatar,
   IconButton,
   Tooltip,
+  Chip,
 } from "@material-tailwind/react";
-
-const Users = () => {
-  const TABLE_HEAD = ["Member", "Function", "Status", "Employed", ""];
-
-  const TABLE_ROWS = [
-    {
-      img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg",
-      name: "John Michael",
-      email: "john@creative-tim.com",
-      job: "Manager",
-      org: "Organization",
-      online: true,
-      date: "23/04/18",
-    },
-    {
-      img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-2.jpg",
-      name: "Alexa Liras",
-      email: "alexa@creative-tim.com",
-      job: "Programator",
-      org: "Developer",
-      online: false,
-      date: "23/04/18",
-    },
-    {
-      img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-1.jpg",
-      name: "Laurent Perrier",
-      email: "laurent@creative-tim.com",
-      job: "Executive",
-      org: "Projects",
-      online: false,
-      date: "19/09/17",
-    },
-    {
-      img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-4.jpg",
-      name: "Michael Levi",
-      email: "michael@creative-tim.com",
-      job: "Programator",
-      org: "Developer",
-      online: true,
-      date: "24/12/08",
-    },
-    {
-      img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-5.jpg",
-      name: "Richard Gran",
-      email: "richard@creative-tim.com",
-      job: "Manager",
-      org: "Executive",
-      online: false,
-      date: "04/10/21",
-    },
-  ];
+const Users = ({ userData }) => {
+  const TABLE_HEAD = ["Member", "Role", "Status", "Employed", "Action"];
   return (
     <>
-      <CardBody className=" px-0">
+      <CardBody className="px-0">
         <table className="mt-4 w-full min-w-max table-auto text-left">
           <thead>
             <tr>
@@ -99,9 +45,12 @@ const Users = () => {
             </tr>
           </thead>
           <tbody>
-            {TABLE_ROWS.map(
-              ({ img, name, email, job, org, online, date }, index) => {
-                const isLast = index === TABLE_ROWS.length - 1;
+            {userData.map(
+              (
+                { image, firstName, email, role, org, isOnline, createdAt },
+                index
+              ) => {
+                const isLast = index === userData.length - 1;
                 const classes = isLast
                   ? "p-4"
                   : "p-4 border-b border-blue-gray-50";
@@ -110,14 +59,18 @@ const Users = () => {
                   <tr key={name}>
                     <td className={classes}>
                       <div className="flex items-center gap-3">
-                        <Avatar src={img} alt={name} size="sm" />
+                        <Avatar
+                          src={`${imgURL}/${image}`}
+                          alt={firstName}
+                          size="sm"
+                        />
                         <div className="flex flex-col">
                           <Typography
                             variant="small"
                             color="blue-gray"
                             className="font-normal"
                           >
-                            {name}
+                            {firstName}
                           </Typography>
                           <Typography
                             variant="small"
@@ -134,9 +87,9 @@ const Users = () => {
                         <Typography
                           variant="small"
                           color="blue-gray"
-                          className="font-normal"
+                          className="font-normal uppercase"
                         >
-                          {job}
+                          {role}
                         </Typography>
                         <Typography
                           variant="small"
@@ -152,8 +105,8 @@ const Users = () => {
                         <Chip
                           variant="ghost"
                           size="sm"
-                          value={online ? "online" : "offline"}
-                          color={online ? "green" : "blue-gray"}
+                          value={isOnline ? "online" : "offline"}
+                          color={isOnline ? "green" : "blue-gray"}
                         />
                       </div>
                     </td>
@@ -163,7 +116,7 @@ const Users = () => {
                         color="blue-gray"
                         className="font-normal"
                       >
-                        {date}
+                        {new Date(createdAt).toLocaleString()}
                       </Typography>
                     </td>
                     <td className={classes}>
@@ -180,19 +133,6 @@ const Users = () => {
           </tbody>
         </table>
       </CardBody>
-      <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-        <Typography variant="small" color="blue-gray" className="font-normal">
-          Page 1 of 10
-        </Typography>
-        <div className="flex gap-2">
-          <Button variant="outlined" color="blue-gray" size="sm">
-            Previous
-          </Button>
-          <Button variant="outlined" color="blue-gray" size="sm">
-            Next
-          </Button>
-        </div>
-      </CardFooter>
     </>
   );
 };

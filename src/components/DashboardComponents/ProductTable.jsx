@@ -2,7 +2,8 @@ import {
   MagnifyingGlassIcon,
   ChevronUpDownIcon,
 } from "@heroicons/react/24/outline";
-import { PencilIcon, UserPlusIcon } from "@heroicons/react/24/solid";
+import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
+import { imgURL } from "../../utils/Services/UserService";
 import {
   Card,
   CardHeader,
@@ -10,71 +11,114 @@ import {
   Typography,
   Button,
   CardBody,
-  Chip,
   CardFooter,
-  Tabs,
-  TabsHeader,
-  Tab,
   Avatar,
   IconButton,
   Tooltip,
 } from "@material-tailwind/react";
+import React, { useState, useEffect } from "react";
+import ProductService from "../../utils/Services/ProductService";
+import swal from "sweetalert2";
+import { toast } from "react-toastify";
 
-const TABLE_HEAD = ["Product", "Description", "Price", "Created At", "Action"];
-
-const TABLE_ROWS = [
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg",
-    name: "John Michael",
-    email: "john@creative-tim.com",
-    job: "Manager",
-    org: "Organization",
-    online: true,
-    date: "23/04/18",
-  },
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-2.jpg",
-    name: "Alexa Liras",
-    email: "alexa@creative-tim.com",
-    job: "Programator",
-    org: "Developer",
-    online: false,
-    date: "23/04/18",
-  },
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-1.jpg",
-    name: "Laurent Perrier",
-    email: "laurent@creative-tim.com",
-    job: "Executive",
-    org: "Projects",
-    online: false,
-    date: "19/09/17",
-  },
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-4.jpg",
-    name: "Michael Levi",
-    email: "michael@creative-tim.com",
-    job: "Programator",
-    org: "Developer",
-    online: true,
-    date: "24/12/08",
-  },
-  {
-    img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-5.jpg",
-    name: "Richard Gran",
-    email: "richard@creative-tim.com",
-    job: "Manager",
-    org: "Executive",
-    online: false,
-    date: "04/10/21",
-  },
+const TABLE_HEAD = [
+  "Product",
+  "Description",
+  "Category",
+  "Created At",
+  "Updated At",
+  "Action",
 ];
 
 export function ProductTable() {
+  const [products, setProducts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState(""); // New state variable for search
+
+  const pageSize = 4;
+
+  const getProducts = () => {
+    const token = localStorage.getItem("token");
+    const limit = pageSize;
+    const offset = (currentPage - 1) * pageSize;
+    ProductService.getAllProducts(token, limit, offset)
+      .then((res) => {
+        console.log(res);
+        const allProducts = res.data.data;
+        // Filter products based on the searchQuery (name contains the searchQuery)
+        const filteredProducts = allProducts.filter((product) =>
+          product.name.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+        setProducts(filteredProducts);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getProducts();
+  }, [currentPage, searchQuery]); // Update the dependency array
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage((prevPage) => prevPage - 1);
+    }
+  };
+
+  const handleNextPage = () => {
+    if (currentPage < Math.ceil(products.length / pageSize)) {
+      setCurrentPage((prevPage) => prevPage + 1);
+    }
+  };
+
+  // Calculate total number of pages
+  const totalPages = Math.ceil(products.length / pageSize);
+
+  // Get the products for the current page
+  const startIndex = (currentPage - 1) * pageSize;
+  const endIndex = startIndex + pageSize;
+  const currentProducts = products.slice(startIndex, endIndex);
+
+  const deleteProduct = (id, getProducts) => {
+    const token = localStorage.getItem("token");
+    console.log(id);
+    swal
+      .fire({
+        text: "Are you sure you want to Delete?",
+        showCancelButton: true,
+        cancelButtonColor: "#7e22ce",
+        confirmButtonColor: "#ef4444",
+        confirmButtonText: "Delete",
+        position: "top",
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          ProductService.deleteProductbyId(id, token)
+            .then(() => {
+              toast.success("Droplet Deleted Successfully", {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 1000,
+                hideProgressBar: true,
+                closeOnClick: false,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+              getProducts();
+            })
+            .catch((err) => {
+              console.error(err);
+            });
+        }
+      });
+  };
+
   return (
-    <Card className="h-full w-full mb-20 ">
+    <Card className="h-full w-full mb-20">
       <CardHeader floated={false} shadow={false} className="rounded-none">
-        <div className=" flex items-center justify-between gap-8">
+        <div className="flex items-center justify-between gap-8">
           <div>
             <Typography variant="h5" color="blue-gray">
               Products list
@@ -87,111 +131,181 @@ export function ProductTable() {
             <Input
               label="Search"
               icon={<MagnifyingGlassIcon className="h-5 w-5" />}
+              value={searchQuery} // Set the searchQuery value
+              onChange={(e) => setSearchQuery(e.target.value)} // Handle search input change
             />
           </div>
         </div>
       </CardHeader>
-      <CardBody className=" px-0">
-        <table className=" w-full min-w-max table-auto text-left">
-          <thead>
-            <tr>
-              {TABLE_HEAD.map((head, index) => (
-                <th
-                  key={head}
-                  className="cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 transition-colors hover:bg-blue-gray-50"
-                >
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="flex items-center justify-between gap-2 font-normal leading-none opacity-70"
+      <CardBody className="px-0">
+        {currentProducts.length === 0 ? ( // Check if there are no products to display
+          <Typography
+            variant="body"
+            color="blue-gray"
+            className="p-4 text-center"
+          >
+            No items found.
+          </Typography>
+        ) : (
+          <table className="w-full min-w-max table-auto text-left">
+            <thead>
+              <tr>
+                {TABLE_HEAD.map((head, index) => (
+                  <th
+                    key={head}
+                    className="cursor-pointer border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 transition-colors hover:bg-blue-gray-50"
                   >
-                    {head}{" "}
-                    {index !== TABLE_HEAD.length - 1 && (
-                      <ChevronUpDownIcon strokeWidth={2} className="h-4 w-4" />
-                    )}
-                  </Typography>
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {TABLE_ROWS.map(
-              ({ img, name, email, job, org, online, date }, index) => {
-                const isLast = index === TABLE_ROWS.length - 1;
-                const classes = isLast
-                  ? "p-4"
-                  : "p-4 border-b border-blue-gray-50";
-
-                return (
-                  <tr key={name}>
-                    <td className={classes}>
-                      <div className="flex items-center gap-3">
-                        <Avatar src={img} variant="rounded" alt={name} size="lg" />
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="flex items-center justify-between gap-2 font-normal leading-none opacity-70"
+                    >
+                      {head}{" "}
+                      {index !== TABLE_HEAD.length - 1 && (
+                        <ChevronUpDownIcon
+                          strokeWidth={2}
+                          className="h-4 w-4"
+                        />
+                      )}
+                    </Typography>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {currentProducts.map(
+                ({
+                  _id,
+                  image,
+                  name,
+                  description,
+                  price,
+                  quantity,
+                  category,
+                  createdAt,
+                  updatedAt,
+                }) => {
+                  const classes = "p-4 border-b border-blue-gray-50";
+                  return (
+                    <tr key={name}>
+                      <td className={classes}>
+                        <div className="flex items-start justify-start gap-3">
+                          <Avatar
+                            src={`${imgURL}/${image}`}
+                            variant="rounded"
+                            alt={name}
+                            size="lg"
+                          />
+                          <div className="flex flex-col">
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal"
+                            >
+                              {name}
+                            </Typography>
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal opacity-70"
+                            >
+                              Price: Rs.{price} / Unit
+                            </Typography>
+                            <Typography
+                              variant="small"
+                              color="blue-gray"
+                              className="font-normal opacity-70"
+                            >
+                              Quantity: {quantity} Units.{" "}
+                            </Typography>
+                          </div>
+                        </div>
+                      </td>
+                      <td className=" w-[400px] py-2">
+                        <div className="flex flex-col">
+                          <Typography
+                            variant="small"
+                            color="blueGray"
+                            className="font-normal"
+                          >
+                            {description}
+                          </Typography>
+                        </div>
+                      </td>
+                      <td className={classes}>
                         <div className="flex flex-col">
                           <Typography
                             variant="small"
                             color="blue-gray"
                             className="font-normal"
                           >
-                            {name}
+                            {category}
                           </Typography>
                         </div>
-                      </div>
-                    </td>
-                    <td className={classes}>
-                      <div className="flex flex-col">
+                      </td>
+                      <td className={classes}>
                         <Typography
                           variant="small"
                           color="blue-gray"
                           className="font-normal"
                         >
-                          {job}
+                          {new Date(createdAt).toLocaleString()}
                         </Typography>
-                      </div>
-                    </td>
-                    <td className={classes}>
-                      <div className="w-max">
+                      </td>
+                      <td className={classes}>
                         <Typography
                           variant="small"
                           color="blue-gray"
                           className="font-normal"
                         >
-                          {job}
+                          {new Date(updatedAt).toLocaleString()}
                         </Typography>
-                      </div>
-                    </td>
-                    <td className={classes}>
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
-                        {date}
-                      </Typography>
-                    </td>
-                    <td className={classes}>
-                      <Tooltip content="Edit User">
-                        <IconButton variant="text" color="blue-gray">
-                          <PencilIcon className="h-4 w-4" />
-                        </IconButton>
-                      </Tooltip>
-                    </td>
-                  </tr>
-                );
-              }
-            )}
-          </tbody>
-        </table>
+                      </td>
+                      <td className={classes}>
+                        <Tooltip content="Edit Product">
+                          <IconButton variant="text" color="blue-gray">
+                            <PencilIcon className="h-4 w-4" />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip content="Delete Product">
+                          <IconButton
+                            onClick={() => deleteProduct(_id, getProducts)}
+                            variant="text"
+                            color="red"
+                          >
+                            <TrashIcon className="h-4 w-4" />
+                          </IconButton>
+                        </Tooltip>
+                      </td>
+                    </tr>
+                  );
+                }
+              )}
+            </tbody>
+          </table>
+        )}
       </CardBody>
       <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
         <Typography variant="small" color="blue-gray" className="font-normal">
-          Page 1 of 10
+          Page {currentPage} of {totalPages}
         </Typography>
         <div className="flex gap-2">
-          <Button variant="outlined" color="blue-gray" size="sm">
+          <Button
+            variant="outlined"
+            color="blue-gray"
+            size="sm"
+            onClick={handlePreviousPage}
+            disabled={currentPage === 1}
+          >
             Previous
           </Button>
-          <Button variant="outlined" color="blue-gray" size="sm">
+          <Button
+            variant="outlined"
+            color="blue-gray"
+            size="sm"
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+          >
             Next
           </Button>
         </div>

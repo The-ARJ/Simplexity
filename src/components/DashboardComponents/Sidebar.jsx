@@ -1,4 +1,7 @@
-import { useState } from "react";
+import React, { useContext, useState } from "react";
+import { UserContext } from "../../utils/Context/UserContext";
+import swal from "sweetalert2";
+import { toast } from "react-toastify";
 import {
   Card,
   Typography,
@@ -26,7 +29,34 @@ export default function Sidebar() {
   const handleMinimize = () => {
     setMinimized(!isMinimized);
   };
-
+  const { user, logout, loading } = useContext(UserContext);
+  const handleLogout = () => {
+    swal
+      .fire({
+        text: "Are you sure you want to logout?",
+        showCancelButton: true,
+        cancelButtonColor: "#ffca28",
+        confirmButtonColor: "#ef4444",
+        confirmButtonText: "Log Out",
+        position: "top",
+      })
+      .then((result) => {
+        if (result.isConfirmed) {
+          logout();
+          // Add your navigation logic here
+          toast.success("Logged out successfully", {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 1000,
+            hideProgressBar: true,
+            closeOnClick: false,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }
+      });
+  };
   return (
     <Card
       className={`overflow-hidden fixed top-20 left-0 h-[calc(100vh-2rem)] z-50 p-4 shadow-xl shadow-blue-gray-900/10 transition-all duration-300 ${
@@ -103,7 +133,10 @@ export default function Sidebar() {
           </ListItemPrefix>
           {!isMinimized && "Settings"}
         </ListItem>
-        <ListItem className="flex items-center text-red-200 hover:textred">
+        <ListItem
+          onClick={handleLogout}
+          className="flex items-center text-red-200 hover:textred"
+        >
           <ListItemPrefix>
             <PowerIcon className="h-5 w-5" />
           </ListItemPrefix>
