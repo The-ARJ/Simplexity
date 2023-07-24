@@ -53,7 +53,7 @@ export default function ComplexNavbar() {
             <SearchBar />
           </div>
           {user && user.role === "user" && (
-            <div className="absolute top-2/4 right-24 lg:right-14 -translate-x-2/4 -translate-y-2/4">
+            <div className="absolute top-2/4 right-24 lg:right-40 -translate-x-2/4 -translate-y-2/4">
               <Cart />
             </div>
           )}

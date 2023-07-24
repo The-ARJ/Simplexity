@@ -9,28 +9,34 @@ const ProtectedRoute = (WrappedComponent) => {
         const router = useRouter();
         const pathname = usePathname();
         const { user, loading } = useContext(UserContext);
+
         if (loading) {
-            return <div className="flex justify-center items-center h-screen">
-                <Spinner color="red" className="h-10 w-10" />
-            </div>;
-        } else if (user && (pathname === "/" || pathname === "/forgot-password" || pathname === "/shop")) {
+            return (
+                <div className="flex justify-center items-center h-screen">
+                    <Spinner color="red" className="h-10 w-10" />
+                </div>
+            );
+        } else if (user && user.role === "admin" && (pathname === "/" || pathname === "/forgot-password" || pathname === "/shop")) {
             router.push("/dashboard");
-            return <div className="flex justify-center items-center h-screen">
-                <Spinner color="red" className=" h-10 w-10" />
-            </div>
-        } else if (
-            !user &&
-            (pathname === "/dashboard" ||
-                pathname === "/e-commerce" ||
-                pathname === "/users" ||
-                pathname === "/profile" ||
-                pathname === "/settings")
-        ) {
+            return (
+                <div className="flex justify-center items-center h-screen">
+                    <Spinner color="red" className="h-10 w-10" />
+                </div>
+            );
+        } else if (!user && (pathname === "/dashboard" || pathname === "/e-commerce" || pathname === "/users" || pathname === "/profile" || pathname === "/settings")) {
             router.push("/");
-            return <div className="flex justify-center items-center h-screen">
-                <Spinner color="red" className="h-10 w-10" />
-            </div>
-                ;
+            return (
+                <div className="flex justify-center items-center h-screen">
+                    <Spinner color="red" className="h-10 w-10" />
+                </div>
+            );
+        } else if (user && user.role === "user" && pathname === "/dashboard" || pathname === "/e-commerce" || pathname === "/users" || pathname === "/profile" || pathname === "/settings") {
+            router.push("/");
+            return (
+                <div className="flex justify-center items-center h-screen">
+                    <Spinner color="red" className="h-10 w-10" />
+                </div>
+            );
         } else {
             return <WrappedComponent {...props} />;
         }

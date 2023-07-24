@@ -14,7 +14,7 @@ const Shop = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState(""); // New state variable for search
 
-  const pageSize = 5;
+  const pageSize = 15;
 
   const getProducts = () => {
     const token = localStorage.getItem("token");

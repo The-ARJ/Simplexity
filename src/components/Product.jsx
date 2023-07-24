@@ -7,8 +7,21 @@ import {
   CardFooter,
 } from "@material-tailwind/react";
 import { imgURL } from "../utils/Services/UserService";
-
+import React, { useContext, useState } from "react";
+import { UserContext } from "../utils/Context/UserContext";
+import AuthDialog from "./Auth/AuthDialogue";
 export default function Product({ currentProducts }) {
+  const { user, loading } = useContext(UserContext);
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    if (user) {
+      console.log("Product added to cart:", currentProducts);
+    } else {
+      setOpen(true);
+    }
+  };
+  const handleClose = () => setOpen(false);
+
   if (currentProducts.length === 0) {
     return (
       <Typography className=" text-center" color="blue-gray">
@@ -17,7 +30,8 @@ export default function Product({ currentProducts }) {
     );
   }
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-10">
+      <AuthDialog open={open} handleClose={handleClose} />
       {currentProducts.map((product) => (
         <Card key={product._id} className="md:w-64 md:h-[450px]">
           <CardHeader shadow={false} floated={false} className=" h-56 md:h-64">
@@ -46,6 +60,7 @@ export default function Product({ currentProducts }) {
           </CardBody>
           <CardFooter className="pt-0">
             <Button
+              onClick={handleOpen}
               ripple={false}
               fullWidth={true}
               className="bg-blue-gray-900/10 text-blue-gray-900 shadow-none hover:shadow-none hover:scale-105 focus:shadow-none focus:scale-105 active:scale-100"

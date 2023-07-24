@@ -1,111 +1,31 @@
-// Auth.js
 import React, { useState } from "react";
-import {
-  Button,
-  Dialog,
-  Card,
-  CardHeader,
-  CardBody,
-  Typography,
-  Tabs,
-  TabsHeader,
-  TabsBody,
-  Tab,
-  TabPanel,
-  MenuItem,
-} from "@material-tailwind/react";
-import SignIn from "./SignIn";
-import SignUp from "./SignUp";
+import { Typography, MenuItem } from "@material-tailwind/react";
 import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline";
+import AuthDialog from "./AuthDialogue";
 
-export default function Auth() {
+const SignInTypography = () => {
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen((cur) => !cur);
-  const [type, setType] = useState("signin");
 
-  const handleSignUpSuccess = () => {
-    setType("signin");
-  };
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   return (
-    <React.Fragment>
+    <>
       <Typography
         as="a"
         variant="small"
         color="blue-gray"
-        className=" lg:ml-auto"
+        className="lg:ml-auto"
         onClick={handleOpen}
       >
-        <MenuItem className="flex items-center gap-2  lg:rounded-full bg-amber-500 hover:bg-amber-800  text-white  hover:text-white py-2 px-4 rounded-full shadow-lg transition-colors duration-300 ease-in-out">
+        <MenuItem className="flex items-center gap-2 lg:rounded-full bg-amber-500 hover:bg-amber-800 text-white hover:text-white py-2 px-4 rounded-full shadow-lg transition-colors duration-300 ease-in-out">
           <ArrowRightOnRectangleIcon className="h-[18px] w-[18px]" />
-          <p className=" hidden md:block">Sign In</p>
+          <p className="hidden md:block">Sign In</p>
         </MenuItem>
       </Typography>
-      <Dialog
-        size="xs"
-        open={open}
-        handler={handleOpen}
-        className="bg-transparent shadow-none"
-      >
-        <Card className="w-full max-w-[24rem]">
-          <CardHeader
-            color="amber"
-            floated={false}
-            shadow={false}
-            className="m-0 grid place-items-center rounded-b-none py-8 px-4 text-center"
-          >
-            <div className="gap-2 mr-4 ml-2">
-              <Typography
-                as="a"
-                href="#"
-                className="cursor-pointer  font-semibold text-xl uppercase text-gray-700  tracking-wider"
-              >
-                Simplexity
-              </Typography>
-              <Typography
-                as="a"
-                href="#"
-                className="cursor-pointer   text-xs uppercase text-gray-700 tracking-widest"
-              >
-                outdoor wears
-              </Typography>
-            </div>
-          </CardHeader>
-          <CardBody>
-            <Tabs value={type} className="overflow-visible">
-              <TabsHeader className="relative z-0">
-                <Tab value="signin" onClick={() => setType("signin")}>
-                  Sign In
-                </Tab>
-                <Tab value="signup" onClick={() => setType("signup")}>
-                  Sign Up
-                </Tab>
-              </TabsHeader>
-              <TabsBody
-                className="!overflow-x-hidden !overflow-y-visible"
-                animate={{
-                  initial: {
-                    x: type === "signup" ? 400 : -400,
-                  },
-                  mount: {
-                    x: 0,
-                  },
-                  unmount: {
-                    x: type === "signup" ? 400 : -400,
-                  },
-                }}
-              >
-                <TabPanel value="signup" className="p-0">
-                  <SignUp onSuccess={handleSignUpSuccess} />
-                </TabPanel>
-                <TabPanel value="signin" className="p-0">
-                  <SignIn />
-                </TabPanel>
-              </TabsBody>
-            </Tabs>
-          </CardBody>
-        </Card>
-      </Dialog>
-    </React.Fragment>
+      <AuthDialog open={open} handleClose={handleClose} />
+    </>
   );
-}
+};
+
+export default SignInTypography;
