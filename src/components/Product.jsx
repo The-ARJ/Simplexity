@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import { add } from "@/utils/Redux/CartSlice";
 import { toast } from "react-toastify";
 import cartService from "@/utils/Services/CartService";
+import Link from "next/link";
 export default function Product({ currentProducts }) {
   const { user, loading } = useContext(UserContext);
   const [open, setOpen] = useState(false);
@@ -54,13 +55,19 @@ export default function Product({ currentProducts }) {
       <AuthDialog open={open} handleClose={handleClose} />
       {currentProducts.map((product) => (
         <Card key={product._id} className="md:w-64 md:h-[450px]">
-          <CardHeader shadow={false} floated={false} className=" h-56 md:h-64">
-            <img
-              src={`${imgURL}/${product.image}`}
-              className="w-full h-full object-cover"
-              alt={product.name}
-            />
-          </CardHeader>
+          <Link href={`/shop/${product._id}`}>
+            <CardHeader
+              shadow={false}
+              floated={false}
+              className=" h-56 md:h-64"
+            >
+              <img
+                src={`${imgURL}/${product.image}`}
+                className="w-full h-full object-cover"
+                alt={product.name}
+              />
+            </CardHeader>
+          </Link>
           <CardBody>
             <div className="flex items-center justify-between mb-2">
               <Typography color="blue-gray" className="font-medium">

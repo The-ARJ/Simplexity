@@ -7,6 +7,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import Product from "@/components/Product";
 import ProductService from "../../utils/Services/ProductService";
 import Pagination from "@/components/DashboardComponents/Pagination";
+
 const Shop = () => {
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -56,7 +57,7 @@ const Shop = () => {
   const endIndex = startIndex + pageSize;
   const currentProducts = products.slice(startIndex, endIndex);
   return (
-    <div className="mx-auto max-w-screen-2xl pt-28 pb-20 px-4">
+    <div className="mx-auto max-w-screen-2xl pt-28 pb-20 px-4 ">
       <div className=" flex justify-between gap-10 mx-auto max-w-screen-2xl pb-6 ">
         <div className="">
           <Typography variant="h4" color="orange" className=" ">

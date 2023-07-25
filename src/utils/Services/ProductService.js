@@ -10,14 +10,6 @@ const getAllProducts = (token) => {
     });
 };
 
-// const getProductById = (id, token) => {
-//     return axios.get(`${ProductURL}/${id}`, {
-//         headers: {
-//             Authorization: `bearer ${token}`,
-//         },
-//     });
-// };
-
 const getProductById = (id,) => {
     return axios.get(`${ProductURL}/${id}`);
 };

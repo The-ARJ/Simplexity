@@ -9,11 +9,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { imgURL } from "../../utils/Services/UserService";
 import { remove, updateCart } from "@/utils/Redux/CartSlice";
 import swal from "sweetalert2";
-
 import cartService from "@/utils/Services/CartService";
 import { UserContext } from "../../utils/Context/UserContext";
 import showToast from "./Toast";
-
+import { PlusIcon, MinusIcon } from "@heroicons/react/24/outline";
 export default function Cart() {
   const { user, loading } = useContext(UserContext);
   const dispatch = useDispatch();
@@ -42,9 +41,11 @@ export default function Cart() {
     }
   };
 
-  const handleOpenCart = async () => {
-    await fetchCartData();
+  const handleOpenCart = () => {
     setOpen(true);
+  };
+  const handleCloseCart = () => {
+    setOpen(false);
   };
 
   const handleRemove = (id) => {
@@ -78,6 +79,25 @@ export default function Cart() {
     return total + item.product.price * item.quantity;
   }, 0);
 
+  const handleUpdateQuantity = async (id, quantity) => {
+    const token = localStorage.getItem("token");
+    try {
+      // Validate the quantity to ensure it's a positive integer value or set it to 1 if it's not a valid number
+      const validatedQuantity =
+        Number.isInteger(quantity) && quantity > 0 ? quantity : 1;
+      await cartService.updateCartProduct(id, validatedQuantity, token);
+      const updatedProducts = products.map((item) =>
+        item.product._id === id
+          ? { ...item, quantity: validatedQuantity }
+          : item
+      );
+      dispatch(updateCart(updatedProducts));
+      showToast("Quantity updated successfully", "success");
+    } catch (error) {
+      console.error("Error updating quantity:", error);
+      showToast("Error updating quantity", "error");
+    }
+  };
   return (
     <div className="lg:ml-auto">
       <Badge
@@ -175,11 +195,27 @@ export default function Cart() {
                                         </p>
                                       </div>
                                       <div className="flex flex-1 items-end justify-between text-xs md:text-sm">
-                                        <p className="text-gray-500">
-                                          Qty {item.quantity}
-                                        </p>
+                                        <div className="flex gap-4 p-2">
 
-                                        <div className="flex">
+                                          <Typography className="text-gray-700 ">
+                                            Qty
+                                          </Typography>
+                                          <input
+                                            type="number"
+                                            value={item.quantity}
+                                            onChange={(e) =>
+                                              handleUpdateQuantity(
+                                                item.product._id,
+                                                parseInt(e.target.value, 10) // Parse the input value as an integer with base 10
+                                              )
+                                            }
+                                            className="w-16 text-center border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+                                            min="1" // Set the minimum allowed value to 1
+                                          />
+               
+                                        </div>
+
+                                        <div className="flex p-2">
                                           <button
                                             type="button"
                                             onClick={() =>
@@ -212,7 +248,12 @@ export default function Cart() {
                         <div className="mt-6">
                           <Link
                             href="/checkout"
-                            className="flex items-center justify-center rounded-md border border-transparent bg-amber-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-amber-700"
+                            onClick={handleCloseCart}
+                            className={`flex items-center justify-center rounded-md border border-transparent bg-amber-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-amber-700 ${
+                              isCartEmpty
+                                ? "pointer-events-none opacity-50"
+                                : ""
+                            }`}
                           >
                             Proceed To Checkout
                           </Link>
