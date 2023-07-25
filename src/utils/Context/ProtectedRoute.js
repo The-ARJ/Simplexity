@@ -30,7 +30,7 @@ const ProtectedRoute = (WrappedComponent) => {
                     <Spinner color="red" className="h-10 w-10" />
                 </div>
             );
-        } else if (user && user.role === "user" && pathname === "/dashboard" || pathname === "/e-commerce" || pathname === "/users" || pathname === "/profile" || pathname === "/settings") {
+        } else if (user && user.role === "user" && (pathname === "/dashboard" || pathname === "/e-commerce" || pathname === "/users" || pathname === "/profile" || pathname === "/settings")) {
             router.push("/");
             return (
                 <div className="flex justify-center items-center h-screen">
