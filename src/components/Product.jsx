@@ -12,15 +12,29 @@ import { UserContext } from "../utils/Context/UserContext";
 import AuthDialog from "./Auth/AuthDialogue";
 import { useDispatch } from "react-redux";
 import { add } from "@/utils/Redux/CartSlice";
-
+import { toast } from "react-toastify";
+import cartService from "@/utils/Services/CartService";
 export default function Product({ currentProducts }) {
   const { user, loading } = useContext(UserContext);
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
-  const handleCart = (product) => {
+  const handleCart = async (product) => {
     if (user) {
-      dispatch(add(product));
-      console.log("Product added to cart:", product); // Log the selected product
+      const productId = product._id;
+      const quantity = 1;
+      const token = localStorage.getItem("token");
+      await cartService.addToCart(productId, quantity, token);
+      dispatch(add({ product, quantity }));
+      toast.success("Item added to cart", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
     } else {
       setOpen(true);
     }

@@ -1,5 +1,4 @@
 "use client";
-import React from 'react'
 import { createSlice } from '@reduxjs/toolkit';
 
 const CartSlice = createSlice({
@@ -10,10 +9,15 @@ const CartSlice = createSlice({
             state.push(action.payload)
         },
         remove(state, action) {
-            return state.filter((item) => item._id !== action.payload);
+            return state.filter((item) => item.product._id !== action.payload);
+        },
+        updateCart(state, action) {
+            state.length = 0; // This line empties the array
+            state.push(...action.payload); // This line adds the new items
         }
+
     }
 })
 
-export const { add, remove } = CartSlice.actions;
+export const { add, remove, updateCart } = CartSlice.actions;
 export default CartSlice.reducer;

@@ -2,29 +2,81 @@ import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Badge, MenuItem, Typography } from "@material-tailwind/react";
-import React from "react";
+import React, { useEffect, useContext } from "react";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { imgURL } from "../../utils/Services/UserService";
-import { remove } from "@/utils/Redux/CartSlice";
+import { remove, updateCart } from "@/utils/Redux/CartSlice";
+import swal from "sweetalert2";
+
+import cartService from "@/utils/Services/CartService";
+import { UserContext } from "../../utils/Context/UserContext";
+import showToast from "./Toast";
 
 export default function Cart() {
+  const { user, loading } = useContext(UserContext);
   const dispatch = useDispatch();
   const products = useSelector((state) => state.cart);
+
   const [open, setOpen] = useState(false);
 
-  const handleOpenCart = () => {
+  const token = localStorage.getItem("token");
+  // Fetch cart data when the component mounts
+  useEffect(() => {
+    fetchCartData();
+  }, []);
+
+  const fetchCartData = async () => {
+    if (user) {
+      try {
+        const response = await cartService.getCart(token);
+        if (response.status === 200) {
+          dispatch(updateCart(response.data.data.products));
+        }
+      } catch (error) {
+        console.error("Error fetching cart data:", error);
+      }
+    } else {
+      console.log("User is not logged in");
+    }
+  };
+
+  const handleOpenCart = async () => {
+    await fetchCartData();
     setOpen(true);
   };
 
   const handleRemove = (id) => {
-    console.log(id);
-    dispatch(remove(id));
+    swal
+      .fire({
+        text: "Are you sure you want to remove item?",
+        showCancelButton: true,
+        cancelButtonColor: "#ffca28",
+        confirmButtonColor: "#ef4444",
+        confirmButtonText: "Remove",
+        position: "top",
+      })
+      .then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            await cartService.removeFromCart(id, token); // Use the cartService function to remove the item from the cart
+            dispatch(remove(id)); // Dispatch the action to remove the item from the Redux store
+            showToast("Item removed from cart", "success");
+          } catch (error) {
+            console.error("Error removing item from cart:", error);
+            showToast("Error removing item from cart", "error");
+          }
+        }
+      });
   };
-
   // Check if the cart is empty
   const isCartEmpty = products.length === 0;
+
+  // Calculate subtotal based on cart items
+  const subtotal = products.reduce((total, item) => {
+    return total + item.product.price * item.quantity;
+  }, 0);
 
   return (
     <div className="lg:ml-auto">
@@ -93,12 +145,15 @@ export default function Cart() {
                                 role="list"
                                 className="-my-6 divide-y divide-gray-200"
                               >
-                                {products.map((product) => (
-                                  <li key={product.id} className="flex py-6">
+                                {products.map((item) => (
+                                  <li
+                                    key={item.product._id}
+                                    className="flex py-6"
+                                  >
                                     <div className="h-12 w-12 md:h-24 md:w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
                                       <img
-                                        src={`${imgURL}/${product.image}`}
-                                        alt={product.name}
+                                        src={`${imgURL}/${item.product.image}`}
+                                        alt={item.product.name}
                                         className="h-full w-full object-cover object-center"
                                       />
                                     </div>
@@ -107,28 +162,28 @@ export default function Cart() {
                                       <div>
                                         <div className="flex justify-between text-xs md:text-sm font-medium text-gray-900">
                                           <h3>
-                                            <a href={product.href}>
-                                              {product.name}
+                                            <a href={item.product.href}>
+                                              {item.product.name}
                                             </a>
                                           </h3>
                                           <p className="ml-4">
-                                            {product.price}
+                                            {item.product.price}
                                           </p>
                                         </div>
                                         <p className="mt-1 text-sm text-gray-500">
-                                          {product.color}
+                                          {item.product.color}
                                         </p>
                                       </div>
                                       <div className="flex flex-1 items-end justify-between text-xs md:text-sm">
                                         <p className="text-gray-500">
-                                          Qty {product.quantity}
+                                          Qty {item.quantity}
                                         </p>
 
                                         <div className="flex">
                                           <button
                                             type="button"
                                             onClick={() =>
-                                              handleRemove(product._id)
+                                              handleRemove(item.product._id)
                                             }
                                             className="font-medium text-amber-600 hover:text-amber-500"
                                           >
@@ -148,8 +203,9 @@ export default function Cart() {
                       <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                         <div className="flex justify-between text-base font-medium text-gray-900">
                           <p>Subtotal</p>
-                          <p>$262.00</p>
+                          <p>${subtotal.toFixed(2)}</p>
                         </div>
+
                         <p className="mt-0.5 text-sm text-gray-500">
                           Shipping and taxes calculated at checkout.
                         </p>

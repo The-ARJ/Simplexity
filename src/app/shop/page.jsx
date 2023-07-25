@@ -6,8 +6,6 @@ import React, { useState, useEffect } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import Product from "@/components/Product";
 import ProductService from "../../utils/Services/ProductService";
-import swal from "sweetalert2";
-import { toast } from "react-toastify";
 import Pagination from "@/components/DashboardComponents/Pagination";
 const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -22,7 +20,6 @@ const Shop = () => {
     const offset = (currentPage - 1) * pageSize;
     ProductService.getAllProducts(token, limit, offset)
       .then((res) => {
-        console.log(res);
         const allProducts = res.data.data;
         // Filter products based on the searchQuery (name contains the searchQuery)
         const filteredProducts = allProducts.filter((product) =>
