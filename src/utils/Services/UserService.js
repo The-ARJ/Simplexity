@@ -19,6 +19,15 @@ const updateUser = (userId, updatedUserDetails) => {
     };
     return axios.put(`${baseURL}/${userId}`, updatedUserDetails, config);
 };
+const updatePassword = (userId, oldPassword, password) => {
+    const config = {
+        headers: {
+            Authorization: `bearer ${window.localStorage.getItem("token")}`,
+        },
+    };
+    return axios.put(`${baseURL}/update-password/${userId}`, { oldPassword, password }, config);
+};
+
 const getCurrentUser = (token) => {
     const config = {
         headers: {
@@ -36,19 +45,20 @@ const getAllUsers = () => {
 };
 const logout = (token) => {
     const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
     };
     return axios.post(`${baseURL}/current/user/logout`, {}, config);
-  };
+};
 const auth = {
     login,
     register,
     getCurrentUser,
     updateUser,
     logout,
-    getAllUsers
+    getAllUsers,
+    updatePassword
 };
 
 export default auth;

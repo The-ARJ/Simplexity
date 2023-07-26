@@ -115,7 +115,6 @@ const DeliveryDetailsForm = () => {
 
   return (
     <>
-      <ComplexNavbar />
       <div className="py-8 px-4 mx-auto max-w-screen-2xl mt-20 ">
         <Breadcrumbs fullWidth>
           <Link href="/" className="opacity-60">

@@ -2,6 +2,8 @@ import React, { useContext } from "react";
 import { UserContext } from "../../utils/Context/UserContext";
 import swal from "sweetalert2";
 import { toast } from "react-toastify";
+import { imgURL } from "../../utils/Services/UserService";
+
 import {
   Typography,
   Button,
@@ -19,23 +21,29 @@ import {
   LifebuoyIcon,
   PowerIcon,
 } from "@heroicons/react/24/outline";
+import { usePathname, useRouter } from "next/navigation";
+import Link from "next/link";
 
 const profileMenuItems = [
   {
-    label: "My Profile",
+    label: "Edit Profile",
     icon: UserCircleIcon,
+    link: "/profile",
   },
   {
-    label: "Edit Profile",
+    label: "Update Password",
     icon: Cog6ToothIcon,
+    link: "/profile/update-password",
   },
   {
     label: "Inbox",
     icon: InboxArrowDownIcon,
+    link: "/",
   },
   {
     label: "Help",
     icon: LifebuoyIcon,
+    link: "/",
   },
   {
     label: "Sign Out",
@@ -75,6 +83,7 @@ const ProfileMenuItem = () => {
         }
       });
   };
+  const pathname = usePathname();
 
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
@@ -84,13 +93,15 @@ const ProfileMenuItem = () => {
           color="blue-gray"
           className="flex items-center gap-1 rounded-full py-0.5 pr-2 pl-0.5 lg:ml-auto"
         >
-          <Typography className="mr-2 hidden lg:block">{user.firstName}</Typography>
+          <Typography className="mr-2 hidden lg:block">
+            {user.firstName}
+          </Typography>
           <Avatar
             variant="circular"
             size="sm"
             alt="tania andrew"
             className="border border-amber-500 p-0.5"
-            src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
+            src={`${imgURL}/${user.image}`}
           />
           <ChevronDownIcon
             strokeWidth={2.5}
@@ -101,13 +112,15 @@ const ProfileMenuItem = () => {
         </Button>
       </MenuHandler>
       <MenuList className="p-1">
-        {profileMenuItems.map(({ label, icon }, key) => {
+        {profileMenuItems.map(({ label, icon, link }, key) => {
           const isLastItem = key === profileMenuItems.length - 1;
-          return (
+          return isLastItem ? (
             <MenuItem
               key={label}
-              onClick={isLastItem ? handleLogout : closeMenu}
+              onClick={handleLogout}
               className={`flex items-center gap-2 rounded ${
+                pathname === link ? "bg-[#eceff1] text-orange-500" : ""
+              } ${
                 isLastItem
                   ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"
                   : ""
@@ -126,6 +139,23 @@ const ProfileMenuItem = () => {
                 {label}
               </Typography>
             </MenuItem>
+          ) : (
+            <Link key={label} href={link}>
+              <MenuItem
+                onClick={closeMenu}
+                className={`flex items-center gap-2 rounded ${
+                  pathname === link ? "bg-[#eceff1] text-orange-500" : ""
+                }`}
+              >
+                {React.createElement(icon, {
+                  className: "h-4 w-4",
+                  strokeWidth: 2,
+                })}
+                <Typography as="span" variant="small" className="font-normal">
+                  {label}
+                </Typography>
+              </MenuItem>
+            </Link>
           );
         })}
       </MenuList>

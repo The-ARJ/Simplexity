@@ -2,22 +2,24 @@
 import { createContext, useEffect, useReducer } from 'react';
 import Service from '../Services/UserService';
 import { useState } from 'react';
-// Create the initial state
+// Initial state
 const initialState = {
   user: null,
   loading: true,
   error: null,
+  passwordExpired: false,  // New state for password expired
 };
 
-// Create the reducer function
+// Reducer function
 const reducer = (state, action) => {
   switch (action.type) {
     case 'SET_USER':
       return {
         ...state,
-        user: action.payload,
+        user: action.payload.user,  // get user from action payload
         loading: false,
         error: null,
+        passwordExpired: action.payload.passwordExpired,  // get password expired state from action payload
       };
     case 'FETCH_USER_FAILURE':
       return {
@@ -30,28 +32,36 @@ const reducer = (state, action) => {
       return {
         ...state,
         user: null,
-        loading: false, // Set loading to true
+        loading: false,
         error: null,
+        passwordExpired: false,
       };
     default:
       return state;
   }
 };
 
-// User Context
 export const UserContext = createContext();
 
 export const useUser = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [fetched, setFetched] = useState(false); // New fetched state
+  const [fetched, setFetched] = useState(false);
 
   const fetchUser = async () => {
     const token = localStorage.getItem('token');
     if (token) {
       try {
-        dispatch({ type: 'FETCH_USER' }); // Set loading state
+        dispatch({ type: 'FETCH_USER' });
         const response = await Service.getCurrentUser(token);
-        dispatch({ type: 'SET_USER', payload: response.data.data });
+
+        // dispatch with user and password expired state
+        dispatch({
+          type: 'SET_USER',
+          payload: {
+            user: response.data.data,
+            passwordExpired: response.data.passwordExpired,
+          }
+        });
       } catch (error) {
         dispatch({ type: 'FETCH_USER_FAILURE', payload: error.message });
       }
@@ -61,12 +71,11 @@ export const useUser = () => {
   };
 
   useEffect(() => {
-    if (!fetched) { // Check if user data has not been fetched
+    if (!fetched) {
       fetchUser();
-      setFetched(true); // Set fetched to true once user data is fetched
+      setFetched(true);
     }
   }, [fetched]);
-
 
   const logout = async () => {
     try {
@@ -79,13 +88,5 @@ export const useUser = () => {
     }
   };
 
-  // const logout = () => {
-  //   dispatch({ type: 'LOGOUT' });
-  //   Service.logout()
-  //   localStorage.removeItem('token');
-  // };
-
-  return { ...state, dispatch, logout, fetchUser }; // add fetchUser here
+  return { ...state, dispatch, logout, fetchUser };
 };
-
-

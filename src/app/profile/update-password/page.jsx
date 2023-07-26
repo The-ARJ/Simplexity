@@ -1,11 +1,23 @@
-import React, { useState } from "react";
-import { Button, Typography, Input } from "@material-tailwind/react";
+"use client";
+import {
+  Button,
+  Typography,
+  Input,
+  Breadcrumbs,
+} from "@material-tailwind/react";
 import { LockClosedIcon } from "@heroicons/react/24/solid";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-const ResetPassword = ({ verificationCode, email, onNext }) => {
+import Link from "next/link";
+import React, { useContext, useEffect, useState } from "react";
+import { UserContext } from "@/utils/Context/UserContext";
+import UserService, { imgURL } from "../../../utils/Services/UserService";
+
+const UpdatePassword = () => {
+  const { user, logout } = useContext(UserContext);
   const router = useRouter();
+  const [oldPassword, setOldPassword] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordValidations, setPasswordValidations] = useState({
@@ -17,7 +29,10 @@ const ResetPassword = ({ verificationCode, email, onNext }) => {
   });
   const [validationMessage, setValidationMessage] = useState("");
   const [passwordFocus, setPasswordFocus] = useState(false);
-  console.log(email, verificationCode);
+  const handleOldPasswordChange = (event) => {
+    const newOldPassword = event.target.value;
+    setOldPassword(newOldPassword);
+  };
   const handlePasswordChange = (event) => {
     const newPassword = event.target.value;
     setPassword(newPassword);
@@ -65,15 +80,11 @@ const ResetPassword = ({ verificationCode, email, onNext }) => {
       setValidationMessage("");
     }
   };
-  const handleResetPassword = async (event) => {
+  const handleUpdatePassword = async (event) => {
     event.preventDefault();
     try {
-      await axios.post("http://localhost:3005/users/reset-password", {
-        email: email,
-        verificationCode: verificationCode,
-        newPassword: password,
-      });
-      toast.success("Password Reset Successful!", {
+      await UserService.updatePassword(user._id, oldPassword, password);
+      toast.success("Password Update Successful!", {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 3000,
         hideProgressBar: true,
@@ -84,9 +95,10 @@ const ResetPassword = ({ verificationCode, email, onNext }) => {
         theme: "light",
       });
       router.push("/");
+      logout();
     } catch (error) {
-      console.error("Failed to reset password:", error);
-      setValidationMessage("Failed to reset password");
+      console.error("Failed to update password:", error);
+      setValidationMessage("Failed to update password");
     }
   };
 
@@ -97,14 +109,47 @@ const ResetPassword = ({ verificationCode, email, onNext }) => {
       passwordValidations.lowercase &&
       passwordValidations.number &&
       passwordValidations.specialCharacter
-    ) || password !== confirmPassword;
+    ) ||
+    password !== confirmPassword ||
+    oldPassword === "" ||
+    validationMessage !== "";
 
   return (
-    <>
+    <div className="py-8 px-4 mx-auto max-w-screen-2xl mt-20 ">
+      <Breadcrumbs fullWidth>
+        <Link href="/" className="opacity-60">
+          Home
+        </Link>
+        <Link href="/profile" className="">
+          Profile
+        </Link>
+        <Link href="/checkout" className="">
+          Checkout
+        </Link>
+      </Breadcrumbs>
       <form
-        onSubmit={handleResetPassword}
-        className="mx-auto max-w-screen-sm  mt-12 md:mt-32 flex flex-col gap-4"
+        onSubmit={handleUpdatePassword}
+        className="mx-auto max-w-screen-sm   flex flex-col gap-4"
       >
+        <Typography variant="h5" className=" py-2 ">
+          Update Password
+        </Typography>
+        <div>
+          <Typography
+            variant="small"
+            color="blue-gray"
+            className="my-4 font-medium"
+          >
+            Current Password
+          </Typography>
+          <Input
+            type="password"
+            required
+            label="Current Password"
+            value={oldPassword}
+            onChange={handleOldPasswordChange}
+          />
+        </div>
         <div>
           <div>
             <Typography
@@ -215,7 +260,7 @@ const ResetPassword = ({ verificationCode, email, onNext }) => {
           className="text-gray-700"
           disabled={isSubmitDisabled}
         >
-          Reset Password
+          Update Password
         </Button>
         <Typography
           variant="small"
@@ -226,8 +271,8 @@ const ResetPassword = ({ verificationCode, email, onNext }) => {
           Password is secure and encrypted
         </Typography>
       </form>
-    </>
+    </div>
   );
 };
 
-export default ResetPassword;
+export default UpdatePassword;
