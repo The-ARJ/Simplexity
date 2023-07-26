@@ -24,7 +24,14 @@ const SignUp = ({ onSuccess }) => {
     const newPassword = event.target.value;
     setPassword(newPassword);
 
-    if (newPassword === "") {
+    if (
+      firstName &&
+      lastName &&
+      (newPassword.toLowerCase().includes(firstName.toLowerCase()) ||
+        newPassword.toLowerCase().includes(lastName.toLowerCase()))
+    ) {
+      setValidationMessage("Password cannot contain your name");
+    } else if (newPassword === "") {
       setPasswordValidations({
         length: false,
         uppercase: false,
@@ -42,14 +49,15 @@ const SignUp = ({ onSuccess }) => {
       };
 
       setPasswordValidations(validations);
-    }
 
-    if (confirmPassword !== "" && newPassword !== confirmPassword) {
-      setValidationMessage("Password does not match");
-    } else {
-      setValidationMessage("");
+      if (confirmPassword !== "" && newPassword !== confirmPassword) {
+        setValidationMessage("Password does not match");
+      } else {
+        setValidationMessage("");
+      }
     }
   };
+
   const handlePasswordFocus = () => {
     setPasswordFocus(true);
   };

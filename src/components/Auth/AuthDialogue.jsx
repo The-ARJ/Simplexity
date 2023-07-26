@@ -80,7 +80,7 @@ const AuthDialog = ({ open, handleClose }) => {
                 <SignUp onSuccess={handleSignUpSuccess} />
               </TabPanel>
               <TabPanel value="signin" className="p-0">
-                <SignIn />
+                <SignIn handleClose={handleClose}/>
               </TabPanel>
             </TabsBody>
           </Tabs>
