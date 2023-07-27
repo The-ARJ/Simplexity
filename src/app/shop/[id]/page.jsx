@@ -54,6 +54,7 @@ const page = ({ params }) => {
     }
   };
   const handleClose = () => setOpen(false);
+  const boughtByUserIds = Array.isArray(product.boughtBy) ? product.boughtBy : [product.boughtBy];
 
   return (
     <>
@@ -89,8 +90,8 @@ const page = ({ params }) => {
                 <Typography variant="h5" color="blue-gray">
                   Customer Reviews
                 </Typography>
-                <ReviewField productId={product._id} />
-                <CustomerReviews productId={product._id} />
+                <ReviewField productId={product._id}  boughtByUserIds={boughtByUserIds}/>
+                <CustomerReviews productId={product._id}  />
               </div>
             </div>
             <div className="md:flex-1 px-4">

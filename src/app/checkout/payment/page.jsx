@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useCountries } from "use-react-countries";
 import {
   Card,
@@ -24,6 +24,11 @@ import {
 } from "@heroicons/react/24/solid";
 import ComplexNavbar from "@/components/Header/Header";
 import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/navigation";
+import cartService from "@/utils/Services/CartService";
+import showToast from "@/components/Cart/Toast";
+import { updateCart } from "@/utils/Redux/CartSlice";
 
 function formatCardNumber(value) {
   const val = value.replace(/\s+/g, "").replace(/[^0-9]/gi, "");
@@ -51,11 +56,56 @@ function formatExpires(value) {
     .replace(/^([0-1]{1}[0-9]{1})([0-9]{1,2}).\*/g, "$1/$2");
 }
 
-export default function Example() {
+export default function Payment() {
+  const [isProcessing, setIsProcessing] = useState(false);
   const { countries } = useCountries();
   const [type, setType] = React.useState("card");
   const [cardNumber, setCardNumber] = React.useState("");
   const [cardExpires, setCardExpires] = React.useState("");
+  const products = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+  const router = useRouter();
+  // Check if the cart is empty
+  const isCartEmpty = products.length === 0;
+  useEffect(() => {
+    if (isCartEmpty) {
+      router.push("/shop");
+    }
+  }, [isCartEmpty, router]);
+  const handleBuyFromCart = async () => {
+    // Check if the purchase is already being processed to avoid multiple clicks
+    if (isProcessing) {
+      return;
+    }
+
+    setIsProcessing(true);
+
+    try {
+      const token = localStorage.getItem("token");
+      await cartService.buyFromCart(token); // Use the cartService function to trigger the purchase
+
+      // Update the Redux store to reflect the bought products
+      const updatedProducts = products.map((item) => ({
+        ...item,
+        product: {
+          ...item.product,
+          isBought: true,
+        },
+      }));
+      dispatch(updateCart(updatedProducts));
+
+      showToast("Purchase successful", "success");
+
+      // Clear the cart and navigate to the payment page
+      dispatch(updateCart([]));
+      router.push("/checkout/payment");
+    } catch (error) {
+      console.error("Error processing purchase:", error);
+      showToast("Error processing purchase", "error");
+    } finally {
+      setIsProcessing(false);
+    }
+  };
 
   return (
     <>
@@ -131,7 +181,7 @@ export default function Example() {
                         >
                           Personal Details
                         </Typography>
-                        <Input type="email" label="Email Address" />
+                        <Input type="email" required label="Email Address" />
                       </div>
 
                       <div className="my-6">
@@ -146,6 +196,7 @@ export default function Example() {
                         <Input
                           label="Card Number"
                           maxLength={19}
+                          required
                           value={formatCardNumber(cardNumber)}
                           onChange={(event) =>
                             setCardNumber(event.target.value)
@@ -157,6 +208,7 @@ export default function Example() {
                         <div className="my-4 flex items-center gap-4">
                           <Input
                             label="Expires"
+                            required
                             maxLength={5}
                             value={formatExpires(cardExpires)}
                             onChange={(event) =>
@@ -167,13 +219,18 @@ export default function Example() {
                           <Input
                             label="CVC"
                             maxLength={4}
+                            required
                             containerProps={{ className: "min-w-[72px]" }}
                           />
                         </div>
-                        <Input label="Holder Name" />
+                        <Input required label="Holder Name" />
                       </div>
-                      <Button color="amber" size="lg">
-                        Pay Now
+                      <Button
+                        onClick={handleBuyFromCart}
+                        color="amber"
+                        size="lg"
+                      >
+                        {isProcessing ? "Processing..." : "Pay Now"}
                       </Button>
                       <Typography
                         variant="small"
@@ -195,7 +252,7 @@ export default function Example() {
                         >
                           Personal Details
                         </Typography>
-                        <Input type="email" label="Email Address" />
+                        <Input type="email" required label="Email Address" />
                       </div>
 
                       <div className="my-6">
@@ -208,6 +265,7 @@ export default function Example() {
                         </Typography>
                         <Select
                           label="Country"
+                          required
                           menuProps={{ className: "h-48" }}
                         >
                           {countries.map(({ name }) => (
@@ -218,6 +276,7 @@ export default function Example() {
                         </Select>
                         <Input
                           label="Postal Code"
+                          required
                           containerProps={{ className: "mt-4" }}
                         />
                       </div>

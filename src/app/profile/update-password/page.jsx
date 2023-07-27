@@ -13,6 +13,7 @@ import Link from "next/link";
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "@/utils/Context/UserContext";
 import UserService, { imgURL } from "../../../utils/Services/UserService";
+import ProtectedRoute from "@/utils/Context/ProtectedRoute";
 
 const UpdatePassword = () => {
   const { user, logout } = useContext(UserContext);
@@ -275,4 +276,4 @@ const UpdatePassword = () => {
   );
 };
 
-export default UpdatePassword;
+export default ProtectedRoute(UpdatePassword);

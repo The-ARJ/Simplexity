@@ -30,7 +30,22 @@ const ProtectedRoute = (WrappedComponent) => {
                     <Spinner color="red" className="h-10 w-10" />
                 </div>
             );
-        } else if (user && user.role === "user" && (pathname === "/dashboard" || pathname === "/e-commerce" || pathname === "/users" || pathname === "/profile" || pathname === "/settings")) {
+        } else if (user && user.isVerified && pathname === "/verify-account") {
+            router.push("/");
+            return (
+                <div className="flex justify-center items-center h-screen">
+                    <Spinner color="red" className="h-10 w-10" />
+                </div>
+            );
+        } else if (user && !user.isVerified && pathname === "/profile/update-password") {
+            router.push("/");
+            return (
+                <div className="flex justify-center items-center h-screen">
+                    <Spinner color="red" className="h-10 w-10" />
+                </div>
+            );
+        }
+        else if (user && user.role === "user" && (pathname === "/dashboard" || pathname === "/e-commerce" || pathname === "/users" || pathname === "/profile" || pathname === "/settings")) {
             router.push("/");
             return (
                 <div className="flex justify-center items-center h-screen">
@@ -44,5 +59,6 @@ const ProtectedRoute = (WrappedComponent) => {
 
     return Wrapper;
 };
+
 
 export default ProtectedRoute;

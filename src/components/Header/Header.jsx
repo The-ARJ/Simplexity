@@ -15,7 +15,7 @@ import ProfileMenuItem from "./ProfileMenuItem";
 import NavList from "./NavList";
 import Cart from "../Cart/Cart";
 import SearchBar from "./SearchBar";
-import PasswordPrompt from "./PasswordPrompt";
+import MessagePrompt from "./MessagePrompt";
 
 export default function ComplexNavbar() {
   const { user, loading } = useContext(UserContext);
@@ -53,8 +53,8 @@ export default function ComplexNavbar() {
           <div className="absolute top-2/4 left-2/4 hidden -translate-x-2/4 -translate-y-2/4 md:block">
             <SearchBar />
           </div>
-          <div className="absolute top-2/4 left-2/4 hidden -translate-x-2/4 -translate-y-2/4 md:block">
-            <PasswordPrompt />
+          <div className="absolute top-20 left-2/4 hidden -translate-x-2/4 -translate-y-2/4 md:block">
+            <MessagePrompt />
           </div>
           {user && user.role === "user" && (
             <div className="absolute top-2/4 right-24 lg:right-40 -translate-x-2/4 -translate-y-2/4">

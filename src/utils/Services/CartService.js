@@ -33,12 +33,23 @@ const removeFromCart = (productId, token) => {
     };
     return axios.delete(`${CartURL}/${productId}`, config);
 };
-
+const buyFromCart = (token) => {
+    return axios.post(
+        `${CartURL}/product/buy`,
+        {},
+        {
+            headers: {
+                Authorization: `bearer ${token}`,
+            },
+        }
+    );
+};
 const cartService = {
     getCart,
     addToCart,
     updateCartProduct,
     removeFromCart,
+    buyFromCart
 };
 
 export default cartService;
