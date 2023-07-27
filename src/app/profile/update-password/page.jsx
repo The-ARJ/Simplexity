@@ -124,8 +124,8 @@ const UpdatePassword = () => {
         <Link href="/profile" className="">
           Profile
         </Link>
-        <Link href="/checkout" className="">
-          Checkout
+        <Link href="/profile/update-password" className="">
+          Update Password
         </Link>
       </Breadcrumbs>
       <form

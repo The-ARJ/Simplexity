@@ -1,36 +1,194 @@
 "use client";
-import React from "react";
+import React, { useContext, useState } from "react";
 import {
   Card,
   Input,
   Checkbox,
   Button,
   Typography,
+  Breadcrumbs,
 } from "@material-tailwind/react";
+import { UserContext } from "@/utils/Context/UserContext";
+import { LockClosedIcon, UserCircleIcon } from "@heroicons/react/24/solid";
+import UserService, { imgURL } from "../../utils/Services/UserService";
+import { toast } from "react-toastify";
+import Link from "next/link";
+import ProtectedRoute from "@/utils/Context/ProtectedRoute";
+const UpdateProfileForm = () => {
+  const { user, loading, error, dispatch, fetchUser } = useContext(UserContext);
 
-export default function UpdateProfileForm() {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [userImage, setImage] = useState(null);
+  const [previewImage, setPreviewImage] = useState(null);
+
+  function handleImageChange(event) {
+    try {
+      const selectedFile = event.target.files[0];
+      setPreviewImage(URL.createObjectURL(selectedFile));
+      setImage(selectedFile);
+    } catch (error) {
+      console.error("Error while handling image change: ", error);
+    }
+  }
+
+  const handleSave = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("firstName", firstName);
+    formData.append("lastName", lastName);
+    formData.append("phoneNumber", phoneNumber);
+    if (userImage) {
+      formData.append("userImage", userImage);
+    }
+    const userToken = window.localStorage.getItem("token");
+    UserService.updateUser(user._id, formData, userToken)
+      .then((res) => {
+        if (res.status === 200) {
+          fetchUser();
+          toast.success("Profile Updated Successfully", {
+            position: toast.POSITION.TOP_CENTER,
+            autoClose: 1000,
+            hideProgressBar: true,
+            closeOnClick: false,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        } else {
+          alert("err");
+        }
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
+
   return (
-    <div className="mt-28 mb-10 flex justify-center gap-4">
-      <Card color="transparent" className="px-10 py-4">
-        <Typography variant="h4" color="blue-gray">
-          Update Profile
+    <div className="py-8 px-4 mx-auto max-w-screen-2xl mt-20 ">
+      <Breadcrumbs fullWidth>
+        <Link href="/" className="opacity-60">
+          Home
+        </Link>
+        <Link href="/profile" className="">
+          Profile
+        </Link>
+      </Breadcrumbs>
+
+      <form
+        onSubmit={handleSave}
+        className="mx-auto max-w-screen-sm   flex flex-col gap-4"
+      >
+        <Typography variant="h5" className="  ">
+          Profile
         </Typography>
         <Typography color="gray" className="mt-1 font-normal">
           Enter your details to update your profile.
         </Typography>
-        <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
-          <div className="mb-4 flex flex-col gap-6">
-            <Input size="lg" label="First Name" />
-            <Input size="lg" label="Last Name" />
-            <Input size="lg" label="Phone Number" />
-            <Input type="file" label="Image" />
-          </div>
+        <div>
+          <Typography
+            variant="small"
+            color="blue-gray"
+            className="my-4 font-medium"
+          >
+            First Name
+          </Typography>
+          <Input
+            onChange={(e) => setFirstName(e.target.value)}
+            size="lg"
+            label="First Name"
+          />
+          <Typography
+            variant="small"
+            color="blue-gray"
+            className="my-4 font-medium"
+          >
+            Last Name
+          </Typography>
+          <Input
+            onChange={(e) => setLastName(e.target.value)}
+            size="lg"
+            label="Last Name"
+          />
+          <Typography
+            variant="small"
+            color="blue-gray"
+            className="my-4 font-medium"
+          >
+            Phone Number
+          </Typography>
+          <Input
+            onChange={(e) => setPhoneNumber(e.target.value)}
+            size="lg"
+            label="Phone Number"
+          />
+          <Typography
+            variant="small"
+            color="blue-gray"
+            className="my-4 font-medium"
+          >
+            Image
+          </Typography>
+          <div className="mt-2 flex items-center gap-x-3">
+            {previewImage ? (
+              <img
+                src={previewImage}
+                alt="User"
+                className="h-14 w-14 rounded-full"
+              />
+            ) : (
+              <>
+                {user && user.image ? (
+                  <>
+                    <img
+                      className="h-14 w-14 rounded-full object-cover"
+                      src={`${imgURL}/${user.image}`}
+                      alt="User"
+                    />
+                  </>
+                ) : (
+                  <>
+                    {" "}
+                    <UserCircleIcon
+                      className="h-12 w-12 text-gray-300 dark:text-gray-400"
+                      aria-hidden="true"
+                    />
+                  </>
+                )}
+              </>
+            )}
 
-          <Button className="mt-6" color="amber" fullWidth>
-            Update Profile
-          </Button>
-        </form>
-      </Card>
+            <label
+              htmlFor="fileInput"
+              className="rounded-md bg-white dark:bg-gray-700 px-2.5 py-1.5 text-sm font-semibold text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer"
+            >
+              Upload
+              <input
+                id="fileInput"
+                type="file"
+                className="sr-only"
+                onChange={handleImageChange}
+              />
+            </label>
+          </div>
+        </div>
+
+        <Button type="submit" className="mt-6" color="amber" fullWidth>
+          Update Profile
+        </Button>
+        <Typography
+          variant="small"
+          color="gray"
+          className="mt-2 flex items-center justify-center gap-2 font-normal opacity-60"
+        >
+          <LockClosedIcon className="-mt-0.5 h-4 w-4" />
+          User Information is secure and encrypted
+        </Typography>
+      </form>
     </div>
   );
-}
+};
+
+export default ProtectedRoute(UpdateProfileForm);

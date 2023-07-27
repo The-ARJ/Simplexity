@@ -121,12 +121,19 @@ export default function Sidebar() {
             )}
           </ListItem>
         </Link>
-        <ListItem className="flex items-center">
-          <ListItemPrefix>
-            <UserCircleIcon className="h-5 w-5" />
-          </ListItemPrefix>
-          {!isMinimized && "Profile"}
-        </ListItem>
+
+        <Link href="/profile">
+          <ListItem className="flex items-center">
+            <Tooltip content="E-Commerce">
+              <ListItemPrefix>
+                <UserCircleIcon className="h-5 w-5" />
+              </ListItemPrefix>
+            </Tooltip>
+
+            {!isMinimized && "Profile"}
+          </ListItem>
+        </Link>
+
         <ListItem className="flex items-center">
           <ListItemPrefix>
             <Cog6ToothIcon className="h-5 w-5" />

@@ -1,25 +1,29 @@
-import {
-  Textarea,
-  IconButton,
-  Typography,
-} from "@material-tailwind/react";
+import { Textarea, IconButton, Typography } from "@material-tailwind/react";
 import { LinkIcon } from "@heroicons/react/24/outline";
 import ReviewService from "../../utils/Services/ReviewService";
 import { useContext, useState } from "react";
 import { UserContext } from "@/utils/Context/UserContext";
+import { useDispatch, useSelector } from "react-redux";
+import { addReview } from "@/utils/Redux/ReviewSlice";
 export function ReviewField({ productId, boughtByUserIds }) {
   const { user } = useContext(UserContext);
   const [reviewText, setReviewText] = useState("");
   const [message, setErrorMessage] = useState("");
+  const dispatch = useDispatch();
+
   const handleReviewSubmit = async () => {
     try {
-      if (user && boughtByUserIds.includes(user._id)) {
+      if (user && user.isVerified && boughtByUserIds.includes(user._id)) {
         const reviewData = {
           text: reviewText,
           product: productId,
+          user: user,
         };
         await ReviewService.createReview(reviewData);
         setReviewText("");
+        dispatch(addReview(reviewData));
+      } else if (user && !user.isVerified) {
+        setErrorMessage("Please verify your account to give a review.");
       } else {
         setErrorMessage("Please buy the product to give a review.");
       }
