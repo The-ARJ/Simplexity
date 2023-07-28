@@ -12,7 +12,7 @@ import cartService from "@/utils/Services/CartService";
 import { ReviewField } from "@/components/DashboardComponents/Reviews/ReviewField";
 import { CustomerReviews } from "@/components/DashboardComponents/Reviews/CustomerReviews";
 
-const page = ({ params }) => {
+const ProductDetail = ({ params }) => {
   const [product, setSelectedProduct] = useState("");
   useEffect(() => {
     const getProductById = () => {
@@ -161,4 +161,4 @@ const page = ({ params }) => {
   );
 };
 
-export default page;
+export default ProductDetail;

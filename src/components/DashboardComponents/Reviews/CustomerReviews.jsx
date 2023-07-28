@@ -21,7 +21,7 @@ import { CheckIcon } from "@heroicons/react/24/outline";
 export function CustomerReviews({ productId }) {
   const dispatch = useDispatch();
   const reviews = useSelector((state) => state.reviews);
-  console.log(reviews);
+  const [averageRating, setAverageRating] = useState(0);
   useEffect(() => {
     const fetchReviews = async () => {
       try {
@@ -37,8 +37,50 @@ export function CustomerReviews({ productId }) {
     fetchReviews();
   }, [dispatch, productId]);
 
+  useEffect(() => {
+    // Calculate average rating
+    if (reviews.length > 0) {
+      const totalRating = reviews.reduce(
+        (sum, review) => sum + review.rating,
+        0
+      );
+      setAverageRating(totalRating / reviews.length);
+    } else {
+      // If there are no reviews, set the average rating to 0
+      setAverageRating(0);
+    }
+  }, [reviews]);
+  let avgRating = Math.round(averageRating);
+  console.log(avgRating);
   return (
     <div className=" ">
+      {reviews.length > 0 ? (
+        <div>
+          <Typography
+            variant="h6"
+            color="blue-gray"
+            className="mb-4 flex gap-2 items-center"
+          >
+            Average Rating:{" "}
+            {averageRating > 0 ? (
+              <>
+                <Rating
+                  value={Math.round(averageRating)}
+                  readonly
+                  className=" "
+                />{" "}
+                ({averageRating.toFixed(1)})
+              </>
+            ) : (
+              "N/A"
+            )}
+          </Typography>
+        </div>
+      ) : (
+        <Typography variant="h6" color="blue-gray" className="mb-4">
+          No reviews yet.
+        </Typography>
+      )}
       {reviews.map((review, index) => (
         <TimelineItem key={index}>
           <TimelineHeader className=" flex  justify-between">

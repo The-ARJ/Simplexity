@@ -10,7 +10,7 @@ import { imgURL } from "../utils/Services/UserService";
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from "../utils/Context/UserContext";
 import AuthDialog from "./Auth/AuthDialogue";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { add } from "@/utils/Redux/CartSlice";
 import { toast } from "react-toastify";
 import cartService from "@/utils/Services/CartService";
@@ -21,6 +21,7 @@ export default function Product({ searchQuery, topSelling }) {
   const { user, loading } = useContext(UserContext);
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
+  const reviews = useSelector((state) => state.reviews);
 
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -109,7 +110,7 @@ export default function Product({ searchQuery, topSelling }) {
                 />
               </Link>
             </CardHeader>
-            <CardBody className="md:h-60">
+            <CardBody className=" md:h-60">
               <div className="flex items-center justify-between mb-2">
                 <Typography color="blue-gray" className="font-medium">
                   {product.name}

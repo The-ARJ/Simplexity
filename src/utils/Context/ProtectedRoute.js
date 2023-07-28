@@ -1,6 +1,5 @@
 import { useContext } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import styles from "../../app/loading.module.css";
 import { UserContext } from "./UserContext";
 import { Spinner } from "@material-tailwind/react";
 
@@ -37,7 +36,7 @@ const ProtectedRoute = (WrappedComponent) => {
                     <Spinner color="red" className="h-10 w-10" />
                 </div>
             );
-        } else if (user && !user.isVerified && pathname === "/profile/update-password") {
+        } else if (user && !user.isVerified && (pathname === "/profile/update-password" || pathname === "/profile")) {
             router.push("/");
             return (
                 <div className="flex justify-center items-center h-screen">
@@ -45,7 +44,7 @@ const ProtectedRoute = (WrappedComponent) => {
                 </div>
             );
         }
-        else if (user && user.role === "user" && (pathname === "/dashboard" || pathname === "/e-commerce" || pathname === "/users" || pathname === "/profile" || pathname === "/settings")) {
+        else if (user && user.role === "user" && (pathname === "/dashboard" || pathname === "/e-commerce" || pathname === "/users" || pathname === "/settings")) {
             router.push("/");
             return (
                 <div className="flex justify-center items-center h-screen">
