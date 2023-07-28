@@ -10,7 +10,7 @@ import {
   Textarea,
 } from "@material-tailwind/react";
 import { PlusIcon } from "@heroicons/react/24/solid";
-import ProductService from "../../utils/Services/ProductService";
+import ProductService from "../../../utils/Services/ProductService";
 import { toast } from "react-toastify";
 
 export default function AddProductForm() {
@@ -23,18 +23,6 @@ export default function AddProductForm() {
   const [productImage, setProductImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
 
-  // // Function to handle form submission
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   // Here, you can implement the logic to add the product to the database or API.
-  //   // For simplicity, we'll just log the product details for now.
-  //   console.log({
-  //     productName,
-  //     productDescription,
-  //     productPrice,
-  //     productImage,
-  //   });
-  // };
   const submitForm = async () => {
     const formData = new FormData();
     formData.append("productImage", productImage);
@@ -153,11 +141,11 @@ export default function AddProductForm() {
               type="file"
               accept="image/*"
               className="hidden"
-              id="image-upload"
+              id="add-image-upload" // Use a unique id for the file input
               onChange={handleImageChange}
             />
             <label
-              htmlFor="image-upload"
+              htmlFor="add-image-upload"
               className="w-full rounded-lg h-48 sm:h-52 md:h-64 overflow-hidden object-cover cursor-pointer"
             >
               {previewImage ? (

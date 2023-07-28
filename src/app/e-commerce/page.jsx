@@ -8,9 +8,9 @@ import {
   TabPanel,
 } from "@material-tailwind/react";
 import { PlusCircleIcon, QueueListIcon } from "@heroicons/react/24/solid";
-import AddProductForm from "@/components/DashboardComponents/AddProduct";
+import AddProductForm from "@/components/DashboardComponents/Products/AddProduct";
 import DashboardLayout from "@/components/DashboardComponents/DashboardLayout";
-import { ProductTable } from "@/components/DashboardComponents/ProductTable";
+import { ProductTable } from "@/components/DashboardComponents/Products/ProductTable";
 import ProtectedRoute from "@/utils/Context/ProtectedRoute";
 
 const ProductTabs = () => {

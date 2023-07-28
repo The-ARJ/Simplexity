@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import UserService, { imgURL } from "../../utils/Services/UserService";
+import UserService, { imgURL } from "../../../utils/Services/UserService";
 import swal from "sweetalert2";
 import { toast } from "react-toastify";
 

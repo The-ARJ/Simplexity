@@ -8,7 +8,7 @@ export default function Pagination({
   totalProducts,
 }) {
   const [active, setActive] = useState(currentPage);
-  const pageSize = 15;
+  const pageSize = 10;
   const totalPages = Math.ceil(totalProducts / pageSize);
 
   const next = () => {

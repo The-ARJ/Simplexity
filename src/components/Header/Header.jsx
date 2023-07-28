@@ -37,8 +37,8 @@ export default function ComplexNavbar() {
               <Typography className="cursor-pointer  text-base  font-semibold md:text-xl uppercase text-gray-700  tracking-wider">
                 Simplexity
               </Typography>
-              <Typography className="cursor-pointer text-[10px] md:text-xs uppercase text-amber-700 tracking-widest">
-                out door wears
+              <Typography className="cursor-pointer text-[10px] md:text-xs uppercase text-amber-700 ">
+              Simplify, Shop, Smile
               </Typography>
             </div>
           </Link>

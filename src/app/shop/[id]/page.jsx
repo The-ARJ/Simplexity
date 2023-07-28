@@ -9,8 +9,8 @@ import React, { useContext, useState, useEffect } from "react";
 import AuthDialog from "@/components/Auth/AuthDialogue";
 import { UserContext } from "@/utils/Context/UserContext";
 import cartService from "@/utils/Services/CartService";
-import { ReviewField } from "@/components/DashboardComponents/ReviewField";
-import { CustomerReviews } from "@/components/DashboardComponents/CustomerReviews";
+import { ReviewField } from "@/components/DashboardComponents/Reviews/ReviewField";
+import { CustomerReviews } from "@/components/DashboardComponents/Reviews/CustomerReviews";
 
 const page = ({ params }) => {
   const [product, setSelectedProduct] = useState("");
@@ -64,9 +64,9 @@ const page = ({ params }) => {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row -mx-4">
             <div className="md:flex-1 px-4">
-              <div className="h-[460px] rounded-lg  mb-4">
+              <div className="h-[460px] rounded-xl  mb-4">
                 <img
-                  className="w-full h-full object-cover"
+                  className="w-full h-full rounded-xl object-cover"
                   src={`${imgURL}/${product.image}`}
                   alt={product.name}
                 />

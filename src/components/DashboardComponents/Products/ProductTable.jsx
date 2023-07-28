@@ -3,7 +3,7 @@ import {
   ChevronUpDownIcon,
 } from "@heroicons/react/24/outline";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
-import { imgURL } from "../../utils/Services/UserService";
+import { imgURL } from "../../../utils/Services/UserService";
 import {
   Card,
   CardHeader,
@@ -17,9 +17,10 @@ import {
   Tooltip,
 } from "@material-tailwind/react";
 import React, { useState, useEffect } from "react";
-import ProductService from "../../utils/Services/ProductService";
+import ProductService from "../../../utils/Services/ProductService";
 import swal from "sweetalert2";
 import { toast } from "react-toastify";
+import { EditProduct } from "./EditProduct";
 
 const TABLE_HEAD = [
   "Product",
@@ -31,6 +32,10 @@ const TABLE_HEAD = [
 ];
 
 export function ProductTable() {
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => setOpen(!open);
+
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState(""); // New state variable for search
@@ -138,7 +143,7 @@ export function ProductTable() {
         </div>
       </CardHeader>
       <CardBody className="px-0">
-        {currentProducts.length === 0 ? ( 
+        {currentProducts.length === 0 ? (
           <Typography
             variant="body"
             color="blue-gray"
@@ -173,114 +178,101 @@ export function ProductTable() {
               </tr>
             </thead>
             <tbody>
-              {currentProducts.map(
-                ({
-                  _id,
-                  image,
-                  name,
-                  description,
-                  price,
-                  quantity,
-                  category,
-                  createdAt,
-                  updatedAt,
-                }) => {
-                  const classes = "p-4 border-b border-blue-gray-50";
-                  return (
-                    <tr key={name}>
-                      <td className={classes}>
-                        <div className="flex items-start justify-start gap-3">
-                          <Avatar
-                            src={`${imgURL}/${image}`}
-                            variant="rounded"
-                            alt={name}
-                            size="lg"
-                          />
-                          <div className="flex flex-col">
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal"
-                            >
-                              {name}
-                            </Typography>
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal opacity-70"
-                            >
-                              Price: Rs.{price} / Unit
-                            </Typography>
-                            <Typography
-                              variant="small"
-                              color="blue-gray"
-                              className="font-normal opacity-70"
-                            >
-                              Quantity: {quantity} Units.{" "}
-                            </Typography>
-                          </div>
-                        </div>
-                      </td>
-                      <td className=" w-[400px] py-2">
-                        <div className="flex flex-col">
-                          <Typography
-                            variant="small"
-                            color="blueGray"
-                            className="font-normal"
-                          >
-                            {description}
-                          </Typography>
-                        </div>
-                      </td>
-                      <td className={classes}>
+              {currentProducts.map((product) => {
+                const classes = "p-4 border-b border-blue-gray-50";
+                return (
+                  <tr key={name}>
+                    <td className={classes}>
+                      <div className="flex items-start justify-start gap-3">
+                        <Avatar
+                          src={`${imgURL}/${product.image}`}
+                          variant="rounded"
+                          alt={product.name}
+                          size="lg"
+                        />
                         <div className="flex flex-col">
                           <Typography
                             variant="small"
                             color="blue-gray"
                             className="font-normal"
                           >
-                            {category}
+                            {product.name}
+                          </Typography>
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal opacity-70"
+                          >
+                            Price: Rs.{product.price} / Unit
+                          </Typography>
+                          <Typography
+                            variant="small"
+                            color="blue-gray"
+                            className="font-normal opacity-70"
+                          >
+                            Quantity: {product.quantity} Units.{" "}
                           </Typography>
                         </div>
-                      </td>
-                      <td className={classes}>
+                      </div>
+                    </td>
+                    <td className=" w-[400px] py-2">
+                      <div className="flex flex-col">
+                        <Typography
+                          variant="small"
+                          color="blueGray"
+                          className="font-normal"
+                        >
+                          {product.description}
+                        </Typography>
+                      </div>
+                    </td>
+                    <td className={classes}>
+                      <div className="flex flex-col">
                         <Typography
                           variant="small"
                           color="blue-gray"
                           className="font-normal"
                         >
-                          {new Date(createdAt).toLocaleString()}
+                          {product.category}
                         </Typography>
-                      </td>
-                      <td className={classes}>
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
+                      </div>
+                    </td>
+                    <td className={classes}>
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                      >
+                        {new Date(product.createdAt).toLocaleString()}
+                      </Typography>
+                    </td>
+                    <td className={classes}>
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                      >
+                        {new Date(product.updatedAt).toLocaleString()}
+                      </Typography>
+                    </td>
+                    <td className={classes}>
+                      <EditProduct product={product} />
+
+                      <Tooltip content="Delete Product">
+                        <IconButton
+                          onClick={() =>
+                            deleteProduct(product._id, getProducts)
+                          }
+                          variant="text"
+                          color="red"
                         >
-                          {new Date(updatedAt).toLocaleString()}
-                        </Typography>
-                      </td>
-                      <td className={classes}>
-                        <Tooltip content="Edit Product">
-                          <IconButton variant="text" color="blue-gray">
-                            <PencilIcon className="h-4 w-4" />
-                          </IconButton>
-                        </Tooltip>
-                        <Tooltip content="Delete Product">
-                          <IconButton
-                            onClick={() => deleteProduct(_id, getProducts)}
-                            variant="text"
-                            color="red"
-                          >
-                            <TrashIcon className="h-4 w-4" />
-                          </IconButton>
-                        </Tooltip>
-                      </td>
-                    </tr>
-                  );
-                }
-              )}
+                          <TrashIcon className="h-4 w-4" />
+                        </IconButton>
+                      </Tooltip>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         )}

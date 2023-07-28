@@ -46,9 +46,9 @@ const AuthDialog = ({ open, handleClose }) => {
             <Typography
               as="a"
               href="#"
-              className="cursor-pointer text-xs uppercase text-gray-700 tracking-widest"
+              className="cursor-pointer text-xs uppercase text-gray-700 "
             >
-              outdoor wears
+              Simplify, Shop, Smile
             </Typography>
           </div>
         </CardHeader>
@@ -80,7 +80,7 @@ const AuthDialog = ({ open, handleClose }) => {
                 <SignUp onSuccess={handleSignUpSuccess} />
               </TabPanel>
               <TabPanel value="signin" className="p-0">
-                <SignIn handleClose={handleClose}/>
+                <SignIn handleClose={handleClose} />
               </TabPanel>
             </TabsBody>
           </Tabs>

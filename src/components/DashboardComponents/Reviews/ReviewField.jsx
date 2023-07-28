@@ -1,6 +1,11 @@
-import { Textarea, IconButton, Typography } from "@material-tailwind/react";
+import {
+  Textarea,
+  IconButton,
+  Typography,
+  Rating,
+} from "@material-tailwind/react";
 import { LinkIcon } from "@heroicons/react/24/outline";
-import ReviewService from "../../utils/Services/ReviewService";
+import ReviewService from "../../../utils/Services/ReviewService";
 import { useContext, useState } from "react";
 import { UserContext } from "@/utils/Context/UserContext";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,17 +14,26 @@ export function ReviewField({ productId, boughtByUserIds }) {
   const { user } = useContext(UserContext);
   const [reviewText, setReviewText] = useState("");
   const [message, setErrorMessage] = useState("");
+  const [rated, setRated] = useState(5);
+
   const dispatch = useDispatch();
 
   const handleReviewSubmit = async () => {
     try {
+      if (!reviewText || reviewText.trim() === "") {
+        setErrorMessage("Please write a review before submitting.");
+        return;
+      }
+
       if (user && user.isVerified && boughtByUserIds.includes(user._id)) {
         const reviewData = {
           text: reviewText,
+          rating: rated,
           product: productId,
           user: user,
         };
-        await ReviewService.createReview(reviewData);
+
+        const response = await ReviewService.createReview(reviewData);
         setReviewText("");
         dispatch(addReview(reviewData));
       } else if (user && !user.isVerified) {
@@ -29,6 +43,7 @@ export function ReviewField({ productId, boughtByUserIds }) {
       }
     } catch (error) {
       console.error("Error submitting review:", error);
+      setErrorMessage("Error submitting review. Please try again later.");
     }
   };
 
@@ -74,6 +89,7 @@ export function ReviewField({ productId, boughtByUserIds }) {
         <Textarea
           rows={1}
           resize={true}
+          required
           placeholder="Write Feedback"
           className="min-h-full !border-0 focus:border-transparent"
           containerProps={{
@@ -107,6 +123,7 @@ export function ReviewField({ productId, boughtByUserIds }) {
             </svg>
           </IconButton>
         </div>
+        <Rating value={5} onChange={(value) => setRated(value)} />
       </div>
     </div>
   );

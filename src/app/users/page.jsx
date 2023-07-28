@@ -22,8 +22,8 @@ import {
   Tab,
   Avatar,
 } from "@material-tailwind/react";
-import Members from "@/components/DashboardComponents/Members";
-import Users from "@/components/DashboardComponents/Users";
+import Members from "@/components/DashboardComponents/Users/Members";
+import Users from "@/components/DashboardComponents/Users/Users";
 import ProtectedRoute from "@/utils/Context/ProtectedRoute";
 
 const TABS = [
