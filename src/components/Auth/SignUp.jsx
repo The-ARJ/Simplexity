@@ -1,7 +1,11 @@
 import React, { useState } from "react";
-import { Button, Typography, Input } from "@material-tailwind/react";
-import { LockClosedIcon } from "@heroicons/react/24/solid";
-import { toast } from "react-toastify";
+import {
+  Button,
+  Typography,
+  Input,
+  IconButton,
+} from "@material-tailwind/react";
+import { LockClosedIcon, EyeIcon } from "@heroicons/react/24/solid";
 import UserService from "../../utils/Services/UserService";
 
 const SignUp = ({ onSuccess }) => {
@@ -19,6 +23,8 @@ const SignUp = ({ onSuccess }) => {
   });
   const [validationMessage, setValidationMessage] = useState("");
   const [passwordFocus, setPasswordFocus] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handlePasswordChange = (event) => {
     const newPassword = event.target.value;
@@ -70,7 +76,7 @@ const SignUp = ({ onSuccess }) => {
     setConfirmPassword(newConfirmPassword);
 
     if (newConfirmPassword !== password) {
-      setValidationMessage("Passwords do not match");
+      setValidationMessage("Password does not match");
     } else {
       setValidationMessage("");
     }
@@ -179,7 +185,7 @@ const SignUp = ({ onSuccess }) => {
             <Typography
               variant="small"
               color="blue-gray"
-              className="mt-4 font-medium"
+              className="my-4 font-medium"
             >
               Password
             </Typography>
@@ -245,16 +251,36 @@ const SignUp = ({ onSuccess }) => {
                 .
               </Typography>
             )}
+            <div className="relative flex w-full max-w-[24rem]">
+              <Input
+                type={showPassword ? "text" : "password"}
+                label="Password"
+                required
+                value={password}
+                onChange={handlePasswordChange}
+                onFocus={handlePasswordFocus}
+                onBlur={handlePasswordBlur}
+                containerProps={{
+                  className: "min-w-0",
+                }}
+                className="pr-20"
+              />
 
-            <Input
-              type="password"
-              label="Password"
-              required
-              value={password}
-              onChange={handlePasswordChange}
-              onFocus={handlePasswordFocus}
-              onBlur={handlePasswordBlur}
-            />
+              <IconButton
+                size="sm"
+                disabled={!password}
+                className="!absolute rounded-full  bg-transparent shadow-none hover:shadow-none right-1 top-1"
+                onClick={() =>
+                  setShowPassword((prevShowPassword) => !prevShowPassword)
+                }
+              >
+                <EyeIcon
+                  className={`h-4 ${
+                    password ? "text-amber-600" : "text-gray-600"
+                  }`}
+                />
+              </IconButton>
+            </div>
           </div>
 
           <div>
@@ -265,13 +291,35 @@ const SignUp = ({ onSuccess }) => {
             >
               Confirm Password
             </Typography>
-            <Input
-              type="password"
-              required
-              label="Confirm Password"
-              value={confirmPassword}
-              onChange={handleConfirmPasswordChange}
-            />
+            <div className="relative flex w-full max-w-[24rem]">
+              <Input
+                type={showConfirmPassword ? "text" : "password"}
+                required
+                label="Confirm Password"
+                value={confirmPassword}
+                onChange={handleConfirmPasswordChange}
+                containerProps={{
+                  className: "min-w-0",
+                }}
+                className="pr-20"
+              />
+              <IconButton
+                size="sm"
+                disabled={!confirmPassword}
+                className="!absolute rounded-full  bg-transparent shadow-none hover:shadow-none right-1 top-1"
+                onClick={() =>
+                  setShowConfirmPassword(
+                    (prevShowConfirmPassword) => !prevShowConfirmPassword
+                  )
+                }
+              >
+                <EyeIcon
+                  className={`h-4 ${
+                    password ? "text-amber-600" : "text-gray-600"
+                  }`}
+                />
+              </IconButton>
+            </div>
           </div>
         </div>
         <Typography

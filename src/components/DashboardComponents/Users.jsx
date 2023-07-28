@@ -18,7 +18,14 @@ import {
   Chip,
 } from "@material-tailwind/react";
 const Users = ({ userData }) => {
-  const TABLE_HEAD = ["Member", "Role", "Status", "Join Date", "Action"];
+  const TABLE_HEAD = [
+    "Member",
+    "Role",
+    "Status",
+    "Account",
+    "Join Date",
+    "Action",
+  ];
   const userUsers = userData.filter((user) => user.role === "user");
   return (
     <>
@@ -48,7 +55,17 @@ const Users = ({ userData }) => {
           <tbody>
             {userUsers.map(
               (
-                { image, firstName,lastName, email, role, org, isOnline, createdAt },
+                {
+                  image,
+                  firstName,
+                  lastName,
+                  email,
+                  role,
+                  org,
+                  isOnline,
+                  isVerified,
+                  createdAt,
+                },
                 index
               ) => {
                 const isLast = index === userData.length - 1;
@@ -71,7 +88,8 @@ const Users = ({ userData }) => {
                             color="blue-gray"
                             className="font-normal"
                           >
-                            {firstName}{lastName}
+                            {firstName}
+                            {lastName}
                           </Typography>
                           <Typography
                             variant="small"
@@ -108,6 +126,16 @@ const Users = ({ userData }) => {
                           size="sm"
                           value={isOnline ? "online" : "offline"}
                           color={isOnline ? "green" : "blue-gray"}
+                        />
+                      </div>
+                    </td>
+                    <td className={classes}>
+                      <div className="w-max">
+                        <Chip
+                          variant="ghost"
+                          size="sm"
+                          value={isVerified ? "Verified" : "UnVerified"}
+                          color={isVerified ? "green" : "blue-gray"}
                         />
                       </div>
                     </td>

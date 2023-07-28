@@ -1,6 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Button, Typography, Input } from "@material-tailwind/react";
-import { LockClosedIcon } from "@heroicons/react/24/solid";
+import {
+  Button,
+  Typography,
+  Input,
+  IconButton,
+} from "@material-tailwind/react";
+import { LockClosedIcon, EyeIcon } from "@heroicons/react/24/solid";
 import UserService from "../../utils/Services/UserService";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
@@ -14,6 +19,7 @@ const SignIn = (handleClose) => {
   const [validationMessage, setValidationMessage] = useState("");
   const [remainingLockoutTime, setRemainingLockoutTime] = useState(0); // State to hold the remaining lockout time
   const [remainingAttempts, setRemainingAttempts] = useState(0); // State to hold the number of remaining login attempts
+  const [showPassword, setShowPassword] = useState(false);
 
   const router = useRouter();
   const { fetchUser } = useContext(UserContext);
@@ -125,15 +131,34 @@ const SignIn = (handleClose) => {
           >
             Password
           </Typography>
+          <div className="relative flex w-full max-w-[24rem]">
+            <Input
+              label="Password"
+              name="password"
+              type={showPassword ? "text" : "password"}
+              required
+              className="pr-20"
+              onChange={(e) => setPassword(e.target.value)}
+              containerProps={{
+                className: "min-w-0",
+              }}
+            />
 
-          <Input
-            label="Password"
-            name="password"
-            type="password"
-            required
-            onChange={(e) => setPassword(e.target.value)}
-            containerProps={{ className: "mt-4" }}
-          />
+            <IconButton
+              size="sm"
+              disabled={!password}
+              className="!absolute rounded-full  bg-transparent shadow-none hover:shadow-none right-1 top-1"
+              onClick={() =>
+                setShowPassword((prevShowPassword) => !prevShowPassword)
+              }
+            >
+              <EyeIcon
+                className={`h-4 ${
+                  password ? "text-amber-600" : "text-gray-600"
+                }`}
+              />
+            </IconButton>
+          </div>
         </div>
         <Link href="/forgot-password">
           <Typography
@@ -162,7 +187,7 @@ const SignIn = (handleClose) => {
         <Button type="submit" size="lg" color="amber" className="text-gray-700">
           Sign In
         </Button>
-        <GoogleSignInButton />
+        {/* <GoogleSignInButton /> */}
         <Typography
           variant="small"
           color="gray"

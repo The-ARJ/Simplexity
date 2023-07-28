@@ -18,7 +18,7 @@ import {
   Chip,
 } from "@material-tailwind/react";
 const Members = ({ userData }) => {
-  const TABLE_HEAD = ["Member", "Role", "Status", "Employed", "Action"];
+  const TABLE_HEAD = ["Member", "Role", "Status","Account", "Employed", "Action"];
   const adminUsers = userData.filter((user) => user.role === "admin");
 
   return (
@@ -57,6 +57,7 @@ const Members = ({ userData }) => {
                   role,
                   org,
                   isOnline,
+                  isVerified,
                   createdAt,
                 },
                 index
@@ -118,6 +119,16 @@ const Members = ({ userData }) => {
                           size="sm"
                           value={isOnline ? "online" : "offline"}
                           color={isOnline ? "green" : "blue-gray"}
+                        />
+                      </div>
+                    </td>
+                    <td className={classes}>
+                      <div className="w-max">
+                        <Chip
+                          variant="ghost"
+                          size="sm"
+                          value={isVerified ? "Verified" : "UnVerified"}
+                          color={isVerified ? "green" : "blue-gray"}
                         />
                       </div>
                     </td>
