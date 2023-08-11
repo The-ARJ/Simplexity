@@ -1,0 +1,19 @@
+{
+  "slides": [
+    {
+      "image": "/assets/summer.jpg",
+      "title": "Summer Collection",
+      "description": "Discover our vibrant summer collection for men, women, and kids. Stay stylish and comfortable during the sunny days."
+    },
+    {
+      "image": "https://img.freepik.com/free-photo/handsome-tourist-straw-hat-put-sunglasses-summer-vacation-standing-blue-background_1258-155167.jpg?w=1380&t=st=1690798476~exp=1690799076~hmac=73dfb2901f26fa9339bd0f23dc99cfce0bbd915d9b25781276117d83b4720567",
+      "title": "New Arrivals",
+      "description": "Check out the latest arrivals in our clothing store. Trendy designs and premium quality materials for all fashion enthusiasts."
+    },
+    {
+      "image": "https://img.freepik.com/free-photo/portrait-scared-insecure-timid-cute-girl-hiding-face-pull-sweater-nose-widen-eyes-afraid-stunned-sta_1258-135425.jpg?w=1380&t=st=1690798520~exp=1690799120~hmac=12bc548249340a5a98b26ededbb6c4f96a4f2ca2361f4337964166371b31b616",
+      "title": "Winter Warmers",
+      "description": "Stay warm and cozy with our winter clothing range. From stylish jackets to comfortable sweaters, we've got you covered."
+    }
+  ]
+}

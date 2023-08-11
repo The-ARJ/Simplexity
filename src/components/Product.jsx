@@ -43,7 +43,7 @@ export default function Product({ searchQuery, topSelling }) {
       if (topSelling) {
         filteredProducts = filteredProducts
           .sort((a, b) => b.boughtBy.length - a.boughtBy.length)
-          .slice(0, 6);
+          .slice(0, 10);
       }
 
       setProducts(filteredProducts);

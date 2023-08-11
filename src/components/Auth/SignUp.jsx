@@ -36,7 +36,7 @@ const SignUp = ({ onSuccess }) => {
       (newPassword.toLowerCase().includes(firstName.toLowerCase()) ||
         newPassword.toLowerCase().includes(lastName.toLowerCase()))
     ) {
-      setValidationMessage("Password cannot contain your name");
+      setValidationMessage("Password cannot contain your name or email");
     } else if (newPassword === "") {
       setPasswordValidations({
         length: false,
