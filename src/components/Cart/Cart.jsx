@@ -10,17 +10,16 @@ import { imgURL } from "../../utils/Services/UserService";
 import { remove, updateCart } from "@/utils/Redux/CartSlice";
 import swal from "sweetalert2";
 import cartService from "@/utils/Services/CartService";
-import { UserContext } from "../../utils/Context/UserContext";
 import showToast from "./Toast";
 import { PlusIcon, MinusIcon } from "@heroicons/react/24/outline";
 export default function Cart() {
-  const { user, loading } = useContext(UserContext);
   const dispatch = useDispatch();
   const products = useSelector((state) => state.cart);
+  const { user } = useSelector((state) => state.user);
 
   const [open, setOpen] = useState(false);
 
-  const token = localStorage.getItem("token");
+  const token = user.token;
   // Fetch cart data when the component mounts
   useEffect(() => {
     fetchCartData();
@@ -80,7 +79,7 @@ export default function Cart() {
   }, 0);
 
   const handleUpdateQuantity = async (id, quantity) => {
-    const token = localStorage.getItem("token");
+    const token = user.token;
     try {
       // Validate the quantity to ensure it's a positive integer value or set it to 1 if it's not a valid number
       const validatedQuantity =
@@ -196,7 +195,6 @@ export default function Cart() {
                                       </div>
                                       <div className="flex flex-1 items-end justify-between text-xs md:text-sm">
                                         <div className="flex gap-4 p-2">
-
                                           <Typography className="text-gray-700 ">
                                             Qty
                                           </Typography>
@@ -212,7 +210,6 @@ export default function Cart() {
                                             className="w-16 text-center border rounded-md focus:outline-none focus:ring focus:border-blue-300"
                                             min="1" // Set the minimum allowed value to 1
                                           />
-               
                                         </div>
 
                                         <div className="flex p-2">

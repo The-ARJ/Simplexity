@@ -5,13 +5,30 @@ import { Chip, Typography } from "@material-tailwind/react";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useSelector } from "react-redux";
 export default function MessagePrompt() {
   const router = useRouter();
   const pathname = usePathname();
-  const { user, passwordExpired } = useContext(UserContext);
+  const { user } = useSelector((state) => state.user);
 
   // Check if the user object exists and user is not verified
   const isUserNotVerified = user && !user.isVerified;
+
+  // Calculate the difference in days between two dates
+  const calculateDateDifferenceInDays = (date1, date2) => {
+    const oneDay = 1000 * 60 * 60 * 24; // Milliseconds in a day
+    const diffInMilliseconds = Math.abs(date1 - date2);
+    return Math.floor(diffInMilliseconds / oneDay);
+  };
+  // Check if the user's password has expired
+  const passwordExpired =
+    user &&
+    user.lastPasswordChange &&
+    calculateDateDifferenceInDays(
+      new Date(),
+      new Date(user.lastPasswordChange)
+    ) > 90;
+
   const handleSendVerifyCode = async (event) => {
     event.preventDefault();
     try {

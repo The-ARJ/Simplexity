@@ -2,13 +2,13 @@ import { useContext } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { UserContext } from "./UserContext";
 import { Spinner } from "@material-tailwind/react";
+import { useSelector } from "react-redux";
 
 const ProtectedRoute = (WrappedComponent) => {
     const Wrapper = (props) => {
         const router = useRouter();
         const pathname = usePathname();
-        const { user, loading } = useContext(UserContext);
-
+        const { user, loading } = useSelector((state) => state.user);
         if (loading) {
             return (
                 <div className="flex justify-center items-center h-screen">

@@ -99,12 +99,12 @@ export const useUser = () => {
   useEffect(() => {
     const resetTimeout = () => {
       clearTimeout(inactivityTimeout);
-      if (isLoggedIn) {
-        inactivityTimeout = setTimeout(() => {
-          window.alert('You have been inactive for a long time. You are logged out due to inactivity.');
-          logout();
-        }, 120000);
-      }
+      // if (isLoggedIn) {
+      //   inactivityTimeout = setTimeout(() => {
+      //     window.alert('You have been inactive for a long time. You are logged out due to inactivity.');
+      //     logout();
+      //   }, 120000);
+      // }
     };
 
     const onActivity = () => {

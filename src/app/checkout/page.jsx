@@ -13,7 +13,6 @@ import swal from "sweetalert2";
 import ComplexNavbar from "@/components/Header/Header";
 import Link from "next/link";
 import cartService from "@/utils/Services/CartService";
-import { UserContext } from "@/utils/Context/UserContext";
 import { imgURL } from "../../utils/Services/UserService";
 import showToast from "@/components/Cart/Toast";
 import { remove, updateCart } from "@/utils/Redux/CartSlice";
@@ -21,7 +20,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { PlusIcon, MinusIcon } from "@heroicons/react/24/outline";
 const DeliveryDetailsForm = () => {
   const router = useRouter();
-  const { user, loading } = useContext(UserContext);
+  const { user, isLoggedIn } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const products = useSelector((state) => state.cart);
 
@@ -30,7 +29,8 @@ const DeliveryDetailsForm = () => {
   }, []);
 
   const fetchCartData = async () => {
-    const token = localStorage.getItem("token");
+    const token = user.token;
+
 
     if (user) {
       try {

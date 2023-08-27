@@ -16,9 +16,11 @@ import NavList from "./NavList";
 import Cart from "../Cart/Cart";
 import SearchBar from "./SearchBar";
 import MessagePrompt from "./MessagePrompt";
+import { useSelector } from "react-redux";
 
 export default function ComplexNavbar() {
-  const { user, loading } = useContext(UserContext);
+  const { user, isLoggedIn } = useSelector((state) => state.user);
+
   const [isNavOpen, setIsNavOpen] = React.useState(false);
   const toggleIsNavOpen = () => setIsNavOpen((cur) => !cur);
   React.useEffect(() => {

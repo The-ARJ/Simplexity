@@ -63,6 +63,7 @@ export default function Payment() {
   const [cardNumber, setCardNumber] = React.useState("");
   const [cardExpires, setCardExpires] = React.useState("");
   const products = useSelector((state) => state.cart);
+  const {user} = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const router = useRouter();
   // Check if the cart is empty
@@ -81,7 +82,7 @@ export default function Payment() {
     setIsProcessing(true);
 
     try {
-      const token = localStorage.getItem("token");
+      const token = user.token;
       await cartService.buyFromCart(token); // Use the cartService function to trigger the purchase
 
       // Update the Redux store to reflect the bought products

@@ -25,6 +25,7 @@ import {
 import Members from "@/components/DashboardComponents/Users/Members";
 import Users from "@/components/DashboardComponents/Users/Users";
 import ProtectedRoute from "@/utils/Context/ProtectedRoute";
+import { useSelector } from "react-redux";
 
 const TABS = [
   {
@@ -86,9 +87,11 @@ const UserTable = () => {
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
   const currentUsers = users.slice(startIndex, endIndex);
+  const { user, isLoggedIn } = useSelector((state) => state.user);
 
   const deleteUser = (id, getUsers) => {
-    const token = localStorage.getItem("token");
+    const token = user.token;
+
     console.log(id);
     swal
       .fire({

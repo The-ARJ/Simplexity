@@ -11,7 +11,7 @@ import { UserContext } from "@/utils/Context/UserContext";
 import { useDispatch, useSelector } from "react-redux";
 import { addReview } from "@/utils/Redux/ReviewSlice";
 export function ReviewField({ productId, boughtByUserIds }) {
-  const { user } = useContext(UserContext);
+  const { user, isLoggedIn } = useSelector((state) => state.user);
   const [reviewText, setReviewText] = useState("");
   const [message, setErrorMessage] = useState("");
   const [rated, setRated] = useState(5);

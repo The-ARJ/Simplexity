@@ -8,7 +8,6 @@ import {
 } from "@material-tailwind/react";
 import { imgURL } from "../utils/Services/UserService";
 import React, { useContext, useEffect, useState } from "react";
-import { UserContext } from "../utils/Context/UserContext";
 import AuthDialog from "./Auth/AuthDialogue";
 import { useDispatch, useSelector } from "react-redux";
 import { add } from "@/utils/Redux/CartSlice";
@@ -18,7 +17,7 @@ import ProductService from "@/utils/Services/ProductService";
 import Link from "next/link";
 import Pagination from "./DashboardComponents/Pagination";
 export default function Product({ searchQuery, topSelling }) {
-  const { user, loading } = useContext(UserContext);
+  const { user, isLoggedIn } = useSelector((state) => state.user);
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const reviews = useSelector((state) => state.reviews);
@@ -27,12 +26,10 @@ export default function Product({ searchQuery, topSelling }) {
   const [currentPage, setCurrentPage] = useState(1);
 
   const pageSize = 10;
-
   const getProducts = () => {
-    const token = localStorage.getItem("token");
     const limit = pageSize;
     const offset = (currentPage - 1) * pageSize;
-    ProductService.getAllProducts(token, limit, offset).then((res) => {
+    ProductService.getAllProducts(limit, offset).then((res) => {
       let allProducts = res.data.data;
       // Filter products based on the searchQuery (name contains the searchQuery)
       let filteredProducts = allProducts.filter((product) =>
@@ -63,7 +60,7 @@ export default function Product({ searchQuery, topSelling }) {
     if (user) {
       const productId = product._id;
       const quantity = 1;
-      const token = localStorage.getItem("token");
+      const token = user.token;
       await cartService.addToCart(productId, quantity, token);
       dispatch(add({ product, quantity }));
       toast.success("Item added to cart", {

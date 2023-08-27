@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { UserContext } from "../../utils/Context/UserContext";
 import swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { imgURL } from "../../utils/Services/UserService";
@@ -23,6 +22,8 @@ import {
 } from "@heroicons/react/24/outline";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import { clearUser } from "@/utils/Redux/UserSlice";
 
 const profileMenuItems = [
   {
@@ -54,8 +55,8 @@ const profileMenuItems = [
 const ProfileMenuItem = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const closeMenu = () => setIsMenuOpen(false);
-  const { user, logout, loading } = useContext(UserContext);
-
+  const { user, isLoggedIn } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const handleLogout = () => {
     swal
       .fire({
@@ -68,7 +69,7 @@ const ProfileMenuItem = () => {
       })
       .then((result) => {
         if (result.isConfirmed) {
-          logout();
+          dispatch(clearUser()); // Correctly dispatch the action
           // Add your navigation logic here
           toast.success("Logged out successfully", {
             position: toast.POSITION.TOP_CENTER,

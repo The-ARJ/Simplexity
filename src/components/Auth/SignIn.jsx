@@ -12,6 +12,8 @@ import { useRouter } from "next/navigation";
 import { UserContext } from "../../utils/Context/UserContext";
 import Link from "next/link";
 import GoogleSignInButton from "./GoogleSignInButton";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/utils/Redux/UserSlice";
 
 const SignIn = (handleClose) => {
   const [email, setEmail] = useState("");
@@ -20,9 +22,10 @@ const SignIn = (handleClose) => {
   const [remainingLockoutTime, setRemainingLockoutTime] = useState(0); // State to hold the remaining lockout time
   const [remainingAttempts, setRemainingAttempts] = useState(0); // State to hold the number of remaining login attempts
   const [showPassword, setShowPassword] = useState(false);
+  const dispatch = useDispatch();
 
   const router = useRouter();
-  const { fetchUser } = useContext(UserContext);
+  // const { fetchUser } = useContext(UserContext);
 
   function formatTime(durationInMs) {
     const minutes = Math.floor(durationInMs / 60000);
@@ -57,52 +60,46 @@ const SignIn = (handleClose) => {
   const handleForgotPassword = () => {
     router.push("/dashboard");
   };
-  const handleLogin = (e) => {
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    UserService.login({ email, password })
-      .then((res) => {
-        window.localStorage.setItem(`token`, res.data.token);
-        fetchUser()
-          .then(() => {
-            toast.success("Signed In Successfully", {
-              position: toast.POSITION.TOP_CENTER,
-              autoClose: 1000,
-              hideProgressBar: true,
-              closeOnClick: false,
-              pauseOnHover: false,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-            });
-            router.push("/dashboard");
-          })
-          .catch((err) => {
-            setValidationMessage(err);
-          });
-      })
-      .catch((err) => {
-        if (err.response && err.response.data && err.response.data.error) {
-          setValidationMessage(err.response.data.error);
 
-          if (err.response.data.remainingLockoutTime) {
-            // Set the remaining lockout time if available in the response
-            setRemainingLockoutTime(err.response.data.remainingLockoutTime);
-          } else {
-            setRemainingLockoutTime(0);
-          }
-
-          if (err.response.data.remainingAttempts !== undefined) {
-            // Set the remaining attempts if available in the response
-            setRemainingAttempts(err.response.data.remainingAttempts);
-          } else {
-            setRemainingAttempts(0);
-          }
-        } else {
-          setValidationMessage("An error occurred. Please try again.");
-        }
+    try {
+      const response = await UserService.login({ email, password });
+      const user = response.data;
+      console.log("this is user data from login", user);
+      dispatch(setUser(user)); // Dispatch the setUser action with user data
+      toast.success("Signed In Successfully", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 1000,
+        hideProgressBar: true,
+        closeOnClick: false,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
       });
-  };
 
+      router.push("/dashboard");
+    } catch (error) {
+      // Handle login error
+      if (error.response && error.response.data) {
+        setValidationMessage(error.response.data.error);
+        if (error.response.data.remainingLockoutTime) {
+          setRemainingLockoutTime(error.response.data.remainingLockoutTime);
+        } else {
+          setRemainingLockoutTime(0);
+        }
+        if (error.response.data.remainingAttempts !== undefined) {
+          setRemainingAttempts(error.response.data.remainingAttempts);
+        } else {
+          setRemainingAttempts(0);
+        }
+      } else {
+        setValidationMessage("An error occurred. Please try again.");
+      }
+    }
+  };
   return (
     <>
       <form onSubmit={handleLogin} className="mt-12 flex flex-col gap-4">

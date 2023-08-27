@@ -2,7 +2,7 @@
 import { Button, Typography } from "@material-tailwind/react";
 import ProductService from "../../../utils/Services/ProductService";
 import { imgURL } from "../../../utils/Services/UserService";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { add } from "@/utils/Redux/CartSlice";
 import { toast } from "react-toastify";
 import React, { useContext, useState, useEffect } from "react";
@@ -29,14 +29,14 @@ const ProductDetail = ({ params }) => {
     getProductById();
   }, [params.id]);
 
-  const { user, loading } = useContext(UserContext);
+  const { user, isLoggedIn } = useSelector((state) => state.user);
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const handleCart = async (product) => {
     if (user) {
       const productId = product._id;
       const quantity = 1;
-      const token = localStorage.getItem("token");
+      const token = user.token;
       await cartService.addToCart(productId, quantity, token);
       dispatch(add({ product, quantity }));
       toast.success("Item added to cart", {

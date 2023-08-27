@@ -2,12 +2,8 @@
 import axios from "axios";
 export const ProductURL = "http://localhost:3005/products";
 
-const getAllProducts = (token) => {
-    return axios.get(`${ProductURL}`, {
-        headers: {
-            Authorization: `bearer ${token}`,
-        },
-    });
+const getAllProducts = () => {
+    return axios.get(`${ProductURL}`);
 };
 
 const getProductById = (id,) => {

@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import { UserContext } from "../../utils/Context/UserContext";
 import swal from "sweetalert2";
 import { toast } from "react-toastify";
 import {
@@ -22,14 +21,16 @@ import {
   Bars4Icon,
 } from "@heroicons/react/24/solid";
 import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import { clearUser } from "@/utils/Redux/UserSlice";
 
 export default function Sidebar() {
   const [isMinimized, setMinimized] = useState(true);
-
+  const dispatch = useDispatch();
   const handleMinimize = () => {
     setMinimized(!isMinimized);
   };
-  const { user, logout, loading } = useContext(UserContext);
+
   const handleLogout = () => {
     swal
       .fire({
@@ -42,7 +43,7 @@ export default function Sidebar() {
       })
       .then((result) => {
         if (result.isConfirmed) {
-          logout();
+          dispatch(clearUser());
           // Add your navigation logic here
           toast.success("Logged out successfully", {
             position: toast.POSITION.TOP_CENTER,

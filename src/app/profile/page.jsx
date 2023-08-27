@@ -14,9 +14,12 @@ import UserService, { imgURL } from "../../utils/Services/UserService";
 import { toast } from "react-toastify";
 import Link from "next/link";
 import ProtectedRoute from "@/utils/Context/ProtectedRoute";
+import { useSelector } from "react-redux";
 const UpdateProfileForm = () => {
-  const { user, loading, error, dispatch, fetchUser } = useContext(UserContext);
+  const { loading, error, dispatch, fetchUser } = useContext(UserContext);
+  const { user } = useSelector((state) => state.user);
 
+  
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -42,7 +45,8 @@ const UpdateProfileForm = () => {
     if (userImage) {
       formData.append("userImage", userImage);
     }
-    const userToken = window.localStorage.getItem("token");
+    const token = user.token;
+
     UserService.updateUser(user._id, formData, userToken)
       .then((res) => {
         if (res.status === 200) {

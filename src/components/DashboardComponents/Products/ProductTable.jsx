@@ -21,6 +21,7 @@ import ProductService from "../../../utils/Services/ProductService";
 import swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { EditProduct } from "./EditProduct";
+import { useSelector } from "react-redux";
 
 const TABLE_HEAD = [
   "Product",
@@ -33,6 +34,7 @@ const TABLE_HEAD = [
 
 export function ProductTable() {
   const [open, setOpen] = React.useState(false);
+  const { user } = useSelector((state) => state.user);
 
   const handleOpen = () => setOpen(!open);
 
@@ -43,7 +45,7 @@ export function ProductTable() {
   const pageSize = 4;
 
   const getProducts = () => {
-    const token = localStorage.getItem("token");
+    const token = user.token;
     const limit = pageSize;
     const offset = (currentPage - 1) * pageSize;
     ProductService.getAllProducts(token, limit, offset)
@@ -86,7 +88,7 @@ export function ProductTable() {
   const currentProducts = products.slice(startIndex, endIndex);
 
   const deleteProduct = (id, getProducts) => {
-    const token = localStorage.getItem("token");
+    const token = user.token;
     console.log(id);
     swal
       .fire({

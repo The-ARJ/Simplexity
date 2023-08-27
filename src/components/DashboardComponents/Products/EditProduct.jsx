@@ -17,10 +17,11 @@ import { useState } from "react";
 import ProductService from "../../../utils/Services/ProductService";
 import { toast } from "react-toastify";
 import { imgURL } from "../../../utils/Services/UserService";
+import { useSelector } from "react-redux";
 
 export function EditProduct({ product }) {
   const [open, setOpen] = React.useState(false);
-
+  const { user, isLoggedIn } = useSelector((state) => state.user);
   const handleOpen = () => setOpen(!open);
 
   // State variables to store the product information
@@ -57,7 +58,7 @@ export function EditProduct({ product }) {
     formData.append("category", productCategory);
 
     try {
-      const token = localStorage.getItem("token");
+      const token = user.token;
       const response = await ProductService.updateProduct(
         product._id,
         formData,
