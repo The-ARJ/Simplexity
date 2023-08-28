@@ -1,6 +1,5 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import swal from "sweetalert2";
-import { toast } from "react-toastify";
 import {
   Card,
   Typography,
@@ -23,10 +22,13 @@ import {
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "@/utils/Redux/UserSlice";
-
+import showToast from "../Cart/Toast";
+import Service from "../../utils/Services/UserService";
 export default function Sidebar() {
   const [isMinimized, setMinimized] = useState(true);
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
+  const token = user.token;
   const handleMinimize = () => {
     setMinimized(!isMinimized);
   };
@@ -44,17 +46,8 @@ export default function Sidebar() {
       .then((result) => {
         if (result.isConfirmed) {
           dispatch(clearUser());
-          // Add your navigation logic here
-          toast.success("Logged out successfully", {
-            position: toast.POSITION.TOP_CENTER,
-            autoClose: 1000,
-            hideProgressBar: true,
-            closeOnClick: false,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
+          Service.logout(token);
+          showToast("Logged out successfully", "success");
         }
       });
   };

@@ -17,6 +17,11 @@ const UserSlice = createSlice({
       state.isLoggedIn = true;
       state.loading = false;
     },
+    updateUser: (state, action) => {
+      if (state.user) {
+        state.user = { ...state.user, ...action.payload };
+      }
+    },
     clearUser: (state) => {
       state.user = null;
       state.isLoggedIn = false;
@@ -27,5 +32,5 @@ const UserSlice = createSlice({
   },
 });
 
-export const { setUser, clearUser, setLoading } = UserSlice.actions;
+export const { setUser, updateUser, clearUser, setLoading } = UserSlice.actions;
 export default UserSlice.reducer;

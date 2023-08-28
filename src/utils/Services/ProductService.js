@@ -19,10 +19,10 @@ const deleteProductbyId = (id, token) => {
     return axios.delete(`${ProductURL}/${id}`, config);
 };
 
-const createProduct = (formData) => {
+const createProduct = (formData, token) => {
     const config = {
         headers: {
-            Authorization: `bearer ${window.localStorage.getItem("token")}`,
+            Authorization: `bearer ${token}`,
             "Content-Type": "multipart/form-data",
         },
     };

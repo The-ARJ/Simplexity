@@ -30,7 +30,7 @@ export function CustomerReviews({ productId }) {
           dispatch(updateReview(res.data.data));
         }
       } catch (error) {
-        console.log("Error fetching reviews:", error);
+        throw error;
       }
     };
 

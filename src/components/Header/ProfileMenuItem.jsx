@@ -1,6 +1,6 @@
 import React from "react";
 import swal from "sweetalert2";
-import { imgURL } from "../../utils/Services/UserService";
+import Service, { imgURL } from "../../utils/Services/UserService";
 
 import {
   Typography,
@@ -56,8 +56,9 @@ const profileMenuItems = [
 const ProfileMenuItem = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const closeMenu = () => setIsMenuOpen(false);
-  const { user, isLoggedIn } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const token = user.token;
   const handleLogout = () => {
     swal
       .fire({
@@ -71,6 +72,7 @@ const ProfileMenuItem = () => {
       .then((result) => {
         if (result.isConfirmed) {
           dispatch(clearUser());
+          Service.logout(token);
           showToast("Logged out successfully", "success");
         }
       });

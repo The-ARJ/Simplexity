@@ -15,13 +15,13 @@ import {
 import { PencilIcon, PlusIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
 import ProductService from "../../../utils/Services/ProductService";
-import { toast } from "react-toastify";
 import { imgURL } from "../../../utils/Services/UserService";
 import { useSelector } from "react-redux";
+import showToast from "@/components/Cart/Toast";
 
 export function EditProduct({ product }) {
   const [open, setOpen] = React.useState(false);
-  const { user, isLoggedIn } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user);
   const handleOpen = () => setOpen(!open);
 
   // State variables to store the product information
@@ -65,29 +65,11 @@ export function EditProduct({ product }) {
         token
       );
       console.log(response);
-      toast.success("Product Updated Successfully", {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 1000,
-        hideProgressBar: true,
-        closeOnClick: false,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      showToast("Product Updated Successfully", "success");
       handleOpen(); // Close the dialog after successful update
     } catch (err) {
       console.log(err);
-      toast.error("Error Updating Product", {
-        position: "top-center",
-        autoClose: 1000,
-        hideProgressBar: true,
-        closeOnClick: false,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      showToast("Error while updating product", "error");
     }
   };
 

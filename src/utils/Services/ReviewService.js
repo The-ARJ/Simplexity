@@ -41,12 +41,8 @@ const updateReview = (ReviewId, updatedReviewDetails, token) => {
 };
 
 // New function to get reviews by a specific product ID
-const getReviewsByProduct = (productId, token) => {
-  return axios.get(`${ReviewURL}/product/${productId}`, {
-    headers: {
-      Authorization: `bearer ${token}`,
-    },
-  });
+const getReviewsByProduct = (productId) => {
+  return axios.get(`${ReviewURL}/product/${productId}`);
 };
 
 const reviewService = {

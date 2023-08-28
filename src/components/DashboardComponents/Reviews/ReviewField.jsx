@@ -4,14 +4,11 @@ import {
   Typography,
   Rating,
 } from "@material-tailwind/react";
-import { LinkIcon } from "@heroicons/react/24/outline";
 import ReviewService from "../../../utils/Services/ReviewService";
-import { useContext, useState } from "react";
-import { UserContext } from "@/utils/Context/UserContext";
 import { useDispatch, useSelector } from "react-redux";
 import { addReview } from "@/utils/Redux/ReviewSlice";
 export function ReviewField({ productId, boughtByUserIds }) {
-  const { user, isLoggedIn } = useSelector((state) => state.user);
+  const { user } = useSelector((state) => state.user);
   const [reviewText, setReviewText] = useState("");
   const [message, setErrorMessage] = useState("");
   const [rated, setRated] = useState(5);

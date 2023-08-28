@@ -12,6 +12,8 @@ import {
 import { PlusIcon } from "@heroicons/react/24/solid";
 import ProductService from "../../../utils/Services/ProductService";
 import { toast } from "react-toastify";
+import showToast from "@/components/Cart/Toast";
+import { useSelector } from "react-redux";
 
 export default function AddProductForm() {
   // State variables to store the product information
@@ -23,6 +25,9 @@ export default function AddProductForm() {
   const [productImage, setProductImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
 
+  const { user } = useSelector((state) => state.user);
+
+  const token = user.token;
   const submitForm = async () => {
     const formData = new FormData();
     formData.append("productImage", productImage);
@@ -33,18 +38,8 @@ export default function AddProductForm() {
     formData.append("category", productCategory);
 
     try {
-      const response = await ProductService.createProduct(formData);
-      console.log(response);
-      toast.success("Product Added Successfully", {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 1000,
-        hideProgressBar: true,
-        closeOnClick: false,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      const response = await ProductService.createProduct(formData, token);
+      showToast("Product Added Successfully", "success");
     } catch (err) {
       console.log(err);
       toast.error(

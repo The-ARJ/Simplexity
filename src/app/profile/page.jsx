@@ -8,20 +8,21 @@ import {
 } from "@material-tailwind/react";
 import { LockClosedIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import UserService, { imgURL } from "../../utils/Services/UserService";
-import { toast } from "react-toastify";
 import Link from "next/link";
 import ProtectedRoute from "@/utils/Context/ProtectedRoute";
 import { useSelector } from "react-redux";
+import showToast from "@/components/Cart/Toast";
+import { useDispatch } from "react-redux";
+import { updateUser } from "@/utils/Redux/UserSlice";
+
 const UpdateProfileForm = () => {
   const { user } = useSelector((state) => state.user);
-
-  
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [userImage, setImage] = useState(null);
   const [previewImage, setPreviewImage] = useState(null);
-
+  const dispatch = useDispatch();
   function handleImageChange(event) {
     try {
       const selectedFile = event.target.files[0];
@@ -43,19 +44,12 @@ const UpdateProfileForm = () => {
     }
     const token = user.token;
 
-    UserService.updateUser(user._id, formData, userToken)
+    UserService.updateUser(user.id, formData, token)
       .then((res) => {
         if (res.status === 200) {
-          toast.success("Profile Updated Successfully", {
-            position: toast.POSITION.TOP_CENTER,
-            autoClose: 1000,
-            hideProgressBar: true,
-            closeOnClick: false,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
+          console.log(res.data);
+          dispatch(updateUser(res.data.data));
+          showToast("Profile Updated Successfully", "success");
         } else {
           alert("err");
         }
