@@ -22,6 +22,7 @@ import swal from "sweetalert2";
 import { toast } from "react-toastify";
 import { EditProduct } from "./EditProduct";
 import { useSelector } from "react-redux";
+import showToast from "@/components/Cart/Toast";
 
 const TABLE_HEAD = [
   "Product",
@@ -103,20 +104,11 @@ export function ProductTable() {
         if (result.isConfirmed) {
           ProductService.deleteProductbyId(id, token)
             .then(() => {
-              toast.success("Droplet Deleted Successfully", {
-                position: toast.POSITION.TOP_CENTER,
-                autoClose: 1000,
-                hideProgressBar: true,
-                closeOnClick: false,
-                pauseOnHover: false,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-              });
+              showToast("Product Deleted Successfully", "success");
               getProducts();
             })
             .catch((err) => {
-              console.error(err);
+              showToast("Error Deleting Product", "error");
             });
         }
       });

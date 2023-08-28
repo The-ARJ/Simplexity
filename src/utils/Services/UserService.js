@@ -10,10 +10,11 @@ const register = (userDetails) => {
     return axios.post(`${baseURL}/`, userDetails);
 };
 
-const updateUser = (userId, updatedUserDetails) => {
+const updateUser = (userId, updatedUserDetails, token) => {
     const config = {
         headers: {
-            Authorization: `bearer ${window.localStorage.getItem("token")}`,
+            Authorization: `bearer ${token}`,
+
         },
     };
     return axios.put(`${baseURL}/${userId}`, updatedUserDetails, config);

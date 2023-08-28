@@ -22,10 +22,10 @@ const deleteReviewbyId = (id, token) => {
   return axios.delete(`${ReviewURL}/${id}`, config);
 };
 
-const createReview = (reviewData) => {
+const createReview = (reviewData, token) => {
   const config = {
     headers: {
-      Authorization: `bearer ${window.localStorage.getItem("token")}`,
+      Authorization: `bearer ${token}`,
       "Content-Type": "application/json",
     },
   };
@@ -41,12 +41,8 @@ const updateReview = (ReviewId, updatedReviewDetails, token) => {
 };
 
 // New function to get reviews by a specific product ID
-const getReviewsByProduct = (productId, token) => {
-  return axios.get(`${ReviewURL}/product/${productId}`, {
-    headers: {
-      Authorization: `bearer ${token}`,
-    },
-  });
+const getReviewsByProduct = (productId) => {
+  return axios.get(`${ReviewURL}/product/${productId}`);
 };
 
 const reviewService = {

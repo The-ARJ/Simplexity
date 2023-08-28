@@ -7,12 +7,10 @@ import {
 } from "@material-tailwind/react";
 import { LockClosedIcon } from "@heroicons/react/24/solid";
 import { toast } from "react-toastify";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import React, { useContext, useEffect, useState } from "react";
-import { UserContext } from "@/utils/Context/UserContext";
-import UserService, { imgURL } from "../../../utils/Services/UserService";
+import React, { useState } from "react";
+import UserService from "../../../utils/Services/UserService";
 import ProtectedRoute from "@/utils/Context/ProtectedRoute";
 import { useSelector } from "react-redux";
 
@@ -85,7 +83,7 @@ const UpdatePassword = () => {
   const handleUpdatePassword = async (event) => {
     event.preventDefault();
     try {
-      await UserService.updatePassword(user._id, oldPassword, password);
+      await UserService.updatePassword(user.id, oldPassword, password);
       toast.success("Password Update Successful!", {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 3000,

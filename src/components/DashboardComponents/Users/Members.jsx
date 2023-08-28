@@ -1,14 +1,12 @@
 "use client";
 import React from "react";
-import UserService, { imgURL } from "../../../utils/Services/UserService";
-import swal from "sweetalert2";
-import { toast } from "react-toastify";
+import { imgURL } from "../../../utils/Services/UserService";
 
 import {
   MagnifyingGlassIcon,
   ChevronUpDownIcon,
 } from "@heroicons/react/24/outline";
-import { PencilIcon, UserPlusIcon, TrashIcon } from "@heroicons/react/24/solid";
+import { PencilIcon } from "@heroicons/react/24/solid";
 import {
   Typography,
   CardBody,
@@ -18,7 +16,14 @@ import {
   Chip,
 } from "@material-tailwind/react";
 const Members = ({ userData }) => {
-  const TABLE_HEAD = ["Member", "Role", "Status","Account", "Employed", "Action"];
+  const TABLE_HEAD = [
+    "Member",
+    "Role",
+    "Status",
+    "Account",
+    "Employed",
+    "Action",
+  ];
   const adminUsers = userData.filter((user) => user.role === "admin");
 
   return (

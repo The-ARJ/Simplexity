@@ -5,9 +5,8 @@ import { imgURL } from "../../../utils/Services/UserService";
 import { useDispatch, useSelector } from "react-redux";
 import { add } from "@/utils/Redux/CartSlice";
 import { toast } from "react-toastify";
-import React, { useContext, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import AuthDialog from "@/components/Auth/AuthDialogue";
-import { UserContext } from "@/utils/Context/UserContext";
 import cartService from "@/utils/Services/CartService";
 import { ReviewField } from "@/components/DashboardComponents/Reviews/ReviewField";
 import { CustomerReviews } from "@/components/DashboardComponents/Reviews/CustomerReviews";
@@ -28,7 +27,6 @@ const ProductDetail = ({ params }) => {
 
     getProductById();
   }, [params.id]);
-
   const { user, isLoggedIn } = useSelector((state) => state.user);
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
@@ -54,8 +52,9 @@ const ProductDetail = ({ params }) => {
     }
   };
   const handleClose = () => setOpen(false);
-  const boughtByUserIds = Array.isArray(product.boughtBy) ? product.boughtBy : [product.boughtBy];
-
+  const boughtByUserIds = Array.isArray(product.boughtBy)
+    ? product.boughtBy
+    : [product.boughtBy];
   return (
     <>
       <div className=" py-8 pt-36">
@@ -90,8 +89,15 @@ const ProductDetail = ({ params }) => {
                 <Typography variant="h5" color="blue-gray">
                   Customer Reviews
                 </Typography>
-                <ReviewField productId={product._id}  boughtByUserIds={boughtByUserIds}/>
-                <CustomerReviews productId={product._id}  />
+
+                {product._id && (
+                  <ReviewField
+                    productId={product._id}
+                    boughtByUserIds={boughtByUserIds}
+                  />
+                )}
+
+                {product._id && <CustomerReviews productId={product._id} />}
               </div>
             </div>
             <div className="md:flex-1 px-4">

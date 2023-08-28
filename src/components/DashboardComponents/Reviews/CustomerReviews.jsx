@@ -1,13 +1,9 @@
 import {
-  Timeline,
   TimelineItem,
-  TimelineConnector,
   TimelineHeader,
-  TimelineIcon,
   TimelineBody,
   Typography,
   Avatar,
-  Badge,
   IconButton,
   Rating,
 } from "@material-tailwind/react";
@@ -30,13 +26,12 @@ export function CustomerReviews({ productId }) {
           dispatch(updateReview(res.data.data));
         }
       } catch (error) {
-        console.log("Error fetching reviews:", error);
+        throw error;
       }
     };
 
     fetchReviews();
   }, [dispatch, productId]);
-
   useEffect(() => {
     // Calculate average rating
     if (reviews.length > 0) {
