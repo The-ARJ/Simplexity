@@ -14,9 +14,7 @@ export function ReviewField({ productId, boughtByUserIds }) {
   const [reviewText, setReviewText] = useState("");
   const [message, setErrorMessage] = useState("");
   const [rated, setRated] = useState(5);
-
   const dispatch = useDispatch();
-s
   const token = user.token;
   const handleReviewSubmit = async () => {
     try {
