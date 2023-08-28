@@ -5,10 +5,7 @@ import {
   Rating,
 } from "@material-tailwind/react";
 import ReviewService from "../../../utils/Services/ReviewService";
-<<<<<<< HEAD
 import { useState } from "react";
-=======
->>>>>>> 0204ba1a17553b0003a9c020a35007b5d3a09707
 import { useDispatch, useSelector } from "react-redux";
 import { addReview } from "@/utils/Redux/ReviewSlice";
 
@@ -19,7 +16,7 @@ export function ReviewField({ productId, boughtByUserIds }) {
   const [rated, setRated] = useState(5);
 
   const dispatch = useDispatch();
-
+s
   const token = user.token;
   const handleReviewSubmit = async () => {
     try {
