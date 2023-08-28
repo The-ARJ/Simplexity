@@ -1,7 +1,4 @@
-import React, { useContext } from "react";
-import { UserContext } from "../../utils/Context/UserContext";
-import swal from "sweetalert2";
-import { toast } from "react-toastify";
+import React from "react";
 import {
   Navbar,
   MobileNav,
@@ -19,15 +16,17 @@ import MessagePrompt from "./MessagePrompt";
 import { useSelector } from "react-redux";
 
 export default function ComplexNavbar() {
-  const { user, isLoggedIn } = useSelector((state) => state.user);
-
+  const { user } = useSelector((state) => state.user);
   const [isNavOpen, setIsNavOpen] = React.useState(false);
   const toggleIsNavOpen = () => setIsNavOpen((cur) => !cur);
   React.useEffect(() => {
-    window.addEventListener(
-      "resize",
-      () => window.innerWidth >= 960 && setIsNavOpen(false)
-    );
+    const handleResize = () => {
+      if (window.innerWidth >= 960) setIsNavOpen(false);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   return (
@@ -40,7 +39,7 @@ export default function ComplexNavbar() {
                 Simplexity
               </Typography>
               <Typography className="cursor-pointer text-[10px] md:text-xs uppercase text-amber-700 ">
-              Simplify, Shop, Smile
+                Simplify, Shop, Smile
               </Typography>
             </div>
           </Link>

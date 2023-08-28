@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState } from "react";
 import {
   Button,
   Typography,
@@ -7,82 +7,34 @@ import {
 } from "@material-tailwind/react";
 import { LockClosedIcon, EyeIcon } from "@heroicons/react/24/solid";
 import UserService from "../../utils/Services/UserService";
-import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import { UserContext } from "../../utils/Context/UserContext";
 import Link from "next/link";
-import GoogleSignInButton from "./GoogleSignInButton";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/utils/Redux/UserSlice";
-
 const SignIn = (handleClose) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [validationMessage, setValidationMessage] = useState("");
-  const [remainingLockoutTime, setRemainingLockoutTime] = useState(0); // State to hold the remaining lockout time
-  const [remainingAttempts, setRemainingAttempts] = useState(0); // State to hold the number of remaining login attempts
+  const [remainingLockoutTime, setRemainingLockoutTime] = useState(0);
+  const [remainingAttempts, setRemainingAttempts] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
-
   const router = useRouter();
-  // const { fetchUser } = useContext(UserContext);
-
   function formatTime(durationInMs) {
     const minutes = Math.floor(durationInMs / 60000);
     const seconds = ((durationInMs % 60000) / 1000).toFixed(0);
     return `${minutes} minutes and ${seconds} seconds`;
   }
 
-  // Function to reset the state values
-  const resetState = () => {
-    setRemainingLockoutTime(0);
-    setRemainingAttempts(0);
-    setValidationMessage("");
-  };
-
-  // useEffect hook to check and reset state when remainingLockoutTime reaches 0
-  useEffect(() => {
-    let intervalId;
-    if (remainingLockoutTime > 0) {
-      intervalId = setInterval(() => {
-        setRemainingLockoutTime((prevTime) => prevTime - 1000);
-      }, 1000);
-    } else {
-      // Call the resetState function when remainingLockoutTime reaches 0
-      resetState();
-    }
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [remainingLockoutTime]);
-
-  const handleForgotPassword = () => {
-    router.push("/dashboard");
-  };
-
-  const handleLogin = async (e) => {
+  async function handleLogin(e) {
     e.preventDefault();
-
     try {
       const response = await UserService.login({ email, password });
       const user = response.data;
       console.log("this is user data from login", user);
-      dispatch(setUser(user)); // Dispatch the setUser action with user data
-      toast.success("Signed In Successfully", {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 1000,
-        hideProgressBar: true,
-        closeOnClick: false,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
-
+      dispatch(setUser(user));
       router.push("/dashboard");
     } catch (error) {
-      // Handle login error
       if (error.response && error.response.data) {
         setValidationMessage(error.response.data.error);
         if (error.response.data.remainingLockoutTime) {
@@ -99,7 +51,7 @@ const SignIn = (handleClose) => {
         setValidationMessage("An error occurred. Please try again.");
       }
     }
-  };
+  }
   return (
     <>
       <form onSubmit={handleLogin} className="mt-12 flex flex-col gap-4">

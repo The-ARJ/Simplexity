@@ -1,24 +1,16 @@
-import React, { useContext } from "react";
-import { UserContext } from "../../utils/Context/UserContext";
-import swal from "sweetalert2";
-import { toast } from "react-toastify";
+import React from "react";
 import {
-  Navbar,
-  MobileNav,
   Typography,
-  Button,
   Menu,
   MenuHandler,
   MenuList,
   MenuItem,
-  Card,
 } from "@material-tailwind/react";
 
 import {
   Square3Stack3DIcon,
   TagIcon,
   ChevronDownIcon,
-  RocketLaunchIcon,
 } from "@heroicons/react/24/outline";
 
 // Categories for outdoor wear

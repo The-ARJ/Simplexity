@@ -2,7 +2,7 @@ import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { Badge, MenuItem, Typography } from "@material-tailwind/react";
-import React, { useEffect, useContext } from "react";
+import React, { useEffect } from "react";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,7 +11,6 @@ import { remove, updateCart } from "@/utils/Redux/CartSlice";
 import swal from "sweetalert2";
 import cartService from "@/utils/Services/CartService";
 import showToast from "./Toast";
-import { PlusIcon, MinusIcon } from "@heroicons/react/24/outline";
 export default function Cart() {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.cart);

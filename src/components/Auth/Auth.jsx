@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import { Typography, MenuItem } from "@material-tailwind/react";
 import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline";

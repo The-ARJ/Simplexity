@@ -2,7 +2,7 @@ import { ShoppingBagIcon, HomeIcon } from "@heroicons/react/24/outline";
 import React from "react";
 import NavListMenu from "./NavListMenu";
 import { MenuItem, Typography } from "@material-tailwind/react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 const navListItems = [
   {
@@ -18,7 +18,6 @@ const navListItems = [
 ];
 
 const NavList = () => {
-  const router = useRouter();
   const pathname = usePathname();
 
   return (

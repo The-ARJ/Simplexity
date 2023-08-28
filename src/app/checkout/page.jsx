@@ -47,7 +47,7 @@ const DeliveryDetailsForm = () => {
   };
 
   const handleRemove = (id) => {
-    const token = localStorage.getItem("token");
+    const token = user.token;
 
     swal
       .fire({
@@ -94,7 +94,7 @@ const DeliveryDetailsForm = () => {
   const total = subtotal + shippingCharge + taxAmount;
 
   const handleUpdateQuantity = async (id, quantity) => {
-    const token = localStorage.getItem("token");
+    const token = user.token;
     try {
       // Validate the quantity to ensure it's a positive integer value or set it to 1 if it's not a valid number
       const validatedQuantity =

@@ -1,7 +1,6 @@
-import React, { useContext } from "react";
-import { UserContext } from "../../utils/Context/UserContext";
+import React from "react";
 import Link from "next/link";
-import { Chip, Typography } from "@material-tailwind/react";
+import { Typography } from "@material-tailwind/react";
 import { usePathname, useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import axios from "axios";

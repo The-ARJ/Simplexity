@@ -1,3 +1,4 @@
+"use client"
 import React, { useState } from "react";
 import Product from "./Product";
 import { Typography } from "@material-tailwind/react";

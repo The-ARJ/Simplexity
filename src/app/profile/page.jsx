@@ -1,14 +1,11 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import {
-  Card,
   Input,
-  Checkbox,
   Button,
   Typography,
   Breadcrumbs,
 } from "@material-tailwind/react";
-import { UserContext } from "@/utils/Context/UserContext";
 import { LockClosedIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import UserService, { imgURL } from "../../utils/Services/UserService";
 import { toast } from "react-toastify";
@@ -16,7 +13,6 @@ import Link from "next/link";
 import ProtectedRoute from "@/utils/Context/ProtectedRoute";
 import { useSelector } from "react-redux";
 const UpdateProfileForm = () => {
-  const { loading, error, dispatch, fetchUser } = useContext(UserContext);
   const { user } = useSelector((state) => state.user);
 
   
@@ -50,7 +46,6 @@ const UpdateProfileForm = () => {
     UserService.updateUser(user._id, formData, userToken)
       .then((res) => {
         if (res.status === 200) {
-          fetchUser();
           toast.success("Profile Updated Successfully", {
             position: toast.POSITION.TOP_CENTER,
             autoClose: 1000,

@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import { Carousel, Typography, Button } from "@material-tailwind/react";
 import clothingData from "../utils/Data/clothingData";

@@ -1,6 +1,4 @@
-import { useContext } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { UserContext } from "./UserContext";
 import { Spinner } from "@material-tailwind/react";
 import { useSelector } from "react-redux";
 

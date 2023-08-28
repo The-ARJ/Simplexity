@@ -1,30 +1,25 @@
-// UserSlice.js
+// "use client"
 import { createSlice } from "@reduxjs/toolkit";
-import Cookies from "js-cookie"; // Import the cookie library
 
-// Load initial state from cookies if available
+// Just define the initial state without fetching from Cookies
 const initialState = {
-  user: Cookies.get("user") ? JSON.parse(Cookies.get("user")) : null,
-  isLoggedIn: !!Cookies.get("isLoggedIn"),
-  loading: false, // Add loading property
+  user: null,
+  isLoggedIn: false,
+  loading: false,
 };
 
 const UserSlice = createSlice({
-  name: "auth",
+  name: "user",
   initialState,
   reducers: {
     setUser: (state, action) => {
       state.user = action.payload;
       state.isLoggedIn = true;
-      state.loading = false; // Set loading to false after user is set
-      Cookies.set("user", JSON.stringify(action.payload));
-      Cookies.set("isLoggedIn", "true");
+      state.loading = false;
     },
     clearUser: (state) => {
       state.user = null;
       state.isLoggedIn = false;
-      Cookies.remove("user");
-      Cookies.remove("isLoggedIn");
     },
     setLoading: (state, action) => {
       state.loading = action.payload;
@@ -32,7 +27,5 @@ const UserSlice = createSlice({
   },
 });
 
-export const { setUser, clearUser, } = UserSlice.actions;
+export const { setUser, clearUser, setLoading } = UserSlice.actions;
 export default UserSlice.reducer;
-
-

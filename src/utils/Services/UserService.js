@@ -1,5 +1,4 @@
 import axios from "axios";
-
 const baseURL = "http://localhost:3005/users";
 export const imgURL = "http://localhost:3005";
 

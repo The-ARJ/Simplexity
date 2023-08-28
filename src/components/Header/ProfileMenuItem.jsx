@@ -1,6 +1,5 @@
-import React, { useContext } from "react";
+import React from "react";
 import swal from "sweetalert2";
-import { toast } from "react-toastify";
 import { imgURL } from "../../utils/Services/UserService";
 
 import {
@@ -12,6 +11,7 @@ import {
   MenuItem,
   Avatar,
 } from "@material-tailwind/react";
+
 import {
   UserCircleIcon,
   ChevronDownIcon,
@@ -20,10 +20,11 @@ import {
   LifebuoyIcon,
   PowerIcon,
 } from "@heroicons/react/24/outline";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "@/utils/Redux/UserSlice";
+import showToast from "../Cart/Toast";
 
 const profileMenuItems = [
   {
@@ -69,18 +70,8 @@ const ProfileMenuItem = () => {
       })
       .then((result) => {
         if (result.isConfirmed) {
-          dispatch(clearUser()); // Correctly dispatch the action
-          // Add your navigation logic here
-          toast.success("Logged out successfully", {
-            position: toast.POSITION.TOP_CENTER,
-            autoClose: 1000,
-            hideProgressBar: true,
-            closeOnClick: false,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
+          dispatch(clearUser());
+          showToast("Logged out successfully", "success");
         }
       });
   };

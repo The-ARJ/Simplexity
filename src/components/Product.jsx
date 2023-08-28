@@ -7,7 +7,7 @@ import {
   CardFooter,
 } from "@material-tailwind/react";
 import { imgURL } from "../utils/Services/UserService";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import AuthDialog from "./Auth/AuthDialogue";
 import { useDispatch, useSelector } from "react-redux";
 import { add } from "@/utils/Redux/CartSlice";
