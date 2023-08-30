@@ -1,10 +1,11 @@
+"use client";
 import React from "react";
 import Link from "next/link";
 import { Typography } from "@material-tailwind/react";
 import { usePathname, useRouter } from "next/navigation";
-import { toast } from "react-toastify";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import showToast from "../Cart/Toast";
 export default function MessagePrompt() {
   const router = useRouter();
   const pathname = usePathname();
@@ -34,40 +35,13 @@ export default function MessagePrompt() {
       await axios.post("http://localhost:3005/users/forgot-password", {
         email: user.email,
       });
-      toast.success("Validation Code Sent to Email", {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: false,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      showToast("Verification code sent successfully", "success");
       router.push("/verify-account");
     } catch (err) {
       if (err.response && err.response.data) {
-        toast.error(err.response.data, {
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: false,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        showToast(err.response.data.message, "error");
       } else {
-        toast.error("Failed to send reset password email", {
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: false,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        showToast("Something went wrong", "error");
       }
     }
   };

@@ -1,9 +1,11 @@
-import React from "react";
+"use client"
+import React, { useState, useEffect } from "react";
 import {
   Navbar,
   MobileNav,
   Typography,
   IconButton,
+  Collapse,
 } from "@material-tailwind/react";
 import { Bars2Icon } from "@heroicons/react/24/outline";
 import Auth from "../Auth/Auth";
@@ -17,9 +19,9 @@ import { useSelector } from "react-redux";
 
 export default function ComplexNavbar() {
   const { user } = useSelector((state) => state.user);
-  const [isNavOpen, setIsNavOpen] = React.useState(false);
+  const [isNavOpen, setIsNavOpen] = useState(false);
   const toggleIsNavOpen = () => setIsNavOpen((cur) => !cur);
-  React.useEffect(() => {
+  useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 960) setIsNavOpen(false);
     };
@@ -73,9 +75,9 @@ export default function ComplexNavbar() {
           </IconButton>
           {user ? <ProfileMenuItem /> : <Auth />}
         </div>
-        <MobileNav open={isNavOpen} className="overflow-scroll">
+        <Collapse open={isNavOpen} className="overflow-scroll">
           <NavList />
-        </MobileNav>
+        </Collapse>
       </Navbar>
     </>
   );

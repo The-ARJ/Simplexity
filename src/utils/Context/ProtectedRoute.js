@@ -1,3 +1,4 @@
+"use client"
 import { usePathname, useRouter } from "next/navigation";
 import { Spinner } from "@material-tailwind/react";
 import { useSelector } from "react-redux";

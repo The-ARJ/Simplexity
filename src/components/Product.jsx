@@ -20,8 +20,6 @@ export default function Product({ searchQuery, topSelling }) {
   const { user, isLoggedIn } = useSelector((state) => state.user);
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
-  const reviews = useSelector((state) => state.reviews);
-
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 

@@ -15,8 +15,8 @@ export function ReviewField({ productId, boughtByUserIds }) {
   const [message, setErrorMessage] = useState("");
   const [rated, setRated] = useState(5);
   const dispatch = useDispatch();
-  const token = user.token;
   const handleReviewSubmit = async () => {
+    const token = user.token;
     try {
       if (!reviewText || reviewText.trim() === "") {
         setErrorMessage("Please write a review before submitting.");

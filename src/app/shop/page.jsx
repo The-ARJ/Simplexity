@@ -6,7 +6,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import Product from "@/components/Product";
 
 const Shop = () => {
-  const [searchQuery, setSearchQuery] = useState(""); // New state variable for search
+  const [searchQuery, setSearchQuery] = useState("");
 
   return (
     <div className="mx-auto max-w-screen-2xl pt-28 pb-20 px-4 ">
