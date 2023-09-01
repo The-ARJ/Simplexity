@@ -1,4 +1,4 @@
-import { Input } from "@material-tailwind/react";
+import { Input } from "@/components/MaterialComponents/Material-Tailwind";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 export default function SearchBar() {
   return (

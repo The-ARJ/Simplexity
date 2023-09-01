@@ -10,7 +10,7 @@ import {
   MenuList,
   MenuItem,
   Avatar,
-} from "@material-tailwind/react";
+} from "@/components/MaterialComponents/Material-Tailwind";
 
 import {
   UserCircleIcon,
@@ -25,6 +25,7 @@ import Link from "next/link";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "@/utils/Redux/UserSlice";
 import showToast from "../Cart/Toast";
+import { useRouter } from "next/navigation";
 
 const profileMenuItems = [
   {
@@ -54,6 +55,7 @@ const profileMenuItems = [
 ];
 
 const ProfileMenuItem = () => {
+  const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const closeMenu = () => setIsMenuOpen(false);
   const { user } = useSelector((state) => state.user);
@@ -72,6 +74,7 @@ const ProfileMenuItem = () => {
       .then((result) => {
         if (result.isConfirmed) {
           dispatch(clearUser());
+          router.push("/");
           Service.logout(token);
           showToast("Logged out successfully", "success");
         }

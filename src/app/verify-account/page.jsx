@@ -1,15 +1,15 @@
 "use client";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Typography, Input } from "@material-tailwind/react";
 import { LockClosedIcon } from "@heroicons/react/24/solid";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { UserContext } from "@/utils/Context/UserContext";
 import { useRouter } from "next/navigation";
-import ProtectedRoute from "@/utils/Context/ProtectedRoute";
+import { useSelector } from "react-redux";
+import showToast from "@/components/Cart/Toast";
 
 const CodeVerification = () => {
-  const { user } = useContext(UserContext);
+  const { user } = useSelector((state) => state.user);
   const router = useRouter();
   const [verificationCode, setverificationCode] = useState("");
   const [validationMessage, setValidationMessage] = useState("");
@@ -35,39 +35,12 @@ const CodeVerification = () => {
       await axios.post("http://localhost:3005/users/forgot-password", {
         email: user.email,
       });
-      toast.success("Validation code resent successfully!", {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: false,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      showToast("Verification code sent to your email", "success");
     } catch (err) {
       if (err.response && err.response.data) {
-        toast.error(err.response.data, {
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: false,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        showToast(err.response.data, "error");
       } else {
-        toast.error("Failed to resend validation code", {
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: false,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        showToast("Failed to resend verification code", "error");
       }
     }
   };
@@ -83,21 +56,9 @@ const CodeVerification = () => {
           verificationCode: verificationCode,
         }
       );
-
-      console.log("Received verification code:", verificationCode);
-
       if (response.data.message === "Code is correct") {
         setverificationCode("Validation");
-        toast.success("Account Verified Successfully!", {
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: false,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        showToast("Account verified", "success");
         router.push("/");
       } else {
         setValidationMessage("Unable to verify account");
@@ -171,4 +132,4 @@ const CodeVerification = () => {
   );
 };
 
-export default ProtectedRoute(CodeVerification);
+export default CodeVerification;

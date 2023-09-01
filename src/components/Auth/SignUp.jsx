@@ -4,7 +4,7 @@ import {
   Typography,
   Input,
   IconButton,
-} from "@material-tailwind/react";
+} from "@/components/MaterialComponents/Material-Tailwind";
 import { LockClosedIcon, EyeIcon } from "@heroicons/react/24/solid";
 import UserService from "../../utils/Services/UserService";
 

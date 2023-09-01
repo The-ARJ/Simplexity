@@ -9,7 +9,7 @@ import {
   ListItemSuffix,
   Chip,
   Tooltip,
-} from "@material-tailwind/react";
+} from "@/components/MaterialComponents/Material-Tailwind";
 import {
   PresentationChartBarIcon,
   ShoppingBagIcon,
@@ -28,12 +28,12 @@ export default function Sidebar() {
   const [isMinimized, setMinimized] = useState(true);
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
-  const token = user.token;
   const handleMinimize = () => {
     setMinimized(!isMinimized);
   };
 
   const handleLogout = () => {
+  const token = user.token;
     swal
       .fire({
         text: "Are you sure you want to logout?",

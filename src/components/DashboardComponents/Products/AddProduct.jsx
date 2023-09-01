@@ -8,7 +8,7 @@ import {
   Select,
   Option,
   Textarea,
-} from "@material-tailwind/react";
+} from "@/components/MaterialComponents/Material-Tailwind";
 import { PlusIcon } from "@heroicons/react/24/solid";
 import ProductService from "../../../utils/Services/ProductService";
 import { toast } from "react-toastify";
@@ -27,8 +27,8 @@ export default function AddProductForm() {
 
   const { user } = useSelector((state) => state.user);
 
-  const token = user.token;
   const submitForm = async () => {
+    const token = user.token;
     const formData = new FormData();
     formData.append("productImage", productImage);
     formData.append("name", productName);

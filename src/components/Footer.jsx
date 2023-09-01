@@ -1,5 +1,5 @@
 "use client"
-import { Typography } from "@material-tailwind/react";
+import { Typography } from "@/components/MaterialComponents/Material-Tailwind";
  
 const SITEMAP = [
   {

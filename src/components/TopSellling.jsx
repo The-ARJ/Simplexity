@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from "react";
 import Product from "./Product";
-import { Typography } from "@material-tailwind/react";
+import { Typography } from "@/components/MaterialComponents/Material-Tailwind";
 
 const TopSelling = () => {
   const [searchQuery, setSearchQuery] = useState(""); // New state variable for search

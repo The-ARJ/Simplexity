@@ -2,7 +2,7 @@ import {
   MagnifyingGlassIcon,
   ChevronUpDownIcon,
 } from "@heroicons/react/24/outline";
-import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
+import { TrashIcon } from "@heroicons/react/24/solid";
 import { imgURL } from "../../../utils/Services/UserService";
 import {
   Card,
@@ -15,7 +15,7 @@ import {
   Avatar,
   IconButton,
   Tooltip,
-} from "@material-tailwind/react";
+} from "@/components/MaterialComponents/Material-Tailwind";
 import React, { useState, useEffect } from "react";
 import ProductService from "../../../utils/Services/ProductService";
 import swal from "sweetalert2";

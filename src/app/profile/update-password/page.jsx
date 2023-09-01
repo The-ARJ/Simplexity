@@ -4,14 +4,13 @@ import {
   Typography,
   Input,
   Breadcrumbs,
-} from "@material-tailwind/react";
+} from "@/components/MaterialComponents/Material-Tailwind";
 import { LockClosedIcon } from "@heroicons/react/24/solid";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import React, { useState } from "react";
 import UserService from "../../../utils/Services/UserService";
-import ProtectedRoute from "@/utils/Context/ProtectedRoute";
 import { useSelector } from "react-redux";
 
 const UpdatePassword = () => {
@@ -275,4 +274,4 @@ const UpdatePassword = () => {
   );
 };
 
-export default ProtectedRoute(UpdatePassword);
+export default UpdatePassword;

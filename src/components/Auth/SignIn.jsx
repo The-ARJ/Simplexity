@@ -33,7 +33,7 @@ const SignIn = (handleClose) => {
       const user = response.data;
       console.log("this is user data from login", user);
       dispatch(setUser(user));
-      router.push("/dashboard");
+      router.push("/");
     } catch (error) {
       if (error.response && error.response.data) {
         setValidationMessage(error.response.data.error);

@@ -2,7 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
-import { Button } from "@material-tailwind/react";
+import { Button } from "@/components/MaterialComponents/Material-Tailwind";
 
 const GoogleSignInButton = () => {
   const searchParams = useSearchParams();

@@ -6,12 +6,11 @@ import {
   TabsBody,
   Tab,
   TabPanel,
-} from "@material-tailwind/react";
+} from "@/components/MaterialComponents/Material-Tailwind";
 import { PlusCircleIcon, QueueListIcon } from "@heroicons/react/24/solid";
 import AddProductForm from "@/components/DashboardComponents/Products/AddProduct";
 import DashboardLayout from "@/components/DashboardComponents/DashboardLayout";
 import { ProductTable } from "@/components/DashboardComponents/Products/ProductTable";
-import ProtectedRoute from "@/utils/Context/ProtectedRoute";
 
 const ProductTabs = () => {
   const data = [
@@ -68,4 +67,4 @@ const ProductTabs = () => {
     </DashboardLayout>
   );
 };
-export default ProtectedRoute(ProductTabs);
+export default ProductTabs;

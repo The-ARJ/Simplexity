@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { Typography, MenuItem } from "@material-tailwind/react";
+import { Typography, MenuItem } from "@/components/MaterialComponents/Material-Tailwind";
 import { ArrowRightOnRectangleIcon } from "@heroicons/react/24/outline";
 import AuthDialog from "./AuthDialogue";
 

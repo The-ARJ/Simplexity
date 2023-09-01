@@ -3,7 +3,7 @@ import {
   IconButton,
   Typography,
   Rating,
-} from "@material-tailwind/react";
+} from "@/components/MaterialComponents/Material-Tailwind";
 import ReviewService from "../../../utils/Services/ReviewService";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";

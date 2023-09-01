@@ -10,7 +10,7 @@ import {
   TabsBody,
   Tab,
   TabPanel,
-} from "@material-tailwind/react";
+} from "@/components/MaterialComponents/Material-Tailwind";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 

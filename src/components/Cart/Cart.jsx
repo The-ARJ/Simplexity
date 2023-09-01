@@ -1,7 +1,7 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { Badge, MenuItem, Typography } from "@material-tailwind/react";
+import { Badge, MenuItem, Typography } from "@/components/MaterialComponents/Material-Tailwind";
 import React, { useEffect } from "react";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";

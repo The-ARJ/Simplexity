@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Stepper, Step, Button, Typography } from "@material-tailwind/react";
+import { Stepper, Step, Button, Typography } from "@/components/MaterialComponents/Material-Tailwind";
 import {
   CogIcon,
   UserIcon,
@@ -10,7 +10,6 @@ import ComplexNavbar from "@/components/Header/Header";
 import EmailVerification from "@/components/Auth/ForgotPassword/EmailVerification";
 import CodeVerification from "@/components/Auth/ForgotPassword/CodeVerification";
 import ResetPassword from "@/components/Auth/ForgotPassword/ResetPassword";
-import ProtectedRoute from "@/utils/Context/ProtectedRoute";
 
 const ForgotPassword = ()=> {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -107,4 +106,4 @@ const ForgotPassword = ()=> {
 }
 
 
-export default ProtectedRoute(ForgotPassword); 
+export default ForgotPassword; 

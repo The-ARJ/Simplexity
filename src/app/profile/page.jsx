@@ -5,11 +5,10 @@ import {
   Button,
   Typography,
   Breadcrumbs,
-} from "@material-tailwind/react";
+} from "@/components/MaterialComponents/Material-Tailwind";
 import { LockClosedIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import UserService, { imgURL } from "../../utils/Services/UserService";
 import Link from "next/link";
-import ProtectedRoute from "@/utils/Context/ProtectedRoute";
 import { useSelector } from "react-redux";
 import showToast from "@/components/Cart/Toast";
 import { useDispatch } from "react-redux";
@@ -184,4 +183,4 @@ const UpdateProfileForm = () => {
   );
 };
 
-export default ProtectedRoute(UpdateProfileForm);
+export default UpdateProfileForm;

@@ -24,7 +24,6 @@ import {
 } from "@material-tailwind/react";
 import Members from "@/components/DashboardComponents/Users/Members";
 import Users from "@/components/DashboardComponents/Users/Users";
-import ProtectedRoute from "@/utils/Context/ProtectedRoute";
 import { useSelector } from "react-redux";
 
 const TABS = [
@@ -215,4 +214,4 @@ const UserTable = () => {
   );
 };
 
-export default ProtectedRoute(UserTable);
+export default UserTable;

@@ -1,6 +1,6 @@
 "use client"
 import React from "react";
-import { Carousel, Typography, Button } from "@material-tailwind/react";
+import { Carousel, Typography, Button } from "@/components/MaterialComponents/Material-Tailwind";
 import clothingData from "../utils/Data/clothingData";
 import Link from "next/link";
 
