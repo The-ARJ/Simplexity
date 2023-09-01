@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Stepper, Step, Button, Typography } from "@material-tailwind/react";
+import { Stepper, Step, Button, Typography } from "@/components/MaterialComponents/Material-Tailwind";
 import {
   CogIcon,
   UserIcon,

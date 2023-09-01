@@ -6,7 +6,7 @@ import {
   Avatar,
   IconButton,
   Rating,
-} from "@material-tailwind/react";
+} from "@/components/MaterialComponents/Material-Tailwind";
 import ReviewService from "../../../utils/Services/ReviewService";
 import { imgURL } from "../../../utils/Services/UserService";
 import { useEffect, useState } from "react";

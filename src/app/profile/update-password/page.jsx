@@ -4,7 +4,7 @@ import {
   Typography,
   Input,
   Breadcrumbs,
-} from "@material-tailwind/react";
+} from "@/components/MaterialComponents/Material-Tailwind";
 import { LockClosedIcon } from "@heroicons/react/24/solid";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";

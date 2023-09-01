@@ -5,7 +5,7 @@ import {
   Button,
   Typography,
   Breadcrumbs,
-} from "@material-tailwind/react";
+} from "@/components/MaterialComponents/Material-Tailwind";
 import { LockClosedIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import UserService, { imgURL } from "../../utils/Services/UserService";
 import Link from "next/link";

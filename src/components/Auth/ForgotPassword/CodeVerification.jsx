@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Typography, Input } from "@material-tailwind/react";
+import { Button, Typography, Input } from "@/components/MaterialComponents/Material-Tailwind";
 import { LockClosedIcon } from "@heroicons/react/24/solid";
 import { toast } from "react-toastify";
 import axios from "axios";

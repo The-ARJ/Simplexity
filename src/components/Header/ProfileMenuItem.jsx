@@ -10,7 +10,7 @@ import {
   MenuList,
   MenuItem,
   Avatar,
-} from "@material-tailwind/react";
+} from "@/components/MaterialComponents/Material-Tailwind";
 
 import {
   UserCircleIcon,

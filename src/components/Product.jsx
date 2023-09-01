@@ -1,3 +1,4 @@
+"use client"
 import {
   Card,
   CardHeader,
@@ -5,7 +6,7 @@ import {
   Typography,
   Button,
   CardFooter,
-} from "@material-tailwind/react";
+} from "@/components/MaterialComponents/Material-Tailwind";
 import { imgURL } from "../utils/Services/UserService";
 import React, { useEffect, useState } from "react";
 import AuthDialog from "./Auth/AuthDialogue";

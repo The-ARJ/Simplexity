@@ -1,6 +1,9 @@
 "use client";
 import ProtectedRoute from "@/utils/Context/ProtectedRoute";
-import { Input, Typography } from "@material-tailwind/react";
+import {
+  Input,
+  Typography,
+} from "@/components/MaterialComponents/Material-Tailwind";
 import React, { useState } from "react";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import Product from "@/components/Product";

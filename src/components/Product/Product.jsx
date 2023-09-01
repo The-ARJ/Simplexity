@@ -1,5 +1,8 @@
 "use client";
-import { Button, Typography } from "@material-tailwind/react";
+import {
+  Button,
+  Typography,
+} from "@/components/MaterialComponents/Material-Tailwind";
 import { imgURL } from "@/utils//Services/UserService";
 import { useDispatch, useSelector } from "react-redux";
 import { add } from "@/utils/Redux/CartSlice";

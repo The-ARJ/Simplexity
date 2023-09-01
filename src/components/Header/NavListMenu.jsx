@@ -5,7 +5,7 @@ import {
   MenuHandler,
   MenuList,
   MenuItem,
-} from "@material-tailwind/react";
+} from "@/components/MaterialComponents/Material-Tailwind";
 
 import {
   Square3Stack3DIcon,

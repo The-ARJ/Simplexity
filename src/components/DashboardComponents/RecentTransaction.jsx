@@ -15,7 +15,7 @@ import {
   IconButton,
   Tooltip,
   Input,
-} from "@material-tailwind/react";
+} from "@/components/MaterialComponents/Material-Tailwind";
 
 const TABLE_HEAD = ["Transaction", "Amount", "Date", "Status", "Account", ""];
 

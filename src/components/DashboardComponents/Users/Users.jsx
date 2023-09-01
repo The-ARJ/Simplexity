@@ -10,7 +10,7 @@ import {
   IconButton,
   Tooltip,
   Chip,
-} from "@material-tailwind/react";
+} from "@/components/MaterialComponents/Material-Tailwind";
 const Users = ({ userData }) => {
   const TABLE_HEAD = [
     "Member",

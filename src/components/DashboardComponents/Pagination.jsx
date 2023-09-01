@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, IconButton } from "@material-tailwind/react";
+import { Button, IconButton } from "@/components/MaterialComponents/Material-Tailwind";
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 
 export default function Pagination({

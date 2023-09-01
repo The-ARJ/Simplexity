@@ -9,7 +9,7 @@ import {
   ListItemSuffix,
   Chip,
   Tooltip,
-} from "@material-tailwind/react";
+} from "@/components/MaterialComponents/Material-Tailwind";
 import {
   PresentationChartBarIcon,
   ShoppingBagIcon,

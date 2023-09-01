@@ -11,7 +11,7 @@ import {
   Select,
   Option,
   Textarea,
-} from "@material-tailwind/react";
+} from "@/components/MaterialComponents/Material-Tailwind";
 import { PencilIcon, PlusIcon } from "@heroicons/react/24/solid";
 import { useState } from "react";
 import ProductService from "../../../utils/Services/ProductService";
