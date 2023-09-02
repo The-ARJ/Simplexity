@@ -1,7 +1,7 @@
 "use client";
 import ProductService from "../../../utils/Services/ProductService";
 import React, { useState, useEffect } from "react";
-import Product from "@/components/Product/Product";
+import Product from "@/components/Product/ProductDetail";
 
 const ProductDetail = ({ params }) => {
   const [product, setSelectedProduct] = useState("");

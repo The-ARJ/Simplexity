@@ -1,3 +1,4 @@
+"use client"
 import { Button } from "@material-tailwind/react";
 import React, { useState } from "react";
 import showToast from "./Cart/Toast";
