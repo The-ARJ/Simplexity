@@ -26,7 +26,6 @@ const NavList = () => {
       {navListItems.map(({ label, icon: Icon, link }, key) => (
         <Link key={label} href={link}>
           <Typography
-            as="a"
             variant="small"
             color="blue-gray"
             className="font-normal "

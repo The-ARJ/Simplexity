@@ -1,7 +1,11 @@
 import { Fragment, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { Badge, MenuItem, Typography } from "@/components/MaterialComponents/Material-Tailwind";
+import {
+  Badge,
+  MenuItem,
+  Typography,
+} from "@/components/MaterialComponents/Material-Tailwind";
 import React, { useEffect } from "react";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
@@ -99,13 +103,14 @@ export default function Cart() {
   return (
     <div className="lg:ml-auto">
       <Badge
+        overlap="square"
+        placement="top-end"
         content={products.length}
         withBorder
         color="amber"
         className="text-white"
       >
         <Typography
-          as="a"
           variant="small"
           color="blue-gray"
           className="font-normal"

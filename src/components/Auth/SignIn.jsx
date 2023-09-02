@@ -31,9 +31,8 @@ const SignIn = (handleClose) => {
     try {
       const response = await UserService.login({ email, password });
       const user = response.data;
-      console.log("this is user data from login", user);
+      router.push("/dashboard");
       dispatch(setUser(user));
-      router.push("/");
     } catch (error) {
       if (error.response && error.response.data) {
         setValidationMessage(error.response.data.error);
