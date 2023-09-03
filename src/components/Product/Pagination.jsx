@@ -6,7 +6,7 @@ import {
 } from "@/components/MaterialComponents/Material-Tailwind";
 import { ArrowRightIcon, ArrowLeftIcon } from "@heroicons/react/24/outline";
 
-const Pagination = ({ page, total, limit, search }) => {
+const Pagination = ({ page, total, limit, search, isValidPage }) => {
   const totalPages = Math.ceil(total / limit); // Calculate total pages
 
   let startPage = page - 1;
@@ -24,13 +24,17 @@ const Pagination = ({ page, total, limit, search }) => {
   return (
     <div className="flex justify-center items-center gap-4 mt-14">
       <Link
-        href={{
-          pathname: "/shop",
-          query: {
-            ...(search ? { search } : {}),
-            page: page > 1 ? page - 1 : 1,
-          },
-        }}
+        href={
+          isValidPage
+            ? {
+                pathname: "/shop",
+                query: {
+                  ...(search ? { search } : {}),
+                  page: page > 1 ? page - 1 : 1,
+                },
+              }
+            : `/shop?page=${totalPages}` // Redirect to last available page
+        }
         className={` ${page <= 1 ? "pointer-events-none opacity-50" : ""} `}
         passHref
       >
@@ -64,13 +68,17 @@ const Pagination = ({ page, total, limit, search }) => {
       ))}
 
       <Link
-        href={{
-          pathname: "/shop",
-          query: {
-            ...(search ? { search } : {}),
-            page: page + 1 <= totalPages ? page + 1 : totalPages,
-          },
-        }}
+        href={
+          isValidPage
+            ? {
+                pathname: "/shop",
+                query: {
+                  ...(search ? { search } : {}),
+                  page: page + 1 <= totalPages ? page + 1 : totalPages,
+                },
+              }
+            : `/shop?page=${totalPages}` // Redirect to last available page
+        }
         className={` ${
           page >= totalPages ? "pointer-events-none opacity-50" : ""
         } `}

@@ -9,7 +9,15 @@ import {
 import Link from "next/link";
 import AddToCart from "../AddToCart";
 export default function Products({ products }) {
-  console.log(products.length);
+  if (products.length === 0) {
+    return (
+      <div className="text-center my-10">
+        <Typography variant="h5" color="gray">
+          No Product Found
+        </Typography>
+      </div>
+    );
+  }
   return (
     <div className="">
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-10">

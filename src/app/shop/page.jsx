@@ -12,6 +12,8 @@ const getProducts = async ({ page, limit, query }) => {
   const response = await axios.get("http://localhost:3005/products", {
     params: { page, limit, query },
   });
+  const totalPages = Math.ceil(response.data.total / limit);
+
   return response.data;
 };
 
@@ -42,17 +44,23 @@ const Page = async ({ searchParams }) => {
 
       <Suspense fallback={<Skeleton />}>
         <Await promise={promise}>
-          {(result) => (
-            <>
-              <Products products={result.data} page={page} search={search} />
-              <Pagination
-                page={page}
-                total={result.total}
-                limit={limit}
-                search={search}
-              />
-            </>
-          )}
+          {(result) => {
+            const totalPages = Math.ceil(result.total / limit);
+            const isValidPage = page <= totalPages;
+
+            return (
+              <>
+                <Products products={result.data} page={page} search={search} />
+                <Pagination
+                  page={page}
+                  total={result.total}
+                  limit={limit}
+                  search={search}
+                  isValidPage={isValidPage} // Pass the validity information here
+                />
+              </>
+            );
+          }}
         </Await>
       </Suspense>
     </div>
