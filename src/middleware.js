@@ -1,40 +1,48 @@
-import { NextResponse } from 'next/server'
+import { NextResponse } from 'next/server';
 
-export function middleware(request) {
-    // Get the cookie value
-    let cookieValue = request.cookies.get('persist%3Auser')?.value;
-
-    let userData = null;
+function getUserFromCookie(request) {
     let user = null;
-
-    // Try to parse the cookie value to get the user object
     try {
-        userData = JSON.parse(decodeURIComponent(cookieValue));
-        user = JSON.parse(userData.user); // Parse the nested user string
+        const cookieValue = request.cookies.get('persist%3Auser')?.value;
+        const userData = JSON.parse(decodeURIComponent(cookieValue));
+        user = JSON.parse(userData.user);
     } catch (error) {
         console.error("Error parsing user cookie:", error);
     }
+    return user;
+}
 
-    const routesRestrictedForUser = ["/dashboard", "/e-commerce", "/users", "/settings", "/forgot-password"];
-    const isAdminRoute = routesRestrictedForUser.some(route => request.nextUrl.pathname.startsWith(route));
+function isRestrictedRoute(request, restrictedRoutes) {
+    return restrictedRoutes.some(route => request.nextUrl.pathname.startsWith(route));
+}
 
-    const routesRestrictedForAdmin = ["/", "/shop"];
-    const isUserRoute = routesRestrictedForAdmin.some(route => request.nextUrl.pathname.startsWith(route));
+export function middleware(request) {
+    const user = getUserFromCookie(request);
 
-    const routesRestrictedForGuestUsers = ["/dashboard", "/e-commerce", "/users", "/settings", "/checkout", "/profile", "/verify-account"];
-    const isNotGuestRoute = routesRestrictedForGuestUsers.some(route => request.nextUrl.pathname.startsWith(route));
+    const roleRoutes = {
+        'admin': {
+            'restrictedRoutes': ["/", "/shop"],
+            'allowedRoutes': ["/dashboard", "/profile", "/users", "/profile/update-password", "/settings", "/e-commerce"],
+            'redirectTo': '/dashboard'
+        },
+        'user': {
+            'restrictedRoutes': ["/dashboard", "/e-commerce", "/users", "/settings", "/forgot-password"],
+            'redirectTo': '/'
+        },
+        'guest': {
+            'restrictedRoutes': ["/dashboard", "/e-commerce", "/users", "/settings", "/checkout", "/profile", "/verify-account"],
+            'redirectTo': '/'
+        }
+    };
 
-    const adminAllowedRoutes = ["/dashboard", "/profile", "/users", "/profile/update-password", "/settings", "e-commerce"];
-    const isAdminAllowedRoute = adminAllowedRoutes.includes(request.nextUrl.pathname);
+    const role = user ? user.role : 'guest';
+    const isRestricted = isRestrictedRoute(request, roleRoutes[role].restrictedRoutes);
+    const isAdminAllowed = role === 'admin' ? roleRoutes['admin'].allowedRoutes.includes(request.nextUrl.pathname) : true;
 
-    if (user && user.role === "user" && isAdminRoute) {
-        return NextResponse.redirect(new URL('/', request.url));
-    } else if (user && user.role === "admin" && isUserRoute && !isAdminAllowedRoute) {
-        return NextResponse.redirect(new URL('/dashboard', request.url));
-    } else if (!user && isNotGuestRoute) {
-        return NextResponse.redirect(new URL('/', request.url));
+    if (isRestricted && (role !== 'admin' || !isAdminAllowed)) {
+        return NextResponse.redirect(new URL(roleRoutes[role].redirectTo, request.url));
     }
-    // If none of the conditions are met, allow the request to continue
+
     return NextResponse.next();
 }
 

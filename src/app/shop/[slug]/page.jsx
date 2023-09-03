@@ -7,7 +7,7 @@ const ProductDetail = ({ params }) => {
   const [product, setSelectedProduct] = useState("");
   useEffect(() => {
     const getProductById = () => {
-      ProductService.getProductById(params.id)
+      ProductService.getProductBySlug(params.slug)
         .then((res) => {
           const product = res.data.data;
           setSelectedProduct(product);
@@ -17,7 +17,7 @@ const ProductDetail = ({ params }) => {
         });
     };
     getProductById();
-  }, [params.id]);
+  }, [params.slug]);
 
   const boughtByUserIds = Array.isArray(product.boughtBy)
     ? product.boughtBy

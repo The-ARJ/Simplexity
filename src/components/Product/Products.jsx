@@ -9,15 +9,7 @@ import {
 import Link from "next/link";
 import AddToCart from "../AddToCart";
 export default function Products({ products }) {
-  if (products.length === 0) {
-    return (
-      <div className="text-center my-10">
-        <Typography variant="h5" color="gray">
-          No Product Found
-        </Typography>
-      </div>
-    );
-  }
+  
   return (
     <div className="">
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-10">
@@ -28,7 +20,7 @@ export default function Products({ products }) {
               floated={false}
               className=" h-56 md:h-64"
             >
-              <Link href={`/shop/${product._id}`}>
+              <Link href={`/shop/${product.slug}`}>
                 <img
                   src={`${imgURL}/${product.image}`}
                   className="w-full h-full object-cover"

@@ -9,6 +9,9 @@ const getAllProducts = () => {
 const getProductById = (id,) => {
     return axios.get(`${ProductURL}/${id}`);
 };
+const getProductBySlug = (slug,) => {
+    return axios.get(`${ProductURL}/slug/${slug}`);
+};
 
 const deleteProductbyId = (id, token) => {
     const config = {
@@ -42,7 +45,8 @@ const auth = {
     createProduct,
     deleteProductbyId,
     updateProduct,
-    getProductById
+    getProductById,
+    getProductBySlug
 };
 
 export default auth;
