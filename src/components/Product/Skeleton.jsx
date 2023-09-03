@@ -1,14 +1,22 @@
 export default function Skeleton() {
   return (
-    <ul className="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2 sm:gap-x-6 md:grid-cols-3 lg:grid-cols-4 xl:gap-x-8">
-      {[...Array(10)].map((movie, index) => (
-        <li key={index} className="relative animate-pulse">
-          <div className="aspect-square h-[300] w-full overflow-hidden rounded-lg bg-gray-300"></div>
-          <p className="mt-2 h-4 w-1/2 rounded-lg bg-gray-600"></p>
-          <p className="mt-2 block h-4 rounded-lg bg-gray-600 text-sm font-medium"></p>
-          <p className="mt-2 block h-4 rounded-lg bg-gray-600 text-sm font-medium"></p>
-        </li>
+    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-10">
+      {[...Array(10)].map((_, index) => (
+        <div key={index} className="animate-pulse md:w-64 md:h-[450px]">
+          <div className="h-56 md:h-64 bg-gray-300 rounded"></div>
+          <div className="md:h-60 p-4">
+            <div className="flex items-center justify-between mb-2">
+              <div className="h-4 w-1/3 bg-gray-400 rounded"></div>
+              <div className="h-4 w-1/6 bg-gray-400 rounded"></div>
+            </div>
+            <div className="h-6 w-full bg-gray-400 rounded mb-2"></div>
+            <div className="h-6 w-3/4 bg-gray-400 rounded"></div>
+          </div>
+          <div className="pt-0 p-4">
+            <div className="h-8 w-24 bg-gray-400 rounded"></div>
+          </div>
+        </div>
       ))}
-    </ul>
+    </div>
   );
 }

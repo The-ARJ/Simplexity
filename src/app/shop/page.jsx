@@ -1,5 +1,3 @@
-import clsx from "clsx";
-import Link from "next/link";
 import { Suspense } from "react";
 import { v4 as uuid } from "uuid";
 import axios from "axios";
@@ -8,12 +6,13 @@ import Skeleton from "@/components/Product/Skeleton";
 import Await from "@/components/Product/Await";
 import Search from "@/components/Product/SearchBox";
 import Products from "@/components/Product/Products";
+import Pagination from "@/components/Product/Pagination";
 
 const getProducts = async ({ page, limit, query }) => {
   const response = await axios.get("http://localhost:3005/products", {
     params: { page, limit, query },
   });
-  return response.data.data;
+  return response.data;
 };
 
 const Page = async ({ searchParams }) => {
@@ -39,40 +38,21 @@ const Page = async ({ searchParams }) => {
         <div className="w-full md:w-72">
           <Search search={search} />
         </div>
-        <div className="flex space-x-6">
-          <Link
-            href={{
-              pathname: "/shop",
-              query: {
-                ...(search ? { search } : {}),
-                page: page > 1 ? page - 1 : 1,
-              },
-            }}
-            className={clsx(
-              "rounded border bg-gray-100 px-3 py-1 text-sm text-gray-800",
-              page <= 1 && "pointer-events-none opacity-50"
-            )}
-          >
-            Previous
-          </Link>
-          <Link
-            href={{
-              pathname: "/shop",
-              query: {
-                ...(search ? { search } : {}),
-                page: page + 1,
-              },
-            }}
-            className="rounded border bg-gray-100 px-3 py-1 text-sm text-gray-800"
-          >
-            Next
-          </Link>
-        </div>
       </div>
 
       <Suspense fallback={<Skeleton />}>
         <Await promise={promise}>
-          {(products) => <Products products={products} />}
+          {(result) => (
+            <>
+              <Products products={result.data} page={page} search={search} />
+              <Pagination
+                page={page}
+                total={result.total}
+                limit={limit}
+                search={search}
+              />
+            </>
+          )}
         </Await>
       </Suspense>
     </div>

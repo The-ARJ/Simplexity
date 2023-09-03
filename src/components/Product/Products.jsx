@@ -9,6 +9,7 @@ import {
 import Link from "next/link";
 import AddToCart from "../AddToCart";
 export default function Products({ products }) {
+  console.log(products.length);
   return (
     <div className="">
       <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-10">
@@ -50,13 +51,6 @@ export default function Products({ products }) {
           </Card>
         ))}
       </div>
-      {/* {!topSelling && (
-        <Pagination
-          currentPage={currentPage}
-          setCurrentPage={setCurrentPage}
-          totalProducts={products.length}
-        />
-      )} */}
     </div>
   );
 }
