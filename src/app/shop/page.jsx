@@ -1,21 +1,12 @@
 import { Suspense } from "react";
 import { v4 as uuid } from "uuid";
-import axios from "axios";
 import { Typography } from "@/components/MaterialComponents/Material-Tailwind";
 import Skeleton from "@/components/Product/Skeleton";
 import Await from "@/components/Product/Await";
 import Search from "@/components/Product/SearchBox";
 import Products from "@/components/Product/Products";
 import Pagination from "@/components/Product/Pagination";
-
-const getProducts = async ({ page, limit, query }) => {
-  const response = await axios.get("http://localhost:3005/products", {
-    params: { page, limit, query },
-  });
-  const totalPages = Math.ceil(response.data.total / limit);
-
-  return response.data;
-};
+import getProducts from "@/lib/getAllProducts";
 
 const Page = async ({ searchParams }) => {
   const page =
@@ -45,9 +36,6 @@ const Page = async ({ searchParams }) => {
       <Suspense fallback={<Skeleton />}>
         <Await promise={promise}>
           {(result) => {
-            const totalPages = Math.ceil(result.total / limit);
-            const isValidPage = page <= totalPages;
-
             return (
               <>
                 <Products products={result.data} page={page} search={search} />
@@ -56,7 +44,6 @@ const Page = async ({ searchParams }) => {
                   total={result.total}
                   limit={limit}
                   search={search}
-                  isValidPage={isValidPage} // Pass the validity information here
                 />
               </>
             );
