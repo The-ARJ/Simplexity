@@ -46,11 +46,12 @@ const UserTable = () => {
   const [searchQuery, setSearchQuery] = useState(""); // New state variable for search
 
   const pageSize = 4;
-
+  const { user } = useSelector((state) => state.user);
   const getUsers = () => {
+    const token = user.token;
     const limit = pageSize;
     const offset = (currentPage - 1) * pageSize;
-    UserService.getAllUsers(limit, offset)
+    UserService.getAllUsers(token, limit, offset)
       .then((res) => {
         const allUsers = res.data.data;
         const filteredUsers = allUsers.filter((user) =>
@@ -86,7 +87,6 @@ const UserTable = () => {
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
   const currentUsers = users.slice(startIndex, endIndex);
-  const { user, isLoggedIn } = useSelector((state) => state.user);
 
   const deleteUser = (id, getUsers) => {
     const token = user.token;

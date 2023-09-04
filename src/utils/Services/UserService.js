@@ -1,7 +1,7 @@
 import axios from "axios";
 const baseURL = "http://localhost:3005/users";
-export const imgURL = "http://localhost:3005";
-
+// export const imgURL = "http://localhost:3005";
+export const imgURL = "https://res.cloudinary.com/dy8ua6x3r/image/upload/";
 const login = (credentials) => {
     return axios.post(`${baseURL}/login/user`, credentials);
 };
@@ -19,10 +19,10 @@ const updateUser = (userId, updatedUserDetails, token) => {
     };
     return axios.put(`${baseURL}/${userId}`, updatedUserDetails, config);
 };
-const updatePassword = (userId, oldPassword, password) => {
+const updatePassword = (userId, oldPassword, password,token) => {
     const config = {
         headers: {
-            Authorization: `bearer ${window.localStorage.getItem("token")}`,
+            Authorization: `bearer ${token}`,
         },
     };
     return axios.put(`${baseURL}/update-password/${userId}`, { oldPassword, password }, config);
@@ -36,10 +36,10 @@ const getCurrentUser = (token) => {
     };
     return axios.get(`${baseURL}/current/user`, config);
 };
-const getAllUsers = () => {
+const getAllUsers = (token) => {
     return axios.get(`${baseURL}`, {
         headers: {
-            Authorization: `bearer ${window.localStorage.getItem("token")}`,
+            Authorization: `bearer ${token}`,
         },
     });
 };

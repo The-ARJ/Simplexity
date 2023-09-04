@@ -81,8 +81,9 @@ const UpdatePassword = () => {
   };
   const handleUpdatePassword = async (event) => {
     event.preventDefault();
+    const token = user.token;
     try {
-      await UserService.updatePassword(user.id, oldPassword, password);
+      await UserService.updatePassword(user.id, oldPassword, password, token);
       toast.success("Password Update Successful!", {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 3000,

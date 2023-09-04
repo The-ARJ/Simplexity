@@ -1,7 +1,7 @@
 import axios from "axios";
-
+import ProductService from "../utils/Services/ProductService";
 const getProducts = async ({ page, limit, query, sortBy }) => {
-  const response = await axios.get("http://localhost:3005/products", {
+  const response = await ProductService.getAllProducts({
     params: { page, limit, query, sortBy },
   });
 
