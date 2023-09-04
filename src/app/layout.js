@@ -8,7 +8,7 @@ import Footer from '@/components/Footer';
 import { Providers } from '@/utils/Redux/Provider';
 
 export const metadata = {
-  title: 'Simplexity',
+  title: 'Simplexity - Similify, Shop, Smile',
   description: 'Out Door Wears',
   icons: {
     icon: '/assets/hoodie.png',
