@@ -1,8 +1,15 @@
 import React, { useState } from "react";
-import { Button, Typography, Input } from "@/components/MaterialComponents/Material-Tailwind";
+import {
+  Button,
+  Typography,
+  Input,
+} from "@/components/MaterialComponents/Material-Tailwind";
 import { LockClosedIcon } from "@heroicons/react/24/solid";
 import { toast } from "react-toastify";
 import axios from "axios";
+import UserService from "../../../utils/Services/UserService";
+import showToast from "@/components/Cart/Toast";
+
 const EmailVerification = ({ onNext }) => {
   const [email, setEmail] = useState("");
   const [validationMessage, setValidationMessage] = useState("");
@@ -10,19 +17,8 @@ const EmailVerification = ({ onNext }) => {
   const handleResetPassword = async (event) => {
     event.preventDefault();
     try {
-      await axios.post("http://localhost:3005/users/forgot-password", {
-        email: email,
-      });
-      toast.success("Validation Code Sent to Email", {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: false,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      await UserService.VerifyEmail({ email: email });
+      showToast("Email Sent Successfully", "success");
       onNext(email);
     } catch (err) {
       if (err.response && err.response.data) {

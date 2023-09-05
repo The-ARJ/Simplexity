@@ -1,9 +1,14 @@
 import React, { useState } from "react";
-import { Button, Typography, Input } from "@/components/MaterialComponents/Material-Tailwind";
+import {
+  Button,
+  Typography,
+  Input,
+} from "@/components/MaterialComponents/Material-Tailwind";
 import { LockClosedIcon } from "@heroicons/react/24/solid";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import showToast from "@/components/Cart/Toast";
 const ResetPassword = ({ verificationCode, email, onNext }) => {
   const router = useRouter();
   const [password, setPassword] = useState("");
@@ -73,16 +78,7 @@ const ResetPassword = ({ verificationCode, email, onNext }) => {
         verificationCode: verificationCode,
         newPassword: password,
       });
-      toast.success("Password Reset Successful!", {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: false,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      showToast("Password Reset Successfully", "success");
       router.push("/");
     } catch (error) {
       console.error("Failed to reset password:", error);

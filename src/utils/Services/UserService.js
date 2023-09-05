@@ -19,7 +19,7 @@ const updateUser = (userId, updatedUserDetails, token) => {
     };
     return axios.put(`${baseURL}/${userId}`, updatedUserDetails, config);
 };
-const updatePassword = (userId, oldPassword, password,token) => {
+const updatePassword = (userId, oldPassword, password, token) => {
     const config = {
         headers: {
             Authorization: `bearer ${token}`,
@@ -51,6 +51,16 @@ const logout = (token) => {
     };
     return axios.post(`${baseURL}/current/user/logout`, {}, config);
 };
+
+const VerifyCode = (credentials) => {
+    return axios.post(`${baseURL}/verify-code`, credentials);
+};
+const VerifyEmail = (credentials) => {
+    return axios.post(`${baseURL}/verify-email`, credentials);
+};
+const ResetPassword = (credentials) => {
+    return axios.post(`${baseURL}/reset-password"`, credentials);
+};
 const auth = {
     login,
     register,
@@ -58,7 +68,11 @@ const auth = {
     updateUser,
     logout,
     getAllUsers,
-    updatePassword
+    updatePassword,
+    VerifyCode,
+    VerifyEmail,
+    ResetPassword
+
 };
 
 export default auth;

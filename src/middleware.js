@@ -47,5 +47,5 @@ export function middleware(request) {
 }
 
 export const config = {
-    matcher: ["/", "/shop", "/dashboard", "/profile/:path*", "/e-commerce", "/users", "/settings", "/forgot-password", "/checkout", "/verify-account"]
+    matcher: ["/", "/shop", "/dashboard", "/profile/:path*", "/e-commerce/:path*", "/users", "/settings", "/forgot-password", "/checkout", "/verify-account"]
 };

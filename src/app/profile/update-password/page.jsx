@@ -12,6 +12,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import UserService from "../../../utils/Services/UserService";
 import { useSelector } from "react-redux";
+import showToast from "@/components/Cart/Toast";
 
 const UpdatePassword = () => {
   const { user, isLoggedIn } = useSelector((state) => state.user);
@@ -84,16 +85,7 @@ const UpdatePassword = () => {
     const token = user.token;
     try {
       await UserService.updatePassword(user.id, oldPassword, password, token);
-      toast.success("Password Update Successful!", {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: false,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-      });
+      showToast("Password Updated Successfully", "success");
       router.push("/");
       logout();
     } catch (error) {

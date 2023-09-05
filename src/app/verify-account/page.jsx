@@ -2,11 +2,10 @@
 import React, { useState, useEffect } from "react";
 import { Button, Typography, Input } from "@material-tailwind/react";
 import { LockClosedIcon } from "@heroicons/react/24/solid";
-import { toast } from "react-toastify";
-import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import showToast from "@/components/Cart/Toast";
+import UserService from "../../utils/Services/UserService";
 
 const CodeVerification = () => {
   const { user } = useSelector((state) => state.user);
@@ -32,9 +31,7 @@ const CodeVerification = () => {
     setResendDisabled(true);
     setResendTimer(30);
     try {
-      await axios.post("http://localhost:3005/users/forgot-password", {
-        email: user.email,
-      });
+      await UserService.VerifyEmail({ email: user.email });
       showToast("Verification code sent to your email", "success");
     } catch (err) {
       if (err.response && err.response.data) {
@@ -49,13 +46,10 @@ const CodeVerification = () => {
 
     event.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:3005/users/verify-code",
-        {
-          email: user.email,
-          verificationCode: verificationCode,
-        }
-      );
+      const response = UserService.VerifyCode({
+        email: user.email,
+        verificationCode: verificationCode,
+      });
       if (response.data.message === "Code is correct") {
         setverificationCode("Validation");
         showToast("Account verified", "success");
@@ -64,14 +58,12 @@ const CodeVerification = () => {
         setValidationMessage("Unable to verify account");
       }
     } catch (error) {
-      console.log(error);
       setValidationMessage("Unable to verify account");
       if (
         error.response &&
         error.response.data !== "Invalid verification code"
       ) {
         setValidationMessage("Failed to verify code");
-        setValidationMessage(error.response.data);
       } else {
         setValidationMessage("Can not verify code at this moment");
       }

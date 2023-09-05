@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Button, Typography, Input } from "@/components/MaterialComponents/Material-Tailwind";
+import {
+  Button,
+  Typography,
+  Input,
+} from "@/components/MaterialComponents/Material-Tailwind";
 import { LockClosedIcon } from "@heroicons/react/24/solid";
-import { toast } from "react-toastify";
-import axios from "axios";
+import showToast from "@/components/Cart/Toast";
+import UserService from "../../../utils/Services/UserService";
 
 const CodeVerification = ({ email, onNext }) => {
   const [verificationCode, setverificationCode] = useState("");
@@ -25,48 +29,21 @@ const CodeVerification = ({ email, onNext }) => {
   const handleResendCode = () => {
     setResendDisabled(true);
     setResendTimer(30);
-    // Perform code resend logic here (e.g., API call)
-    // Show success message or handle errors if necessary
-    toast.success("Validation code resent successfully!", {
-      position: toast.POSITION.TOP_CENTER,
-      autoClose: 3000,
-      hideProgressBar: true,
-      closeOnClick: false,
-      pauseOnHover: false,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
-    });
+    showToast("Code Resent Successfully", "success");
   };
 
   const handleVerifyCode = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:3005/users/verify-code",
-        {
-          email: email,
-          verificationCode: verificationCode,
-        }
-      );
-
-      console.log("Received verification code:", verificationCode);
-
+      const response = await UserService.VerifyCode({
+        email: email,
+        verificationCode: verificationCode,
+      });
       if (response.data.message === "Code is correct") {
         setverificationCode("Validation");
         onNext(email, verificationCode);
-        toast.success("Code Validation Successfull!", {
-          position: toast.POSITION.TOP_CENTER,
-          autoClose: 3000,
-          hideProgressBar: true,
-          closeOnClick: false,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
+        showToast("Code Verified Successfully", "success");
       } else {
-        // throw new Error("Invalid verification code");
         setValidationMessage("Invalid verification code");
       }
     } catch (error) {
@@ -77,7 +54,6 @@ const CodeVerification = ({ email, onNext }) => {
         error.response.data !== "Invalid verification code"
       ) {
         setValidationMessage("Failed to verify code");
-        setValidationMessage(error.response.data);
       } else {
         setValidationMessage("Can not verify code at this moment");
       }
