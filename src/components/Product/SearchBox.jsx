@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useDebounce } from "use-debounce";
 import {
   Input,
-  Typography,
 } from "@/components/MaterialComponents/Material-Tailwind";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 const Search = ({ search }) => {

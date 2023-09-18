@@ -34,28 +34,20 @@ const TABLE_HEAD = [
 ];
 
 export function ProductTable() {
-  const [open, setOpen] = React.useState(false);
   const { user } = useSelector((state) => state.user);
-
-  const handleOpen = () => setOpen(!open);
-
   const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState(""); // New state variable for search
-
+  const [search, setSearch] = useState("");
   const pageSize = 4;
 
   const getProducts = () => {
-    const token = user.token;
     const limit = pageSize;
-    const offset = (currentPage - 1) * pageSize;
-    ProductService.getAllProducts(token, limit, offset)
+    const page = (currentPage - 1) * pageSize;
+    ProductService.getAllProducts(limit, page)
       .then((res) => {
-        console.log(res);
         const allProducts = res.data.data;
-        // Filter products based on the searchQuery (name contains the searchQuery)
         const filteredProducts = allProducts.filter((product) =>
-          product.name.toLowerCase().includes(searchQuery.toLowerCase())
+          product.name.toLowerCase().includes(search.toLowerCase())
         );
         setProducts(filteredProducts);
       })
@@ -66,7 +58,7 @@ export function ProductTable() {
 
   useEffect(() => {
     getProducts();
-  }, [currentPage, searchQuery]); // Update the dependency array
+  }, [currentPage, search]);
 
   const handlePreviousPage = () => {
     if (currentPage > 1) {
@@ -130,8 +122,8 @@ export function ProductTable() {
             <Input
               label="Search"
               icon={<MagnifyingGlassIcon className="h-5 w-5" />}
-              value={searchQuery} // Set the searchQuery value
-              onChange={(e) => setSearchQuery(e.target.value)} // Handle search input change
+              value={search} // Set the search value
+              onChange={(e) => setSearch(e.target.value)} // Handle search input change
             />
           </div>
         </div>

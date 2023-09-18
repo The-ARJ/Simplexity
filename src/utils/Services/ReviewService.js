@@ -1,5 +1,5 @@
 import axios from "axios";
-export const ReviewURL = "http://localhost:3005/reviews";
+export const ReviewURL = "https://simplexity-backend-gadgqjtug-the-arj.vercel.app/reviews";
 
 const getAllReviews = (token) => {
   return axios.get(`${ReviewURL}`, {

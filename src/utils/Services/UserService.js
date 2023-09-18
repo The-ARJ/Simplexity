@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseURL = "http://localhost:3005/users";
+const baseURL = "https://simplexity-backend-gadgqjtug-the-arj.vercel.app/users";
 // export const imgURL = "http://localhost:3005";
 export const imgURL = "https://res.cloudinary.com/dy8ua6x3r/image/upload/";
 const login = (credentials) => {

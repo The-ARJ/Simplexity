@@ -1,6 +1,6 @@
 
 import axios from "axios";
-export const ProductURL = "http://localhost:3005/products";
+export const ProductURL = "https://simplexity-backend-gadgqjtug-the-arj.vercel.app/products";
 
 const getAllProducts = (data) => {
     return axios.get(`${ProductURL}`, data);

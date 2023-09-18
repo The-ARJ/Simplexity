@@ -1,5 +1,5 @@
 import axios from "axios";
-export const CartURL = "http://localhost:3005/carts";
+export const CartURL = "https://simplexity-backend-gadgqjtug-the-arj.vercel.app/carts";
 
 const getCart = (token) => {
     return axios.get(`${CartURL}`, {
