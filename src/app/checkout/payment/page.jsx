@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useCountries } from "use-react-countries";
 import {
   Card,
   CardHeader,
@@ -58,7 +57,6 @@ function formatExpires(value) {
 
 export default function Payment() {
   const [isProcessing, setIsProcessing] = useState(false);
-  const { countries } = useCountries();
   const [type, setType] = React.useState("card");
   const [cardNumber, setCardNumber] = React.useState("");
   const [cardExpires, setCardExpires] = React.useState("");
@@ -256,31 +254,7 @@ export default function Payment() {
                         <Input type="email" required label="Email Address" />
                       </div>
 
-                      <div className="my-6">
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="mb-4 font-medium"
-                        >
-                          Billing Address
-                        </Typography>
-                        <Select
-                          label="Country"
-                          required
-                          menuProps={{ className: "h-48" }}
-                        >
-                          {countries.map(({ name }) => (
-                            <Option key={name} value={name}>
-                              {name}
-                            </Option>
-                          ))}
-                        </Select>
-                        <Input
-                          label="Postal Code"
-                          required
-                          containerProps={{ className: "mt-4" }}
-                        />
-                      </div>
+             
                       <Button size="lg" color="amber" className="relative h-12">
                         <img
                           alt="paypal "
