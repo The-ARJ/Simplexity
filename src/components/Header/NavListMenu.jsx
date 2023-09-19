@@ -85,9 +85,7 @@ const NavListMenu = () => {
       <MenuItem className="flex items-center gap-2 text-blue-gray-900 lg:hidden">
         <Square3Stack3DIcon className="h-[18px] w-[18px]" /> Categories{" "}
       </MenuItem>
-      <ul className="ml-6 flex w-full flex-col gap-1 lg:hidden">
-        {renderItems}
-      </ul>
+      <ul className="ml-6 w-full flex-col gap-1 hidden">{renderItems}</ul>
     </React.Fragment>
   );
 };
