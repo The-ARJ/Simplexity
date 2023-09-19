@@ -2,7 +2,13 @@ import './globals.css'
 import { Inter } from 'next/font/google'
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({
+  subsets: ["latin"],
+  fallback: ["-apple-system", "BlinkMacSystemFont", "Segoe UI", "Helvetica Neue", "Helvetica", "Arial", "sans-serif"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+  display: "swap",
+  preload: true,
+});
 import ComplexNavbar from '@/components/Header/Header';
 import Footer from '@/components/Footer';
 import { Providers } from '@/utils/Redux/Provider';
