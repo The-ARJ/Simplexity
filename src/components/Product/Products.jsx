@@ -20,13 +20,13 @@ export default function Products({ products }) {
   }
   return (
     <div className="">
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-10">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2 md:gap-10">
         {products.map((product) => (
-          <Card key={product._id} className="md:w-64 md:h-[450px]">
+          <Card key={product._id} className=" md:w-64 h-[200px] md:h-[450px]">
             <CardHeader
               shadow={false}
               floated={false}
-              className=" h-56 md:h-64"
+              className=" m-1 h-24  md:h-64 "
             >
               <Link href={`/shop/${product.slug}`}>
                 <img
@@ -36,24 +36,31 @@ export default function Products({ products }) {
                 />
               </Link>
             </CardHeader>
-            <CardBody className=" md:h-60">
-              <div className="flex items-center justify-between mb-2">
-                <Typography color="blue-gray" className="font-medium">
+            <CardBody className=" p-2 md:p-4 h-24 md:h-60 ">
+              <div className="flex flex-col md:flex-row items-start justify-center gap-2 md:gap-4 mb-2">
+                <Typography
+                  color="blue-gray"
+                  className="font-medium text-xs md:text-base"
+                >
                   {product.name}
                 </Typography>
-                <Typography color="blue-gray" className="font-medium">
+                <Typography
+                  color="blue-gray"
+                  className="font-medium text-amber-500 text-sm md:text-base "
+                >
                   ${product.price}
                 </Typography>
               </div>
               <Typography
                 variant="small"
                 color="gray"
-                className="font-normal opacity-75"
+                className="font-normal opacity-75 md:block hidden"
               >
                 {product.description}
               </Typography>
             </CardBody>
-            <CardFooter className="pt-0">
+
+            <CardFooter className="pt-0  hidden md:block">
               <AddToCart product={product} />
             </CardFooter>
           </Card>

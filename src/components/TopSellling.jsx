@@ -7,7 +7,7 @@ import Products from "./Product/Products";
 const TopSelling = ({ promise }) => {
   return (
     <>
-      <div className="mx-auto max-w-screen-2xl py-20 px-4">
+      <div className="mx-auto max-w-screen-2xl py-10 md:py-20 px-4">
         <Typography
           color="orange"
           variant="h4"

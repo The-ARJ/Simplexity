@@ -35,7 +35,7 @@ const Product = ({ product, boughtByUserIds }) => {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row -mx-4">
           <div className="md:flex-1 px-4">
-            <div className="h-[460px] rounded-xl  mb-4">
+            <div className=" h-60 md:h-[460px] rounded-xl  mb-4">
               <img
                 className="w-full h-full rounded-xl object-cover"
                 src={`${imgURL}/${product.image}`}
@@ -57,20 +57,6 @@ const Product = ({ product, boughtByUserIds }) => {
                   Add to Wishlist
                 </Button>
               </div>
-            </div>
-            <div className=" my-10 flex flex-col gap-4  ">
-              <Typography variant="h5" color="blue-gray">
-                Customer Reviews
-              </Typography>
-
-              {product._id && (
-                <ReviewField
-                  productId={product._id}
-                  boughtByUserIds={boughtByUserIds}
-                />
-              )}
-
-              {product._id && <CustomerReviews productId={product._id} />}
             </div>
           </div>
           <div className="md:flex-1 px-4">
@@ -132,6 +118,24 @@ const Product = ({ product, boughtByUserIds }) => {
                 {product.description}
               </Typography>
             </div>
+          </div>
+        </div>
+        <div className="my-10 grid md:grid-cols-2 gap-4">
+          <div className="  flex flex-col gap-4">
+            <Typography variant="h5" color="blue-gray">
+              Customer Reviews
+            </Typography>
+            {product._id && (
+              <ReviewField
+                productId={product._id}
+                boughtByUserIds={boughtByUserIds}
+              />
+            )}
+            {product._id && (
+              <div>
+                <CustomerReviews productId={product._id} />
+              </div>
+            )}
           </div>
         </div>
       </div>

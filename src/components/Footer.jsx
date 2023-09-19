@@ -26,13 +26,13 @@ export default function Footer() {
   return (
     <footer className="relative w-full">
       <div className="mx-auto w-full max-w-7xl px-8">
-        <div className="mx-auto grid w-full grid-cols-1 gap-8 py-12 md:grid-cols-2 lg:grid-cols-4">
+        <div className="mx-auto grid w-full grid-cols-2 gap-4 py-6 sm:gap-6 md:grid-cols-4 lg:grid-cols-4 lg:gap-8 lg:py-12">
           {SITEMAP.map(({ title, links }, key) => (
             <div key={key} className="w-full">
               <Typography
                 variant="small"
                 color="blue-gray"
-                className="mb-4 font-bold uppercase opacity-50"
+                className="mb-2 text-xs font-bold uppercase opacity-50 sm:text-sm md:text-base lg:mb-4"
               >
                 {title}
               </Typography>
@@ -42,7 +42,7 @@ export default function Footer() {
                     key={key}
                     as="li"
                     color="blue-gray"
-                    className="font-normal"
+                    className="font-normal text-xs sm:text-sm md:text-base"
                   >
                     <a
                       href="#"
@@ -56,6 +56,7 @@ export default function Footer() {
             </div>
           ))}
         </div>
+
         <div className="flex w-full flex-col items-center justify-center border-t border-blue-gray-50 py-4 md:flex-row md:justify-between">
           <Typography
             variant="small"
@@ -73,7 +74,6 @@ export default function Footer() {
               target="_blank"
               className=" text-amber-500"
             >
-              {" "}
               Aayush Raj Joshi
             </a>
             .
